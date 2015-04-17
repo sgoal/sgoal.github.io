@@ -122,6 +122,114 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/17/Bitwise-AND-of-Numbers-Range/">
+                Bitwise AND of Numbers Range
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-17
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/leetcode/">leetcode</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Bitwise-AND-of-Numbers-Range/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Given a range [m, n] where 0 &lt;= m &lt;= n &lt;= 2147483647, return the bitwise AND of all numbers in this range, inclusive.</p>
+<p>For example, given the range [5, 7], you should return 4.</p>
+</blockquote>
+<h2 id="歌词大意：">歌词大意：</h2>
+<p>将[n,m]中的每一个数都按位与。</p>
+<h2 id="基本思路：">基本思路：</h2>
+<ul>
+<li>思路1：直接将区间内的每一个数都按位与，肯定会超时。</li>
+<li>思路2：<br>根据按位与的规则：</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">1&0  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">0&1  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">0&0  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">1&1  -&gt;</span> <span class="number">1</span></span></div></pre></td></tr></table></figure>
+
+<p>每一位上只有一种可能是出现<code>1</code>，那就<code>1&amp;1</code>,那么我们在将区间[m,n]所有数按位与的时候，只要该位置上有过进位或者为<code>0</code>，那么该位置结果都有是<code>0</code></p>
+<h3 id="例如：[5,7]">例如：[5,7]</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">5-&gt;   0x101</div><div class="line">6-&gt;   0x110</div><div class="line">7-&gt;   0x111</div><div class="line">&</div><div class="line"><span class="header">=     0x100</span></div></pre></td></tr></table></figure>
+
+<h3 id="再如:[7,9]">再如:[7,9]</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">7-&gt;   0x0111</div><div class="line">8-&gt;   0x1000</div><div class="line">9-&gt;   0x1010</div><div class="line">&</div><div class="line"><span class="header">=     0x0000</span></div></pre></td></tr></table></figure>
+
+<h3 id="思路二">思路二</h3>
+<p>时间复杂度为O(32)</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> Solution {</div><div class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rangeBitwiseAnd</span>(<span class="keyword">int</span> m, <span class="keyword">int</span> n) {</div><div class="line">			<span class="keyword">if</span> (m &gt; n)</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">			<span class="keyword">int</span> c = <span class="number">0</span>;<span class="comment">// 记录左移了几位</span></div><div class="line">			<span class="keyword">while</span> (n != m) {<span class="comment">// 当值相等时，就不需要与了</span></div><div class="line">				m = m &gt;&gt; <span class="number">1</span>;<span class="comment">// 每次右移1位</span></div><div class="line">				n = n &gt;&gt; <span class="number">1</span>;</div><div class="line">				c++;</div><div class="line">			}</div><div class="line">			<span class="keyword">return</span> n &lt;&lt; c;<span class="comment">// 将相等的部分右移c位即为结果</span></div><div class="line">		}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/"> #leetcode </a>
+          
+            <a href="/tags/bit/"> #bit </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/17/Number-of-Islands/">
                 Number of Islands
               </a>
@@ -135,6 +243,17 @@
           发表于 2015-04-17
         </span>
 
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/leetcode/">leetcode</a>
+
+              
+              
+
+            
+          </span>
         
 
         
@@ -751,7 +870,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -765,7 +884,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
