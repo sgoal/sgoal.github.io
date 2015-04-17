@@ -122,6 +122,113 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/17/Number-of-Islands/">
+                Number of Islands
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-17
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/17/Number-of-Islands/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Number-of-Islands/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Given a 2d grid map of ‘1’s (land) and ‘0’s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+</blockquote>
+<pre><code> <span class="title">Example</span> <span class="number">1</span>:
+ <span class="number">11110</span>
+ <span class="number">11010</span>
+ <span class="number">11000</span>
+ <span class="number">00000</span>
+ Answer: <span class="number">1</span>
+
+ Example <span class="number">2</span>:
+
+ <span class="number">11000</span>
+ <span class="number">11000</span>
+ <span class="number">00100</span>
+ <span class="number">00011</span>
+ Answer: <span class="number">3</span>
+</code></pre><h2 id="歌词大意：">歌词大意：</h2>
+<p>在一个二维矩阵中找到所有找到有多少个全是<code>1</code>的区域。</p>
+<h2 id="基本思路：">基本思路：</h2>
+<ol>
+<li>遍历矩阵，每发现一个元素<code>1</code>，就将它和它周围的<code>1</code>标记为已访问(置为<code>0</code>),这样的话每个元素<code>1</code>只被访问一遍，所以在遍历矩阵时每第一次遇到<code>1</code>就找到一个海岛。</li>
+<li>直到遍历完矩阵所有的元素<br>那么在访问<code>1</code>周围元素的时候，两种方法发现周围的元素,一种是<code>dfs</code>，另一种是<code>bfs</code>，所以这个题有两种解法。</li>
+</ol>
+<h3 id="dfs">dfs</h3>
+<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    dfs(grid,i,j);<span class="comment">//dfs</span></div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        grid[x][y]=<span class="string">'0'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围的元素</span></div><div class="line">            <span class="keyword">int</span> x1 = x + dx[i];</div><div class="line">            <span class="keyword">int</span> y1 = y + dy[i];</div><div class="line">            <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                dfs(grid,x1,y1);</div><div class="line">            }</div><div class="line">                </div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="bfs">bfs</h3>
+<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> pair{</div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> x,y;</div><div class="line">        <span class="keyword">public</span> <span class="title">pair</span>(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1){x=x1;y=y1;}</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    bfs(grid,i,j);</div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">       LinkedList&lt;pair&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       queue.addLast(<span class="keyword">new</span> pair(x,y));</div><div class="line">       pair p = <span class="keyword">null</span>;</div><div class="line">       grid[x][y]=<span class="string">'0'</span>;</div><div class="line">       <span class="keyword">while</span>(!queue.isEmpty()){</div><div class="line">           p = queue.pollFirst();</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围元素，将其加入队列</span></div><div class="line">               <span class="keyword">int</span> x1 = dx[i]+p.x;</div><div class="line">               <span class="keyword">int</span> y1 = dy[i]+p.y;</div><div class="line">               <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                   grid[x1][y1]=<span class="string">'0'</span>;</div><div class="line">                    queue.addLast(<span class="keyword">new</span> pair(x1,y1));</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">    }</div><div class="line">     <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/"> #leetcode </a>
+          
+            <a href="/tags/bfs/"> #bfs </a>
+          
+            <a href="/tags/dfs/"> #dfs </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/17/linux-group-passwd/">
                 早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件
               </a>
@@ -644,7 +751,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -658,7 +765,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

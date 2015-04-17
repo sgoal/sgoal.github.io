@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="双端队列,leetcode," />
+  <meta name="keywords" content="leetcode,bfs,dfs," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> simplify Path // 刘Something's blog </title>
+  <title> Number of Islands // 刘Something's blog </title>
 </head>
 
 <body>
@@ -120,7 +120,7 @@
           
           
             
-              simplify Path
+              Number of Islands
             
           
         </h1>
@@ -128,28 +128,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-01-29
+          发表于 2015-04-17
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/leetcode/">leetcode</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/29/SimplifyPath/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/29/SimplifyPath/"></span>
+            <a href="/2015/04/17/Number-of-Islands/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Number-of-Islands/"></span>
             </a>
           </span>
           
@@ -163,24 +152,37 @@
       
 
       
-        <h1 id="题目">题目</h1>
-<blockquote>
-<p>Given an absolute path for a file (Unix-style), simplify it.<br>For example,<br>path = “/home/“, =&gt; “/home”<br>path = “/a/./b/../../c/“, =&gt; “/c”</p>
+        <blockquote>
+<p>Given a 2d grid map of ‘1’s (land) and ‘0’s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
 </blockquote>
-<h2 id="思路1：">思路1：</h2>
-<p>这个问题其实是一个双端队列的问题</p>
-<ul>
-<li>每次碰到一个<code>/</code>或者连续很多的<code>/</code>就生成新的目录，让后将目录到<code>addLast</code>到双端队列里</li>
-<li>每次碰到<code>.</code>相当于不动，<code>..</code>相当于尾部出队。</li>
-<li>需要注意特殊的case，比如多个<code>/</code>连接在一起,我用的是<code>getNextSubPath</code>函数来处理这个情况，在第二个方法中有更加有优雅的方式那就是正则表达式.</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">       <span class="keyword">private</span> <span class="keyword">int</span> j;</div><div class="line">    <span class="keyword">public</span> String <span class="title">simplifyPath</span>(String path) {</div><div class="line">        StringBuilder sb= <span class="keyword">new</span> StringBuilder();</div><div class="line">        LinkedList&lt;String&gt; queue =<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">        String temp;</div><div class="line">        <span class="keyword">char</span>[] cs=path.toCharArray();</div><div class="line">        <span class="keyword">for</span>( <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;path.length();){</div><div class="line">           temp=getNextSubPath(cs, i);</div><div class="line">            <span class="keyword">if</span>(temp!= <span class="keyword">null</span>){</div><div class="line">                 <span class="keyword">switch</span> (temp) {</div><div class="line">                       <span class="keyword">case</span> <span class="string">"."</span>:</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                       <span class="keyword">case</span> <span class="string">".."</span>:</div><div class="line">                            queue.pollLast();</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                       <span class="keyword">default</span>:</div><div class="line">                            queue.addLast(temp);</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                      }</div><div class="line">                i= j;</div><div class="line">           } <span class="keyword">else</span> i++;</div><div class="line">        }</div><div class="line">        <span class="keyword">for</span>(String str: queue){</div><div class="line">           sb.append( <span class="string">'/'</span>).append(str);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> sb.length()==<span class="number">0</span>? <span class="string">"/"</span>:sb.toString();</div><div class="line">    }</div><div class="line">    <span class="keyword">private</span> String <span class="title">getNextSubPath</span>( <span class="keyword">char</span>[] path, <span class="keyword">int</span> start){</div><div class="line">      <span class="keyword">int</span> i;</div><div class="line">      <span class="keyword">for</span>(i=start;i&lt;path. length;i++){</div><div class="line">            <span class="keyword">if</span>(path[i]!= <span class="string">'/'</span>) <span class="keyword">break</span>;</div><div class="line">     }</div><div class="line">      <span class="keyword">for</span>( j=i+<span class="number">1</span>; j&lt;path. length; j++){</div><div class="line">            <span class="keyword">if</span>(path[ j]== <span class="string">'/'</span>) <span class="keyword">break</span>;</div><div class="line">     }</div><div class="line">      <span class="keyword">if</span>(i==path. length||i&gt;= j) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> String(path,i, j-i);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<pre><code> <span class="title">Example</span> <span class="number">1</span>:
+ <span class="number">11110</span>
+ <span class="number">11010</span>
+ <span class="number">11000</span>
+ <span class="number">00000</span>
+ Answer: <span class="number">1</span>
 
-<h2 id="思路2：">思路2：</h2>
-<ul>
-<li>用正则表达式<code>/+</code>来分割字符串,将字符串分割为很多子串，然后其他的处理和思路1一样。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//用正则表达式</span></div><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>{</div><div class="line">    <span class="keyword">public</span> String <span class="title">simplifyPath</span>(String path) {</div><div class="line">        StringBuilder sb= <span class="keyword">new</span> StringBuilder();</div><div class="line">        LinkedList&lt;String&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">        String strs[]=path.split( <span class="string">"/+"</span>);</div><div class="line">        <span class="keyword">for</span>(String temp:strs){</div><div class="line">                 <span class="keyword">switch</span> (temp) {</div><div class="line">                       <span class="keyword">case</span> <span class="string">"."</span>:</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                       <span class="keyword">case</span> <span class="string">".."</span>:</div><div class="line">                           queue.pollLast();</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                       <span class="keyword">default</span>:</div><div class="line">                            <span class="keyword">if</span> (!temp.isEmpty())</div><div class="line">                           queue.addLast(temp);</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                      }</div><div class="line">        }</div><div class="line">        <span class="keyword">for</span>(String str:queue){</div><div class="line">           sb.append( <span class="string">'/'</span>).append(str);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> sb.length()==<span class="number">0</span>? <span class="string">"/"</span>:sb.toString();</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+ Example <span class="number">2</span>:
+
+ <span class="number">11000</span>
+ <span class="number">11000</span>
+ <span class="number">00100</span>
+ <span class="number">00011</span>
+ Answer: <span class="number">3</span>
+</code></pre><h2 id="歌词大意：">歌词大意：</h2>
+<p>在一个二维矩阵中找到所有找到有多少个全是<code>1</code>的区域。</p>
+<h2 id="基本思路：">基本思路：</h2>
+<ol>
+<li>遍历矩阵，每发现一个元素<code>1</code>，就将它和它周围的<code>1</code>标记为已访问(置为<code>0</code>),这样的话每个元素<code>1</code>只被访问一遍，所以在遍历矩阵时每第一次遇到<code>1</code>就找到一个海岛。</li>
+<li>直到遍历完矩阵所有的元素<br>那么在访问<code>1</code>周围元素的时候，两种方法发现周围的元素,一种是<code>dfs</code>，另一种是<code>bfs</code>，所以这个题有两种解法。</li>
+</ol>
+<h3 id="dfs">dfs</h3>
+<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    dfs(grid,i,j);<span class="comment">//dfs</span></div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        grid[x][y]=<span class="string">'0'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围的元素</span></div><div class="line">            <span class="keyword">int</span> x1 = x + dx[i];</div><div class="line">            <span class="keyword">int</span> y1 = y + dy[i];</div><div class="line">            <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                dfs(grid,x1,y1);</div><div class="line">            }</div><div class="line">                </div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="bfs">bfs</h3>
+<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> pair{</div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> x,y;</div><div class="line">        <span class="keyword">public</span> <span class="title">pair</span>(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1){x=x1;y=y1;}</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    bfs(grid,i,j);</div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">       LinkedList&lt;pair&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       queue.addLast(<span class="keyword">new</span> pair(x,y));</div><div class="line">       pair p = <span class="keyword">null</span>;</div><div class="line">       grid[x][y]=<span class="string">'0'</span>;</div><div class="line">       <span class="keyword">while</span>(!queue.isEmpty()){</div><div class="line">           p = queue.pollFirst();</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围元素，将其加入队列</span></div><div class="line">               <span class="keyword">int</span> x1 = dx[i]+p.x;</div><div class="line">               <span class="keyword">int</span> y1 = dy[i]+p.y;</div><div class="line">               <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                   grid[x1][y1]=<span class="string">'0'</span>;</div><div class="line">                    queue.addLast(<span class="keyword">new</span> pair(x1,y1));</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">    }</div><div class="line">     <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
 
 
       
@@ -190,9 +192,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/双端队列/"> #双端队列 </a>
-          
             <a href="/tags/leetcode/"> #leetcode </a>
+          
+            <a href="/tags/bfs/"> #bfs </a>
+          
+            <a href="/tags/dfs/"> #dfs </a>
           
         </div>
       
@@ -201,11 +205,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/15/linux-gzip/">早上一条Linux命令，精神一上午之gzip</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/17/linux-group-passwd/">早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件</a>
             
           </div>
         </div>
@@ -221,8 +225,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/01/29/SimplifyPath/"
-               data-title="simplify Path" data-url="http://godoubao.com/2015/01/29/SimplifyPath/">
+          <div class="ds-thread" data-thread-key="2015/04/17/Number-of-Islands/"
+               data-title="Number of Islands" data-url="http://godoubao.com/2015/04/17/Number-of-Islands/">
           </div>
         
       </div>
@@ -320,7 +324,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路1："><span class="nav-number">1.1.</span> <span class="nav-text">思路1：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路2："><span class="nav-number">1.2.</span> <span class="nav-text">思路2：</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#歌词大意："><span class="nav-number">1.</span> <span class="nav-text">歌词大意：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路："><span class="nav-number">2.</span> <span class="nav-text">基本思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dfs"><span class="nav-number">2.1.</span> <span class="nav-text">dfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bfs"><span class="nav-number">2.2.</span> <span class="nav-text">bfs</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
