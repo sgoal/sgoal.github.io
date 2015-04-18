@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件 // 刘Something's blog </title>
+  <title> 早上一条Linux命令， 蜀道难之chgrp // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件
+              早上一条Linux命令， 蜀道难之chgrp
             
           
         </h1>
@@ -136,7 +136,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-17
+          发表于 2015-04-18
         </span>
 
         
@@ -156,8 +156,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/17/linux-group-passwd/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/linux-group-passwd/"></span>
+            <a href="/2015/04/18/linux-chgrp/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/18/linux-chgrp/"></span>
             </a>
           </span>
           
@@ -172,56 +172,41 @@
 
       
         <blockquote>
-<p>Linux <code>/etc/group</code>文件与<code>/etc/passwd</code>和<code>/etc/shadow</code>文件都是有关于系统管理员对用户和用户组管理时相关的文件，今天先来学习<code>/etc/group</code>文件<code>与/etc/passwd</code>，<code>/etc/group</code>文件相对另外两个文件内容相对较少，我们先捏这个软柿子，然后再看<code>/etc/passwd</code>。</p>
+<p>chgrp是一条在Unix系统中用于设置文件所归属的组的命令。与chown命令不同，chgrp允许普通用户改变文件所属的组，<strong>只要该用户是该组的一员</strong>，可以使用组名也可以使用组标识号。chgrp命令就是<strong>ch</strong>ange <strong>gr</strong>ou<strong>p</strong>的缩写</p>
 </blockquote>
-<h2 id="/etc/group"><strong>/etc/group</strong></h2>
-<p>用户组的所有信息都存放在/etc/group文件中</p>
-<p>将用户分组是Linux系统中对用户进行管理及控制访问权限的一种手段。每个用户都属于某个用户组；一个组中可以有多个用户，一个用户也可以属于不同的组。当一个用户同时是多个组中的成员时，在<code>/etc/passwd</code>文件中记录的是用户所属的主组，也就是登录时所属的默认组，而其他组称为附加组。</p>
-<p>用户要访问属于附加组的文件时，必须首先使用<code>newgrp</code>命令使自己成为所要访问的组中的成员。用户组的所有信息都存放在<code>/etc/group</code>文件中。</p>
-<h3 id="组名:口令:组标识号:组内用户列表"><strong>组名:口令:组标识号:组内用户列表</strong></h3>
-<ol>
-<li><strong>组名</strong>是用户组的名称，由字母或数字构成。与/etc/passwd中的登录名一样，组名不应重复。</li>
-<li><strong>口令</strong>字段存放的是用户组加密后的口令字。一般Linux系统的用户组都没有口令，即这个字段一般为空，或者<code>x</code>或者<code>*</code>。</li>
-<li><strong>组标识号</strong>与用户标识号类似，也是一个整数，被系统内部用来标识组。</li>
-<li><strong>组内用户列表</strong>是属于这个组的所有用户的列表，不同用户之间用逗号(,)分隔。这个用户组可能是用户的主组，也可能是附加组。</li>
-</ol>
-<p><strong>/etc/group文件的一个例子如下：</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="preprocessor"># cat /etc/group</span></div><div class="line"><span class="label">root:</span><span class="built_in">x</span>:<span class="number">0</span>:</div><div class="line"><span class="label">bin:</span><span class="built_in">x</span>:<span class="number">1</span>:bin,daemon</div><div class="line"><span class="label">daemon:</span><span class="built_in">x</span>:<span class="number">2</span>:bin,daemon</div><div class="line"><span class="label">sys:</span><span class="built_in">x</span>:<span class="number">3</span>:bin,adm</div><div class="line"><span class="label">adm:</span><span class="built_in">x</span>:<span class="number">4</span>:adm,daemon</div><div class="line"><span class="label">tty:</span><span class="built_in">x</span>:<span class="number">5</span>:</div><div class="line"><span class="label">disk:</span><span class="built_in">x</span>:<span class="number">6</span>:</div><div class="line"><span class="label">lp:</span><span class="built_in">x</span>:<span class="number">7</span>:daemon</div></pre></td></tr></table></figure>
+<h2 id="使用方法：">使用方法：</h2>
+<p><code>chgrp [选项] [组] [文件]</code></p>
+<h3 id="选项">选项</h3>
+<ul>
+<li>-c 当发生改变时输出调试信息</li>
+<li>-f 不显示错误信息</li>
+<li>-R 处理指定目录以及其子目录下的所有文件</li>
+<li>-v 运行时显示详细的处理信息</li>
+<li>—dereference 作用于符号链接的指向，而不是符号链接本身</li>
+<li>—no-dereference 作用于符号链接本身</li>
+<li>—reference=&lt;文件或者目录&gt;,根据制定文件改变目标文件组属性</li>
+<li>—help 显示帮助信息</li>
+<li>—version 显示版本信息</li>
+</ul>
+<h2 id="使用实例：">使用实例：</h2>
+<h3 id="使用组名或者组标识号改变所属组">使用组名或者组标识号改变所属组</h3>
+<p>命令：</p>
+<p><code>chgrp -c bin 1.log</code>将1.log所属组改为bin</p>
+<p><code>chgrp -c 1 in1.log</code>,根据<code>/etc/group</code>可知，<code>bin</code>的标识号为1，所以这条命令也是将所属组改为bin，更多关于<code>/etc/group</code>见<a href="http://godoubao.com/2015/04/17/linux-group-passwd/" target="_blank" rel="external">早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件</a>.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# cat /etc/group</div><div class="line">root:x:0:</div><div class="line">bin:x:1:bin,daemon</div><div class="line">daemon:x:2:bin,daemon</div><div class="line">sys:x:3:bin,adm</div><div class="line">[root@localhost ~]# ll</div><div class="line">total 124</div><div class="line">-rw-r--r--  1 root root     0 Apr  6 09:40 5.log</div><div class="line">-rw-r--r--  1 root root    19 Apr  7 05:26 in1.log</div><div class="line">-rw-r--r--  1 root root 10240 Apr 13 08:54 in2.log</div><div class="line">[root@localhost ~]# chgrp -c bin 5.log</div><div class="line">changed group of <span class="smartquote">`5.log'</span> to bin</div><div class="line">[root@localhost ~]# ll</div><div class="line">total 124</div><div class="line">-rw-r--r--  1 root bin      0 Apr  6 09:40 5.log</div><div class="line">[root@localhost ~]# chgrp -c 1 in1.log</div><div class="line">changed group of <span class="smartquote">`in1.log'</span> to 1</div><div class="line">[root@localhost ~]# ll</div><div class="line">total 124</div><div class="line">-rw-r--r--  1 root bin      0 Apr  6 09:40 5.log</div><div class="line">-rw-r--r--  1 root bin     19 Apr  7 05:26 in1.log</div></pre></td></tr></table></figure>
 
-<p>说明：以<code>bin:x:1:bin,daemon</code>为例，组名为<code>bin</code>，口令为<code>x</code>,组标识号为<code>1</code>，成员有<code>bin,daemon</code>;</p>
-<h2 id="/etc/passwd"><strong>/etc/passwd</strong></h2>
-<p>捏完软柿子<code>/etc/group</code>，现在再看会容易得多<code>/etc/passwd</code>。</p>
-<blockquote>
-<p>在Linux /etc/passwd文件中每个用户都有一个对应的记录行，它记录了这个用户的一些基本属性。系统管理员经常会接触到这个文件的修改以完成对用户的管理工作。</p>
-</blockquote>
-<p>我们先来看一下这个文件有什么：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># cat /etc/passwd</span></div><div class="line"><span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span></div><div class="line"><span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:daemon</span><span class="symbol">:/sbin</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">adm:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">4</span><span class="symbol">:adm</span><span class="symbol">:/var/adm</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">lp:</span><span class="symbol">x:</span><span class="number">4</span><span class="symbol">:</span><span class="number">7</span><span class="symbol">:lp</span><span class="symbol">:/var/spool/lpd</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">sync:</span><span class="symbol">x:</span><span class="number">5</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:sync</span><span class="symbol">:/sbin</span><span class="symbol">:/bin/sync</span></div><div class="line"><span class="symbol">shutdown:</span><span class="symbol">x:</span><span class="number">6</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:shutdown</span><span class="symbol">:/sbin</span><span class="symbol">:/sbin/shutdown</span></div><div class="line"><span class="symbol">halt:</span><span class="symbol">x:</span><span class="number">7</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:halt</span><span class="symbol">:/sbin</span><span class="symbol">:/sbin/halt</span></div><div class="line"><span class="symbol">mail:</span><span class="symbol">x:</span><span class="number">8</span><span class="symbol">:</span><span class="number">12</span><span class="symbol">:mail</span><span class="symbol">:/var/spool/mail</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">uucp:</span><span class="symbol">x:</span><span class="number">10</span><span class="symbol">:</span><span class="number">14</span><span class="symbol">:uucp</span><span class="symbol">:/var/spool/uucp</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">operator:</span><span class="symbol">x:</span><span class="number">11</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:operator</span><span class="symbol">:/root</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">games:</span><span class="symbol">x:</span><span class="number">12</span><span class="symbol">:</span><span class="number">100</span><span class="symbol">:games</span><span class="symbol">:/usr/games</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">gopher:</span><span class="symbol">x:</span><span class="number">13</span><span class="symbol">:</span><span class="number">30</span><span class="symbol">:gopher</span><span class="symbol">:/var/gopher</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">ftp:</span><span class="symbol">x:</span><span class="number">14</span><span class="symbol">:</span><span class="number">50</span><span class="symbol">:FTP</span> <span class="constant">User</span><span class="symbol">:/var/ftp</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">nobody:</span><span class="symbol">x:</span><span class="number">99</span><span class="symbol">:</span><span class="number">99</span><span class="symbol">:Nobody</span><span class="symbol">:/</span><span class="symbol">:/sbin/nologin</span></div></pre></td></tr></table></figure>
+<h3 id="根据制定文件改变文件属性">根据制定文件改变文件属性</h3>
+<p>命令：</p>
+<p><code>chgrp -c --reference=in1.log in2.log</code></p>
+<p>将<code>in2.log</code>改为<code>in1.log</code>相同组</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">root</span> <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">chgrp</span> <span class="literal">-</span><span class="comment">c</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">reference=in1</span><span class="string">.</span><span class="comment">log</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="comment">changed</span> <span class="comment">group</span> <span class="comment">of</span> <span class="comment">`in2</span><span class="string">.</span><span class="comment">log'</span> <span class="comment">to</span> <span class="comment">bin</span></div><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>  <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div></pre></td></tr></table></figure>
 
-<p>已<code>root:x:0:0:root:/root:/bin/bash</code>为例：<code>root</code>为用户名，<code>x</code>为明文口令，真正的口令位于<code>/etc/shadow</code>(影子武士的感觉)，第一个<code>0</code>为用户标识号，第二个<code>0</code>为组标识号，第二个<code>root</code>为描述性信息，<code>/root</code>为主目录，<code>/bin/bash</code>为登陆shell<br>具体格式为：</p>
-<h3 id="用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell"><strong>用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell</strong></h3>
-<ol>
-<li><p><strong>用户名</strong>是代表用户账号的字符串。通常长度不超过8个字符，并且由大小写字母和/或数字组成。</p>
-</li>
-<li><p><strong>口令</strong>一些系统中，存放着加密后的用户口令字。其实真正的加密后的用户口令字存放到<code>/etc/shadow</code>文件中，而在<code>/etc/passwd</code>文件的口令字段中只存放一个特殊的字符，例如“x”或者“*”。</p>
-</li>
-<li><p>“用户标识号”是一个整数，系统内部用它来标识用户。一般情况下它与用户名是一一对应的。如果几个用户名对应的用户标识号是一样的，系统内部将把它们视为同一个用户，但是它们可以有不同的口令、不同的主目录以及不同的登录Shell等。<br><strong>通常用户标识号的取值范围是0～65535。0是超级用户<code>root</code>的标识号，1～99由系统保留，作为管理账号，普通用户的标识号从100开始。在Linux系统中，这个界限是500。</strong></p>
-</li>
-<li><p><strong>组标识号</strong>字段记录的是用户所属的用户组。它对应着<code>/etc/group</code>文件中的一条记录。</p>
-</li>
-<li><p><strong>注释性描述</strong>字段记录着用户的一些个人情况，在许多Linux系统中，这个字段存放的是一段任意的注释性描述文字，用做finger命令的输出。</p>
-</li>
-<li><p><strong>主目录</strong>，也就是用户的起始工作目录，它是用户在登录到系统之后所处的目录。在大多数系统中，各用户的主目录都被组织在同一个特定的目录下，而用户主目录的名称就是该用户的登录名。各用户对自己的主目录有读、写、执行（搜索）权限，其他用户对此目录的访问权限则根据具体情况设置。</p>
-</li>
-<li><p><strong>登录Shell</strong>，即用户与Linux系统之间的接口，当用户登录后，要启动一个进程，负责将用户的操作传给内核，这个进程是用户登录到系统后运行的命令解释器或某个特定的程序，即Shell。Linux的<code>Shell</code>有许多种，每种都有不同的特点。常用的有<code>sh(BourneShell)</code>,<code>csh(CShell)</code>,<code>ksh(KornShell)</code>,<code>tcsh(TENEX/TOPS-20typeCShell)</code>,<code>bash(BourneAgainShell)</code>等。</p>
-</li>
-</ol>
-<h4 id="另外注意："><strong>另外注意：</strong></h4>
-<p>系统中有一类用户称为伪用户（<code>psuedousers</code>），这些用户在Linux <code>/etc/passwd</code>文件中也占有一条记录，但是不能登录，因为它们的登录Shell为空。它们的存在主要是方便系统管理，满足相应的系统进程对文件属主的要求。常见的伪用户如下所示。<br>伪用户含义</p>
-<blockquote>
-<p><code>bin</code> 拥有可执行的用户命令文件<br><code>sys</code> 拥有系统文件<br><code>adm</code> 拥有帐户文件<br><code>uucp</code> 为UUCP使用<br><code>lplp</code>或<code>lpd</code>子系统使用<br><code>nobody</code> NFS使用</p>
-</blockquote>
-<p>除了上面列出的伪用户外，还有许多标准的伪用户，例如：<code>audit</code>,<code>cron</code>,<code>mail</code>,<code>usenet</code>等，它们也都各自为相关的进程和文件所需要。<br>由于Linux <code>/etc/passwd</code>文件是所有用户都可读的，如果用户的密码太简单或规律比较明显的话，一台普通的计算机就能够很容易地将它破解，因此对安全性要求较高的Linux系统都把加密后的口令字分离出来，单独存放在一个文件中，这个文件是<code>/etc/shadow</code>文件。只有超级用户才拥有该文件读权限，这就保证了用户密码的安全性。</p>
-<p>参考:<br><a href="http://os.51cto.com/art/201003/187533.htm" target="_blank" rel="external">详细解析Linux /etc/passwd文件</a></p>
+<h3 id="改变目录以及其子目录的所属组">改变目录以及其子目录的所属组</h3>
+<p>命令：<br><code>chgrp -vR bin test</code></p>
+<p>将<code>test</code>目录以及其子目录所属组为<code>bin</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ll test</div><div class="line">total 12</div><div class="line">drwxr-xr-x 2 root root 4096 Apr  6 09:41 conf</div><div class="line">drwxr-xr-x 3 root root 4096 Apr  6 09:41 log</div><div class="line">-rw-r--r-- 1 root root    0 Apr 15 05:17 test1.log</div><div class="line">-rw-r--r-- 1 root root    0 Apr 15 05:17 test2.log</div><div class="line">drwxr-xr-x 5 root root 4096 Apr  6 09:41 webapp</div><div class="line">[root@localhost ~]# chgrp -vR bin test</div><div class="line">changed group of <span class="smartquote">`test/test1.log'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/log/aa'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/log'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/test2.log'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp/a'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp/b'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp/d'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/conf'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test'</span> to bin</div><div class="line">[root@localhost ~]# ll test</div><div class="line">total 12</div><div class="line">drwxr-xr-x 2 root bin 4096 Apr  6 09:41 conf</div><div class="line">drwxr-xr-x 3 root bin 4096 Apr  6 09:41 log</div><div class="line">-rw-r--r-- 1 root bin    0 Apr 15 05:17 test1.log</div><div class="line">-rw-r--r-- 1 root bin    0 Apr 15 05:17 test2.log</div><div class="line">drwxr-xr-x 5 root bin 4096 Apr  6 09:41 webapp</div></pre></td></tr></table></figure>
+
+<p>参考:<br><a href="http://linux.die.net/man/1/chgrp" target="_blank" rel="external">chgrp</a></p>
 
       
     </div>
@@ -239,13 +224,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/17/Number-of-Islands/">Number of Islands</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/16/linux-chmod/">早上一条Linux命令，我欲乘风归去之chmod</a>
+              <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/">Bitwise AND of Numbers Range</a>
             
           </div>
         </div>
@@ -261,8 +244,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/17/linux-group-passwd/"
-               data-title="早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件" data-url="http://godoubao.com/2015/04/17/linux-group-passwd/">
+          <div class="ds-thread" data-thread-key="2015/04/18/linux-chgrp/"
+               data-title="早上一条Linux命令， 蜀道难之chgrp" data-url="http://godoubao.com/2015/04/18/linux-chgrp/">
           </div>
         
       </div>
@@ -360,7 +343,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#/etc/group"><span class="nav-number">1.</span> <span class="nav-text">/etc/group</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组名:口令:组标识号:组内用户列表"><span class="nav-number">1.1.</span> <span class="nav-text">组名:口令:组标识号:组内用户列表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#/etc/passwd"><span class="nav-number">2.</span> <span class="nav-text">/etc/passwd</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell"><span class="nav-number">2.1.</span> <span class="nav-text">用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#另外注意："><span class="nav-number">2.1.1.</span> <span class="nav-text">另外注意：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法："><span class="nav-number">1.</span> <span class="nav-text">使用方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项"><span class="nav-number">1.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用实例："><span class="nav-number">2.</span> <span class="nav-text">使用实例：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用组名或者组标识号改变所属组"><span class="nav-number">2.1.</span> <span class="nav-text">使用组名或者组标识号改变所属组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据制定文件改变文件属性"><span class="nav-number">2.2.</span> <span class="nav-text">根据制定文件改变文件属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变目录以及其子目录的所属组"><span class="nav-number">2.3.</span> <span class="nav-text">改变目录以及其子目录的所属组</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
