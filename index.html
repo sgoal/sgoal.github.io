@@ -130,6 +130,108 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/18/black-technology-proxy/">
+                黑科技-自定义嘴贱Proxy
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-18
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/黑科技/">黑科技</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/18/black-technology-proxy/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/18/black-technology-proxy/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="黑科技-自定义嘴贱Proxy">黑科技-自定义嘴贱Proxy</h1>
+<h2 id="引子">引子</h2>
+<p>今天呢，我们将用Proxy类来制作一个嘴贱的代理类。<br>首先看一下proxy类的简单用法:</p>
+<p>Proxy 提供用于创建动态代理类和实例的静态方法，它还是由这些方法创建的所有动态代理类的超类。<br>创建某一接口 Foo 的代理： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">InvocationHandler handler = <span class="keyword">new</span> MyInvocationHandler(...);</div><div class="line"><span class="keyword">Class</span> proxyClass = Proxy.getProxyClass(</div><div class="line">    Foo.<span class="keyword">class</span>.getClassLoader(), <span class="keyword">new</span> <span class="keyword">Class</span>[] { Foo.<span class="keyword">class</span> });</div><div class="line">Foo f = (Foo) proxyClass.</div><div class="line">    getConstructor(<span class="keyword">new</span> <span class="keyword">Class</span>[] { InvocationHandler.<span class="keyword">class</span> }).</div><div class="line">    newInstance(<span class="keyword">new</span> Object[] { handler });</div></pre></td></tr></table></figure>
+
+<p> 或使用以下更简单的方法： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Foo f = (Foo) Proxy.newProxyInstance(Foo.<span class="keyword">class</span>.getClassLoader(),</div><div class="line">                                         <span class="keyword">new</span> <span class="keyword">Class</span>[] { Foo.<span class="keyword">class</span> },</div><div class="line">                                         handler);</div></pre></td></tr></table></figure>
+
+<p>更详细参考<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Proxy.html" target="_blank" rel="external">reference</a>;</p>
+<h2 id="具体操作">具体操作</h2>
+<p>我们需要定义<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/InvocationHandler.html" target="_blank" rel="external">InvocationHandler</a>,这个类是代理的核心，它会将操作分配到具体的<code>Method</code>上，代理会随机挑选一句话输出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> proxy;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Method;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</div><div class="line"><span class="keyword">import</span> java.util.Deque;</div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlaBlaProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>{</div><div class="line">	<span class="comment">//目标类</span></div><div class="line">	<span class="keyword">private</span> Object target;</div><div class="line">	<span class="keyword">public</span> <span class="title">BlaBlaProxy</span>(Object target) {</div><div class="line">		<span class="keyword">this</span>.target = target;</div><div class="line">	}</div><div class="line">	<span class="keyword">private</span> Random random = <span class="keyword">new</span> Random(<span class="number">47</span>);</div><div class="line">        <span class="comment">//要输出的话</span></div><div class="line">	<span class="keyword">private</span> String[] sentnces = <span class="keyword">new</span> String[]{</div><div class="line">		<span class="string">"this method is a shit."</span>,</div><div class="line">		<span class="string">"your code tasted like a shit."</span>,</div><div class="line">		<span class="string">"你的代码可以让你升任CEO,走上人生巅峰."</span>,</div><div class="line">		<span class="string">"你看来不适合做码农."</span>,</div><div class="line">		<span class="string">"这个代码只有上帝能看懂。"</span>,</div><div class="line">		<span class="string">"你是个好人~但是不适合写代码。"</span>,</div><div class="line">		<span class="string">"世界太大，你该出去走走。"</span></div><div class="line">	};</div><div class="line">	</div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">public</span> Object <span class="title">invoke</span>(Object proxy, Method method, Object[] args)</div><div class="line">			<span class="keyword">throws</span> Throwable {</div><div class="line">                <span class="comment">//根据不同的方法输出不同话</span></div><div class="line">		StringBuilder builder = <span class="keyword">new</span> StringBuilder();</div><div class="line">		builder.append(method.getName()).append(<span class="string">"-&gt;"</span>)</div><div class="line">		.append(sentnces[random.nextInt(sentnces.length)]);</div><div class="line">		Object o = method.invoke(target, args);</div><div class="line">		System.out.println(builder.toString());</div><div class="line">		<span class="keyword">return</span> o;</div><div class="line">	}</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">		LinkedList&lt;Integer&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		List&lt;Integer&gt; integers = (List&lt;Integer&gt;) Proxy.newProxyInstance(list.getClass().getClassLoader(),</div><div class="line">				<span class="keyword">new</span> Class[]{List.class}, <span class="keyword">new</span> BlaBlaProxy(list));</div><div class="line">		integers.add(<span class="number">11</span>);</div><div class="line">		integers.clear();</div><div class="line">		integers.hashCode();</div><div class="line">		integers.add(<span class="number">111</span>);</div><div class="line">		integers.get(<span class="number">0</span>);</div><div class="line">		integers.isEmpty();</div><div class="line">		integers.listIterator();</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>接下来看看黑科技的力量<br>output:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">add</span>-&gt;世界太大，你该出去走走。</div><div class="line">clear-&gt;你的代码可以让你升任CEO,走上人生巅峰.</div><div class="line">hashCode-&gt;世界太大，你该出去走走。</div><div class="line"><span class="keyword">add</span>-&gt;your code tasted like a shit.</div><div class="line">get-&gt;你是个好人~但是不适合写代码。</div><div class="line">isEmpty-&gt;你的代码可以让你升任CEO,走上人生巅峰.</div><div class="line">listIterator-&gt;this <span class="function"><span class="keyword">method</span> <span class="title">is</span> <span class="title">a</span> <span class="title">shit</span>.</span></div></pre></td></tr></table></figure>
+
+<p>其实吧，proxy真正的用法可以是AOP。不只是黑科技。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/黑科技/"> #黑科技 </a>
+          
+            <a href="/tags/proxy，Java/"> #proxy，Java </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/18/linux-chgrp/">
                 早上一条Linux命令， 蜀道难之chgrp
               </a>
@@ -996,21 +1098,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

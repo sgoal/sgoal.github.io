@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,bit," />
+  <meta name="keywords" content="黑科技,proxy，Java," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Bitwise AND of Numbers Range // 刘Something's blog </title>
+  <title> 黑科技-自定义嘴贱Proxy // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              Bitwise AND of Numbers Range
+              黑科技-自定义嘴贱Proxy
             
           
         </h1>
@@ -136,14 +136,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-17
+          发表于 2015-04-18
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/leetcode/">leetcode</a>
+              <a href="/categories/黑科技/">黑科技</a>
 
               
               
@@ -156,8 +156,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Bitwise-AND-of-Numbers-Range/"></span>
+            <a href="/2015/04/18/black-technology-proxy/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/18/black-technology-proxy/"></span>
             </a>
           </span>
           
@@ -171,30 +171,24 @@
       
 
       
-        <blockquote>
-<p>Given a range [m, n] where 0 &lt;= m &lt;= n &lt;= 2147483647, return the bitwise AND of all numbers in this range, inclusive.</p>
-<p>For example, given the range [5, 7], you should return 4.</p>
-</blockquote>
-<h2 id="歌词大意：">歌词大意：</h2>
-<p>将[n,m]中的每一个数都按位与。</p>
-<h2 id="基本思路：">基本思路：</h2>
-<ul>
-<li>思路1：直接将区间内的每一个数都按位与，肯定会超时。</li>
-<li>思路2：<br>根据按位与的规则：</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">1&0  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">0&1  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">0&0  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">1&1  -&gt;</span> <span class="number">1</span></span></div></pre></td></tr></table></figure>
+        <h1 id="黑科技-自定义嘴贱Proxy">黑科技-自定义嘴贱Proxy</h1>
+<h2 id="引子">引子</h2>
+<p>今天呢，我们将用Proxy类来制作一个嘴贱的代理类。<br>首先看一下proxy类的简单用法:</p>
+<p>Proxy 提供用于创建动态代理类和实例的静态方法，它还是由这些方法创建的所有动态代理类的超类。<br>创建某一接口 Foo 的代理： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">InvocationHandler handler = <span class="keyword">new</span> MyInvocationHandler(...);</div><div class="line"><span class="keyword">Class</span> proxyClass = Proxy.getProxyClass(</div><div class="line">    Foo.<span class="keyword">class</span>.getClassLoader(), <span class="keyword">new</span> <span class="keyword">Class</span>[] { Foo.<span class="keyword">class</span> });</div><div class="line">Foo f = (Foo) proxyClass.</div><div class="line">    getConstructor(<span class="keyword">new</span> <span class="keyword">Class</span>[] { InvocationHandler.<span class="keyword">class</span> }).</div><div class="line">    newInstance(<span class="keyword">new</span> Object[] { handler });</div></pre></td></tr></table></figure>
 
-<p>每一位上只有一种可能是出现<code>1</code>，那就<code>1&amp;1</code>,那么我们在将区间[m,n]所有数按位与的时候，只要该位置上有过进位或者为<code>0</code>，那么该位置结果都有是<code>0</code></p>
-<h3 id="例如：[5,7]">例如：[5,7]</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">5-&gt;   0x101</div><div class="line">6-&gt;   0x110</div><div class="line">7-&gt;   0x111</div><div class="line">&</div><div class="line"><span class="header">=     0x100</span></div></pre></td></tr></table></figure>
+<p> 或使用以下更简单的方法： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Foo f = (Foo) Proxy.newProxyInstance(Foo.<span class="keyword">class</span>.getClassLoader(),</div><div class="line">                                         <span class="keyword">new</span> <span class="keyword">Class</span>[] { Foo.<span class="keyword">class</span> },</div><div class="line">                                         handler);</div></pre></td></tr></table></figure>
 
-<h3 id="再如:[7,9]">再如:[7,9]</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">7-&gt;   0x0111</div><div class="line">8-&gt;   0x1000</div><div class="line">9-&gt;   0x1010</div><div class="line">&</div><div class="line"><span class="header">=     0x0000</span></div></pre></td></tr></table></figure>
+<p>更详细参考<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Proxy.html" target="_blank" rel="external">reference</a>;</p>
+<h2 id="具体操作">具体操作</h2>
+<p>我们需要定义<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/InvocationHandler.html" target="_blank" rel="external">InvocationHandler</a>,这个类是代理的核心，它会将操作分配到具体的<code>Method</code>上，代理会随机挑选一句话输出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> proxy;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Method;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</div><div class="line"><span class="keyword">import</span> java.util.Deque;</div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlaBlaProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>{</div><div class="line">	<span class="comment">//目标类</span></div><div class="line">	<span class="keyword">private</span> Object target;</div><div class="line">	<span class="keyword">public</span> <span class="title">BlaBlaProxy</span>(Object target) {</div><div class="line">		<span class="keyword">this</span>.target = target;</div><div class="line">	}</div><div class="line">	<span class="keyword">private</span> Random random = <span class="keyword">new</span> Random(<span class="number">47</span>);</div><div class="line">        <span class="comment">//要输出的话</span></div><div class="line">	<span class="keyword">private</span> String[] sentnces = <span class="keyword">new</span> String[]{</div><div class="line">		<span class="string">"this method is a shit."</span>,</div><div class="line">		<span class="string">"your code tasted like a shit."</span>,</div><div class="line">		<span class="string">"你的代码可以让你升任CEO,走上人生巅峰."</span>,</div><div class="line">		<span class="string">"你看来不适合做码农."</span>,</div><div class="line">		<span class="string">"这个代码只有上帝能看懂。"</span>,</div><div class="line">		<span class="string">"你是个好人~但是不适合写代码。"</span>,</div><div class="line">		<span class="string">"世界太大，你该出去走走。"</span></div><div class="line">	};</div><div class="line">	</div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">public</span> Object <span class="title">invoke</span>(Object proxy, Method method, Object[] args)</div><div class="line">			<span class="keyword">throws</span> Throwable {</div><div class="line">                <span class="comment">//根据不同的方法输出不同话</span></div><div class="line">		StringBuilder builder = <span class="keyword">new</span> StringBuilder();</div><div class="line">		builder.append(method.getName()).append(<span class="string">"-&gt;"</span>)</div><div class="line">		.append(sentnces[random.nextInt(sentnces.length)]);</div><div class="line">		Object o = method.invoke(target, args);</div><div class="line">		System.out.println(builder.toString());</div><div class="line">		<span class="keyword">return</span> o;</div><div class="line">	}</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">		LinkedList&lt;Integer&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		List&lt;Integer&gt; integers = (List&lt;Integer&gt;) Proxy.newProxyInstance(list.getClass().getClassLoader(),</div><div class="line">				<span class="keyword">new</span> Class[]{List.class}, <span class="keyword">new</span> BlaBlaProxy(list));</div><div class="line">		integers.add(<span class="number">11</span>);</div><div class="line">		integers.clear();</div><div class="line">		integers.hashCode();</div><div class="line">		integers.add(<span class="number">111</span>);</div><div class="line">		integers.get(<span class="number">0</span>);</div><div class="line">		integers.isEmpty();</div><div class="line">		integers.listIterator();</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<h3 id="思路二">思路二</h3>
-<p>时间复杂度为O(32)</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> Solution {</div><div class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rangeBitwiseAnd</span>(<span class="keyword">int</span> m, <span class="keyword">int</span> n) {</div><div class="line">			<span class="keyword">if</span> (m &gt; n)</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">			<span class="keyword">int</span> c = <span class="number">0</span>;<span class="comment">// 记录左移了几位</span></div><div class="line">			<span class="keyword">while</span> (n != m) {<span class="comment">// 当值相等时，就不需要与了</span></div><div class="line">				m = m &gt;&gt; <span class="number">1</span>;<span class="comment">// 每次右移1位</span></div><div class="line">				n = n &gt;&gt; <span class="number">1</span>;</div><div class="line">				c++;</div><div class="line">			}</div><div class="line">			<span class="keyword">return</span> n &lt;&lt; c;<span class="comment">// 将相等的部分右移c位即为结果</span></div><div class="line">		}</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>接下来看看黑科技的力量<br>output:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">add</span>-&gt;世界太大，你该出去走走。</div><div class="line">clear-&gt;你的代码可以让你升任CEO,走上人生巅峰.</div><div class="line">hashCode-&gt;世界太大，你该出去走走。</div><div class="line"><span class="keyword">add</span>-&gt;your code tasted like a shit.</div><div class="line">get-&gt;你是个好人~但是不适合写代码。</div><div class="line">isEmpty-&gt;你的代码可以让你升任CEO,走上人生巅峰.</div><div class="line">listIterator-&gt;this <span class="function"><span class="keyword">method</span> <span class="title">is</span> <span class="title">a</span> <span class="title">shit</span>.</span></div></pre></td></tr></table></figure>
 
+<p>其实吧，proxy真正的用法可以是AOP。不只是黑科技。</p>
 
       
     </div>
@@ -203,9 +197,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode/"> #leetcode </a>
+            <a href="/tags/黑科技/"> #黑科技 </a>
           
-            <a href="/tags/bit/"> #bit </a>
+            <a href="/tags/proxy，Java/"> #proxy，Java </a>
           
         </div>
       
@@ -214,13 +208,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/18/linux-chgrp/">早上一条Linux命令， 蜀道难之chgrp</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/17/Number-of-Islands/">Number of Islands</a>
+              <a href="/2015/04/18/linux-chgrp/">早上一条Linux命令， 蜀道难之chgrp</a>
             
           </div>
         </div>
@@ -236,8 +228,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/17/Bitwise-AND-of-Numbers-Range/"
-               data-title="Bitwise AND of Numbers Range" data-url="http://godoubao.com/2015/04/17/Bitwise-AND-of-Numbers-Range/">
+          <div class="ds-thread" data-thread-key="2015/04/18/black-technology-proxy/"
+               data-title="黑科技-自定义嘴贱Proxy" data-url="http://godoubao.com/2015/04/18/black-technology-proxy/">
           </div>
         
       </div>
@@ -335,7 +327,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#歌词大意："><span class="nav-number">1.</span> <span class="nav-text">歌词大意：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路："><span class="nav-number">2.</span> <span class="nav-text">基本思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例如：[5,7]"><span class="nav-number">2.1.</span> <span class="nav-text">例如：[5,7]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再如:[7,9]"><span class="nav-number">2.2.</span> <span class="nav-text">再如:[7,9]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思路二"><span class="nav-number">2.3.</span> <span class="nav-text">思路二</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#黑科技-自定义嘴贱Proxy"><span class="nav-number">1.</span> <span class="nav-text">黑科技-自定义嘴贱Proxy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体操作"><span class="nav-number">1.2.</span> <span class="nav-text">具体操作</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
