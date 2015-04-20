@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,bfs,dfs," />
+  <meta name="keywords" content="Linux命令," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Number of Islands // 刘Something's blog </title>
+  <title> 早上一条Linux命令，腰也不疼之chown // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              Number of Islands
+              早上一条Linux命令，腰也不疼之chown
             
           
         </h1>
@@ -136,14 +136,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-17
+          发表于 2015-04-20
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/leetcode/">leetcode</a>
+              <a href="/categories/linux命令/">linux命令</a>
 
               
               
@@ -156,8 +156,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/17/Number-of-Islands/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Number-of-Islands/"></span>
+            <a href="/2015/04/20/linux-chown/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/linux-chown/"></span>
             </a>
           </span>
           
@@ -171,37 +171,49 @@
       
 
       
-        <blockquote>
-<p>Given a 2d grid map of ‘1’s (land) and ‘0’s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+        <h1 id="早上一条Linux命令，姚也不疼之chown">早上一条Linux命令，姚也不疼之chown</h1>
+<hr>
+<blockquote>
+<p>chown 是一条在Unix系统中用于设置文件所有者和文件关联组的命令。 需要超级用户的权限才能执行此命令。只有超级用户和属于组的文件所有者才能变更文件关联组。非特权用户（非超级用户）如需要设置关联组可能需要使用chgrp命令.</p>
+<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。</p>
 </blockquote>
-<pre><code> <span class="title">Example</span> <span class="number">1</span>:
- <span class="number">11110</span>
- <span class="number">11010</span>
- <span class="number">11000</span>
- <span class="number">00000</span>
- Answer: <span class="number">1</span>
+<h2 id="命令格式：">命令格式：</h2>
+<p>　 <code>chown [选项]... [所有者][:[组]] 文件...</code></p>
+<h2 id="命令功能：">命令功能：</h2>
+<p>　　　　通过<code>chown</code>改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
+<h2 id="命令参数：">命令参数：</h2>
+<p>　</p>
+<blockquote>
+<ul>
+<li><p>-c 显示更改的部分的信息</p>
+</li>
+<li><p>-f 忽略错误信息</p>
+</li>
+<li><p>-h 修复符号链接</p>
+</li>
+<li><p>-R 处理指定目录以及其子目录下的所有文件</p>
+</li>
+<li><p>-v 显示详细的处理信息</p>
+</li>
+<li><p>-deference 作用于符号链接的指向，而不是链接文件本身</p>
+</li>
+<li><p>—reference=&lt;目录或文件&gt; 把指定的目录/文件作为参考，把操作的文件/目录设置成参考文件/目录相同拥有者和群组</p>
+</li>
+<li>—from=&lt;当前用户：当前群组&gt; 只有当前用户和群组跟指定的用户和群组相同时才进行改变</li>
+<li>—help 显示帮助信息</li>
+<li>—version 显示版本信息</li>
+</ul>
+</blockquote>
+<h2 id="使用实例：">使用实例：</h2>
+<h3 id="改变目录与子目录用户和用户组">改变目录与子目录用户和用户组</h3>
+<p><code>chown -Rv bin:bin test1</code></p>
+<p>改变<code>test1</code>的目录与子目录的所有者和用户组为<code>bin</code>和<code>bin</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ll test1</div><div class="line">total 12</div><div class="line">drw-rw-rw- 2 root root 4096 Apr  6 09:42 conf</div><div class="line">drw-rw-rw- 3 root root 4096 Apr  6 09:42 log</div><div class="line">drw-rw-rw- 5 root root 4096 Apr  6 09:42 webapp</div><div class="line">[root@localhost ~]# chown -Rv bin:bin test1</div><div class="line">changed ownership of <span class="smartquote">`test1/log/aa'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/log'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp/a'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp/b'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp/d'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/conf'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1'</span> to bin:bin</div><div class="line">[root@localhost ~]# ll test1</div><div class="line">total 12</div><div class="line">drw-rw-rw- 2 bin bin 4096 Apr  6 09:42 conf</div><div class="line">drw-rw-rw- 3 bin bin 4096 Apr  6 09:42 log</div><div class="line">drw-rw-rw- 5 bin bin 4096 Apr  6 09:42 webapp</div></pre></td></tr></table></figure>
 
- Example <span class="number">2</span>:
-
- <span class="number">11000</span>
- <span class="number">11000</span>
- <span class="number">00100</span>
- <span class="number">00011</span>
- Answer: <span class="number">3</span>
-</code></pre><h2 id="歌词大意：">歌词大意：</h2>
-<p>在一个二维矩阵中找到所有找到有多少个全是<code>1</code>的区域。</p>
-<h2 id="基本思路：">基本思路：</h2>
-<ol>
-<li>遍历矩阵，每发现一个元素<code>1</code>，就将它和它周围的<code>1</code>标记为已访问(置为<code>0</code>),这样的话每个元素<code>1</code>只被访问一遍，所以在遍历矩阵时每第一次遇到<code>1</code>就找到一个海岛。</li>
-<li>直到遍历完矩阵所有的元素<br>那么在访问<code>1</code>周围元素的时候，两种方法发现周围的元素,一种是<code>dfs</code>，另一种是<code>bfs</code>，所以这个题有两种解法。</li>
-</ol>
-<h3 id="dfs">dfs</h3>
-<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    dfs(grid,i,j);<span class="comment">//dfs</span></div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        grid[x][y]=<span class="string">'0'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围的元素</span></div><div class="line">            <span class="keyword">int</span> x1 = x + dx[i];</div><div class="line">            <span class="keyword">int</span> y1 = y + dy[i];</div><div class="line">            <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                dfs(grid,x1,y1);</div><div class="line">            }</div><div class="line">                </div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h3 id="bfs">bfs</h3>
-<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> pair{</div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> x,y;</div><div class="line">        <span class="keyword">public</span> <span class="title">pair</span>(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1){x=x1;y=y1;}</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    bfs(grid,i,j);</div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">       LinkedList&lt;pair&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       queue.addLast(<span class="keyword">new</span> pair(x,y));</div><div class="line">       pair p = <span class="keyword">null</span>;</div><div class="line">       grid[x][y]=<span class="string">'0'</span>;</div><div class="line">       <span class="keyword">while</span>(!queue.isEmpty()){</div><div class="line">           p = queue.pollFirst();</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围元素，将其加入队列</span></div><div class="line">               <span class="keyword">int</span> x1 = dx[i]+p.x;</div><div class="line">               <span class="keyword">int</span> y1 = dy[i]+p.y;</div><div class="line">               <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                   grid[x1][y1]=<span class="string">'0'</span>;</div><div class="line">                    queue.addLast(<span class="keyword">new</span> pair(x1,y1));</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">    }</div><div class="line">     <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+<h3 id="用参考改变文件属性">用参考改变文件属性</h3>
+<p><code>chown -v --reference=5.log in3.log</code></p>
+<p>将<code>in3.log</code>的用户和用户组改为与<code>5.log</code>相同</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>  <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">root</span>    <span class="comment">16</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:43</span> <span class="comment">in3</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">chown</span> <span class="literal">-</span><span class="comment">v</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">reference=5</span><span class="string">.</span><span class="comment">log</span> <span class="comment">in3</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="comment">changed</span> <span class="comment">ownership</span> <span class="comment">of</span> <span class="comment">`in3</span><span class="string">.</span><span class="comment">log'</span> <span class="comment">to</span> <span class="comment">root:bin</span></div><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>  <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">16</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:43</span> <span class="comment">in3</span><span class="string">.</span><span class="comment">log</span></div></pre></td></tr></table></figure>
 
 
       
@@ -211,11 +223,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode/"> #leetcode </a>
-          
-            <a href="/tags/bfs/"> #bfs </a>
-          
-            <a href="/tags/dfs/"> #dfs </a>
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
           
         </div>
       
@@ -224,13 +232,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/">Bitwise AND of Numbers Range</a>
+              <a href="/2015/04/20/linux-df/">早上一条Linux命令，腿也不酸之df</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/17/linux-group-passwd/">早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件</a>
+              <a href="/2015/04/19/c-int/">int转型问题</a>
             
           </div>
         </div>
@@ -246,8 +254,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/17/Number-of-Islands/"
-               data-title="Number of Islands" data-url="http://godoubao.com/2015/04/17/Number-of-Islands/">
+          <div class="ds-thread" data-thread-key="2015/04/20/linux-chown/"
+               data-title="早上一条Linux命令，腰也不疼之chown" data-url="http://godoubao.com/2015/04/20/linux-chown/">
           </div>
         
       </div>
@@ -345,7 +353,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#歌词大意："><span class="nav-number">1.</span> <span class="nav-text">歌词大意：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路："><span class="nav-number">2.</span> <span class="nav-text">基本思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dfs"><span class="nav-number">2.1.</span> <span class="nav-text">dfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bfs"><span class="nav-number">2.2.</span> <span class="nav-text">bfs</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#早上一条Linux命令，姚也不疼之chown"><span class="nav-number">1.</span> <span class="nav-text">早上一条Linux命令，姚也不疼之chown</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令格式："><span class="nav-number">1.1.</span> <span class="nav-text">命令格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令功能："><span class="nav-number">1.2.</span> <span class="nav-text">命令功能：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令参数："><span class="nav-number">1.3.</span> <span class="nav-text">命令参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用实例："><span class="nav-number">1.4.</span> <span class="nav-text">使用实例：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改变目录与子目录用户和用户组"><span class="nav-number">1.4.1.</span> <span class="nav-text">改变目录与子目录用户和用户组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用参考改变文件属性"><span class="nav-number">1.4.2.</span> <span class="nav-text">用参考改变文件属性</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

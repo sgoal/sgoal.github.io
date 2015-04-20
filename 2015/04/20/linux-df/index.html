@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,bfs,dfs," />
+  <meta name="keywords" content="Linux命令," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Number of Islands // 刘Something's blog </title>
+  <title> 早上一条Linux命令，腿也不酸之df // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              Number of Islands
+              早上一条Linux命令，腿也不酸之df
             
           
         </h1>
@@ -136,14 +136,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-17
+          发表于 2015-04-20
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/leetcode/">leetcode</a>
+              <a href="/categories/linux命令/">linux命令</a>
 
               
               
@@ -156,8 +156,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/17/Number-of-Islands/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Number-of-Islands/"></span>
+            <a href="/2015/04/20/linux-df/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/linux-df/"></span>
             </a>
           </span>
           
@@ -171,37 +171,48 @@
       
 
       
-        <blockquote>
-<p>Given a 2d grid map of ‘1’s (land) and ‘0’s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+        <h1 id="早上一条Linux命令，腿也不酸之df">早上一条Linux命令，腿也不酸之df</h1>
+<hr>
+<blockquote>
+<p>对Linux磁盘管理稍微有一些学习和经验的朋友们应该都知道df、du和fdisk这三个常用命令：df用于检查文件系统磁盘占用情况，du检查磁盘空间占用情况，而fdisk用于磁盘分区。</p>
 </blockquote>
-<pre><code> <span class="title">Example</span> <span class="number">1</span>:
- <span class="number">11110</span>
- <span class="number">11010</span>
- <span class="number">11000</span>
- <span class="number">00000</span>
- Answer: <span class="number">1</span>
+<p>今天先来学习df命令。</p>
+<blockquote>
+<p>linux中df命令的功能是用来检查linux服务器的文件系统的磁盘空间占用情况。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等信息。</p>
+<h2 id="命令格式：">命令格式：</h2>
+</blockquote>
+<p>　 <code>df [选项]...</code></p>
+<h2 id="命令功能：">命令功能：</h2>
+<p>　　df命令的功能是用来检查linux服务器的文件系统的磁盘空间占用情况。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等信息。</p>
+<h2 id="命令参数：">命令参数：</h2>
+<p>　</p>
+<blockquote>
+<ul>
+<li>-a：显示所有文件系统的磁盘使用情况，包括0块（block）的文件系统，如/proc文件系统。</li>
+<li>-k：以k字节为单位显示。</li>
+<li>-i：显示i节点信息，而不是磁盘块。</li>
+<li>-t：显示各指定类型的文件系统的磁盘空间使用情况。</li>
+<li>-x：列出不是某一指定类型文件系统的磁盘空间使用情况（与t选项相反）。</li>
+<li>-T：显示文件系统类型。</li>
+<li>-h 方便阅读方式显示</li>
+<li>-H 等于“-h”，但是计算式，1K=1000，而不是1K=1024</li>
+<li>-l 只显示本地文件系统</li>
+</ul>
+</blockquote>
+<h2 id="使用实例：">使用实例：</h2>
+<h3 id="显示磁盘使用情况">显示磁盘使用情况</h3>
+<p><code>df</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# df</div><div class="line"><span class="variable">Filesystem</span>              <span class="number">1</span><span class="variable">K</span>-blocks    <span class="variable">Used</span> <span class="variable">Available</span> <span class="variable">Use</span><span class="comment">% Mounted on</span></div><div class="line">/dev/mapper/hdvg-rootlv  <span class="number">13933648</span> <span class="number">5822540</span>   <span class="number">7403320</span>  <span class="number">45</span><span class="comment">% /</span></div><div class="line">tmpfs                     <span class="number">1962220</span>       <span class="number">0</span>   <span class="number">1962220</span>   <span class="number">0</span><span class="comment">% /dev/shm</span></div><div class="line">/dev/sda1                  <span class="number">495844</span>   <span class="number">40115</span>    <span class="number">430129</span>   <span class="number">9</span><span class="comment">% /boot</span></div></pre></td></tr></table></figure>
 
- Example <span class="number">2</span>:
+<p>第1列是代表文件系统对应的设备文件的路径名（一般是硬盘上的分区）；第2列给出分区包含的数据块（1024字节）的数目；第3，4列分别表示已用的和可用的数据块数目。Mounted on列表示文件系统的挂载点。</p>
+<blockquote>
+<p>用户也许会感到奇怪，第3，4列块数之和不等于第2列中的块数。这是因为默认的每个分区都留了少量空间供系统管理员使用的缘故。即使遇到普通用户空间已满的情况，管理员仍能登录和留有解决问题所需的工作空间。清单中Use%列表示普通用户空间使用的百分比，若这一数字达到100%，分区仍然留有系统管理员使用的空间。</p>
+</blockquote>
+<h3 id="显示磁盘使用情况和类型">显示磁盘使用情况和类型</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# df -Th</div><div class="line">Filesystem              Type   <span class="keyword">Size</span>  Used Avail Use% Mounted on</div><div class="line"><span class="regexp">/dev/m</span>apper<span class="regexp">/hdvg-rootlv ext4    14G  5.6G  7.1G  45% /</span></div><div class="line">tmpfs                   tmpfs  <span class="number">1.9</span>G     <span class="number">0</span>  <span class="number">1.9</span>G   <span class="number">0</span>% <span class="regexp">/dev/</span>shm</div><div class="line"><span class="regexp">/dev/</span>sda1               ext4   <span class="number">485</span>M   <span class="number">40</span>M  <span class="number">421</span>M   <span class="number">9</span>% <span class="regexp">/boot</span></div></pre></td></tr></table></figure>
 
- <span class="number">11000</span>
- <span class="number">11000</span>
- <span class="number">00100</span>
- <span class="number">00011</span>
- Answer: <span class="number">3</span>
-</code></pre><h2 id="歌词大意：">歌词大意：</h2>
-<p>在一个二维矩阵中找到所有找到有多少个全是<code>1</code>的区域。</p>
-<h2 id="基本思路：">基本思路：</h2>
-<ol>
-<li>遍历矩阵，每发现一个元素<code>1</code>，就将它和它周围的<code>1</code>标记为已访问(置为<code>0</code>),这样的话每个元素<code>1</code>只被访问一遍，所以在遍历矩阵时每第一次遇到<code>1</code>就找到一个海岛。</li>
-<li>直到遍历完矩阵所有的元素<br>那么在访问<code>1</code>周围元素的时候，两种方法发现周围的元素,一种是<code>dfs</code>，另一种是<code>bfs</code>，所以这个题有两种解法。</li>
-</ol>
-<h3 id="dfs">dfs</h3>
-<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    dfs(grid,i,j);<span class="comment">//dfs</span></div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        grid[x][y]=<span class="string">'0'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围的元素</span></div><div class="line">            <span class="keyword">int</span> x1 = x + dx[i];</div><div class="line">            <span class="keyword">int</span> y1 = y + dy[i];</div><div class="line">            <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                dfs(grid,x1,y1);</div><div class="line">            }</div><div class="line">                </div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h3 id="bfs">bfs</h3>
-<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> pair{</div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> x,y;</div><div class="line">        <span class="keyword">public</span> <span class="title">pair</span>(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1){x=x1;y=y1;}</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    bfs(grid,i,j);</div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">       LinkedList&lt;pair&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       queue.addLast(<span class="keyword">new</span> pair(x,y));</div><div class="line">       pair p = <span class="keyword">null</span>;</div><div class="line">       grid[x][y]=<span class="string">'0'</span>;</div><div class="line">       <span class="keyword">while</span>(!queue.isEmpty()){</div><div class="line">           p = queue.pollFirst();</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围元素，将其加入队列</span></div><div class="line">               <span class="keyword">int</span> x1 = dx[i]+p.x;</div><div class="line">               <span class="keyword">int</span> y1 = dy[i]+p.y;</div><div class="line">               <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                   grid[x1][y1]=<span class="string">'0'</span>;</div><div class="line">                    queue.addLast(<span class="keyword">new</span> pair(x1,y1));</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">    }</div><div class="line">     <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+<h3 id="显示指定类型的磁盘情况">显示指定类型的磁盘情况</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root<span class="property">@localhost</span> ~]<span class="comment"># df -t ext4</span></div><div class="line">Filesystem              <span class="number">1</span>K-blocks    Used Available Use% Mounted <span class="literal">on</span></div><div class="line"><span class="regexp">/dev/mapper/hdvg-rootlv  13933648 5822568   7403292  45% /</span></div><div class="line">/dev/sda1                  <span class="number">495844</span>   <span class="number">40115</span>    <span class="number">430129</span>   <span class="number">9</span>% /boot</div></pre></td></tr></table></figure>
 
 
       
@@ -211,11 +222,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode/"> #leetcode </a>
-          
-            <a href="/tags/bfs/"> #bfs </a>
-          
-            <a href="/tags/dfs/"> #dfs </a>
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
           
         </div>
       
@@ -224,13 +231,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/">Bitwise AND of Numbers Range</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/17/linux-group-passwd/">早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件</a>
+              <a href="/2015/04/20/linux-chown/">早上一条Linux命令，腰也不疼之chown</a>
             
           </div>
         </div>
@@ -246,8 +251,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/17/Number-of-Islands/"
-               data-title="Number of Islands" data-url="http://godoubao.com/2015/04/17/Number-of-Islands/">
+          <div class="ds-thread" data-thread-key="2015/04/20/linux-df/"
+               data-title="早上一条Linux命令，腿也不酸之df" data-url="http://godoubao.com/2015/04/20/linux-df/">
           </div>
         
       </div>
@@ -345,7 +350,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#歌词大意："><span class="nav-number">1.</span> <span class="nav-text">歌词大意：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路："><span class="nav-number">2.</span> <span class="nav-text">基本思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dfs"><span class="nav-number">2.1.</span> <span class="nav-text">dfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bfs"><span class="nav-number">2.2.</span> <span class="nav-text">bfs</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#早上一条Linux命令，腿也不酸之df"><span class="nav-number">1.</span> <span class="nav-text">早上一条Linux命令，腿也不酸之df</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令格式："><span class="nav-number">1.1.</span> <span class="nav-text">命令格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令功能："><span class="nav-number">1.2.</span> <span class="nav-text">命令功能：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令参数："><span class="nav-number">1.3.</span> <span class="nav-text">命令参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用实例："><span class="nav-number">1.4.</span> <span class="nav-text">使用实例：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#显示磁盘使用情况"><span class="nav-number">1.4.1.</span> <span class="nav-text">显示磁盘使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示磁盘使用情况和类型"><span class="nav-number">1.4.2.</span> <span class="nav-text">显示磁盘使用情况和类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示指定类型的磁盘情况"><span class="nav-number">1.4.3.</span> <span class="nav-text">显示指定类型的磁盘情况</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
