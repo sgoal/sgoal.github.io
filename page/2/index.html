@@ -130,6 +130,336 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/18/black-technology-proxy/">
+                黑科技-自定义嘴贱Proxy
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-18
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/黑科技/">黑科技</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/18/black-technology-proxy/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/18/black-technology-proxy/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="黑科技-自定义嘴贱Proxy">黑科技-自定义嘴贱Proxy</h1>
+<h2 id="引子">引子</h2>
+<p>今天呢，我们将用Proxy类来制作一个嘴贱的代理类。<br>首先看一下proxy类的简单用法:</p>
+<p>Proxy 提供用于创建动态代理类和实例的静态方法，它还是由这些方法创建的所有动态代理类的超类。<br>创建某一接口 Foo 的代理： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">InvocationHandler handler = <span class="keyword">new</span> MyInvocationHandler(...);</div><div class="line"><span class="keyword">Class</span> proxyClass = Proxy.getProxyClass(</div><div class="line">    Foo.<span class="keyword">class</span>.getClassLoader(), <span class="keyword">new</span> <span class="keyword">Class</span>[] { Foo.<span class="keyword">class</span> });</div><div class="line">Foo f = (Foo) proxyClass.</div><div class="line">    getConstructor(<span class="keyword">new</span> <span class="keyword">Class</span>[] { InvocationHandler.<span class="keyword">class</span> }).</div><div class="line">    newInstance(<span class="keyword">new</span> Object[] { handler });</div></pre></td></tr></table></figure>
+
+<p> 或使用以下更简单的方法： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Foo f = (Foo) Proxy.newProxyInstance(Foo.<span class="keyword">class</span>.getClassLoader(),</div><div class="line">                                         <span class="keyword">new</span> <span class="keyword">Class</span>[] { Foo.<span class="keyword">class</span> },</div><div class="line">                                         handler);</div></pre></td></tr></table></figure>
+
+<p>更详细参考<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Proxy.html" target="_blank" rel="external">reference</a>;</p>
+<h2 id="具体操作">具体操作</h2>
+<p>我们需要定义<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/InvocationHandler.html" target="_blank" rel="external">InvocationHandler</a>,这个类是代理的核心，它会将操作分配到具体的<code>Method</code>上，代理会随机挑选一句话输出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> proxy;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Method;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</div><div class="line"><span class="keyword">import</span> java.util.Deque;</div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlaBlaProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>{</div><div class="line">	<span class="comment">//目标类</span></div><div class="line">	<span class="keyword">private</span> Object target;</div><div class="line">	<span class="keyword">public</span> <span class="title">BlaBlaProxy</span>(Object target) {</div><div class="line">		<span class="keyword">this</span>.target = target;</div><div class="line">	}</div><div class="line">	<span class="keyword">private</span> Random random = <span class="keyword">new</span> Random(<span class="number">47</span>);</div><div class="line">        <span class="comment">//要输出的话</span></div><div class="line">	<span class="keyword">private</span> String[] sentnces = <span class="keyword">new</span> String[]{</div><div class="line">		<span class="string">"this method is a shit."</span>,</div><div class="line">		<span class="string">"your code tasted like a shit."</span>,</div><div class="line">		<span class="string">"你的代码可以让你升任CEO,走上人生巅峰."</span>,</div><div class="line">		<span class="string">"你看来不适合做码农."</span>,</div><div class="line">		<span class="string">"这个代码只有上帝能看懂。"</span>,</div><div class="line">		<span class="string">"你是个好人~但是不适合写代码。"</span>,</div><div class="line">		<span class="string">"世界太大，你该出去走走。"</span></div><div class="line">	};</div><div class="line">	</div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">public</span> Object <span class="title">invoke</span>(Object proxy, Method method, Object[] args)</div><div class="line">			<span class="keyword">throws</span> Throwable {</div><div class="line">                <span class="comment">//根据不同的方法输出不同话</span></div><div class="line">		StringBuilder builder = <span class="keyword">new</span> StringBuilder();</div><div class="line">		builder.append(method.getName()).append(<span class="string">"-&gt;"</span>)</div><div class="line">		.append(sentnces[random.nextInt(sentnces.length)]);</div><div class="line">		Object o = method.invoke(target, args);</div><div class="line">		System.out.println(builder.toString());</div><div class="line">		<span class="keyword">return</span> o;</div><div class="line">	}</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">		LinkedList&lt;Integer&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		List&lt;Integer&gt; integers = (List&lt;Integer&gt;) Proxy.newProxyInstance(list.getClass().getClassLoader(),</div><div class="line">				<span class="keyword">new</span> Class[]{List.class}, <span class="keyword">new</span> BlaBlaProxy(list));</div><div class="line">		integers.add(<span class="number">11</span>);</div><div class="line">		integers.clear();</div><div class="line">		integers.hashCode();</div><div class="line">		integers.add(<span class="number">111</span>);</div><div class="line">		integers.get(<span class="number">0</span>);</div><div class="line">		integers.isEmpty();</div><div class="line">		integers.listIterator();</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>接下来看看黑科技的力量<br>output:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">add</span>-&gt;世界太大，你该出去走走。</div><div class="line">clear-&gt;你的代码可以让你升任CEO,走上人生巅峰.</div><div class="line">hashCode-&gt;世界太大，你该出去走走。</div><div class="line"><span class="keyword">add</span>-&gt;your code tasted like a shit.</div><div class="line">get-&gt;你是个好人~但是不适合写代码。</div><div class="line">isEmpty-&gt;你的代码可以让你升任CEO,走上人生巅峰.</div><div class="line">listIterator-&gt;this <span class="function"><span class="keyword">method</span> <span class="title">is</span> <span class="title">a</span> <span class="title">shit</span>.</span></div></pre></td></tr></table></figure>
+
+<p>其实吧，proxy真正的用法可以是AOP。不只是黑科技。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/黑科技/"> #黑科技 </a>
+          
+            <a href="/tags/proxy/"> #proxy </a>
+          
+            <a href="/tags/Java/"> #Java </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/18/linux-chgrp/">
+                早上一条Linux命令， 蜀道难之chgrp
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-18
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/18/linux-chgrp/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/18/linux-chgrp/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>chgrp是一条在Unix系统中用于设置文件所归属的组的命令。与chown命令不同，chgrp允许普通用户改变文件所属的组，<strong>只要该用户是该组的一员</strong>，可以使用组名也可以使用组标识号。chgrp命令就是<strong>ch</strong>ange <strong>gr</strong>ou<strong>p</strong>的缩写</p>
+</blockquote>
+<h2 id="使用方法：">使用方法：</h2>
+<p><code>chgrp [选项] [组] [文件]</code></p>
+<h3 id="选项">选项</h3>
+<ul>
+<li>-c 当发生改变时输出调试信息</li>
+<li>-f 不显示错误信息</li>
+<li>-R 处理指定目录以及其子目录下的所有文件</li>
+<li>-v 运行时显示详细的处理信息</li>
+<li>—dereference 作用于符号链接的指向，而不是符号链接本身</li>
+<li>—no-dereference 作用于符号链接本身</li>
+<li>—reference=&lt;文件或者目录&gt;,根据制定文件改变目标文件组属性</li>
+<li>—help 显示帮助信息</li>
+<li>—version 显示版本信息</li>
+</ul>
+<h2 id="使用实例：">使用实例：</h2>
+<h3 id="使用组名或者组标识号改变所属组">使用组名或者组标识号改变所属组</h3>
+<p>命令：</p>
+<p><code>chgrp -c bin 1.log</code>将1.log所属组改为bin</p>
+<p><code>chgrp -c 1 in1.log</code>,根据<code>/etc/group</code>可知，<code>bin</code>的标识号为1，所以这条命令也是将所属组改为bin，更多关于<code>/etc/group</code>见<a href="http://godoubao.com/2015/04/17/linux-group-passwd/" target="_blank" rel="external">早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件</a>.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# cat /etc/group</div><div class="line">root:x:0:</div><div class="line">bin:x:1:bin,daemon</div><div class="line">daemon:x:2:bin,daemon</div><div class="line">sys:x:3:bin,adm</div><div class="line">[root@localhost ~]# ll</div><div class="line">total 124</div><div class="line">-rw-r--r--  1 root root     0 Apr  6 09:40 5.log</div><div class="line">-rw-r--r--  1 root root    19 Apr  7 05:26 in1.log</div><div class="line">-rw-r--r--  1 root root 10240 Apr 13 08:54 in2.log</div><div class="line">[root@localhost ~]# chgrp -c bin 5.log</div><div class="line">changed group of <span class="smartquote">`5.log'</span> to bin</div><div class="line">[root@localhost ~]# ll</div><div class="line">total 124</div><div class="line">-rw-r--r--  1 root bin      0 Apr  6 09:40 5.log</div><div class="line">[root@localhost ~]# chgrp -c 1 in1.log</div><div class="line">changed group of <span class="smartquote">`in1.log'</span> to 1</div><div class="line">[root@localhost ~]# ll</div><div class="line">total 124</div><div class="line">-rw-r--r--  1 root bin      0 Apr  6 09:40 5.log</div><div class="line">-rw-r--r--  1 root bin     19 Apr  7 05:26 in1.log</div></pre></td></tr></table></figure>
+
+<h3 id="根据制定文件改变文件属性">根据制定文件改变文件属性</h3>
+<p>命令：</p>
+<p><code>chgrp -c --reference=in1.log in2.log</code></p>
+<p>将<code>in2.log</code>改为<code>in1.log</code>相同组</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">root</span> <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">chgrp</span> <span class="literal">-</span><span class="comment">c</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">reference=in1</span><span class="string">.</span><span class="comment">log</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="comment">changed</span> <span class="comment">group</span> <span class="comment">of</span> <span class="comment">`in2</span><span class="string">.</span><span class="comment">log'</span> <span class="comment">to</span> <span class="comment">bin</span></div><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>  <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div></pre></td></tr></table></figure>
+
+<h3 id="改变目录以及其子目录的所属组">改变目录以及其子目录的所属组</h3>
+<p>命令：<br><code>chgrp -vR bin test</code></p>
+<p>将<code>test</code>目录以及其子目录所属组为<code>bin</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ll test</div><div class="line">total 12</div><div class="line">drwxr-xr-x 2 root root 4096 Apr  6 09:41 conf</div><div class="line">drwxr-xr-x 3 root root 4096 Apr  6 09:41 log</div><div class="line">-rw-r--r-- 1 root root    0 Apr 15 05:17 test1.log</div><div class="line">-rw-r--r-- 1 root root    0 Apr 15 05:17 test2.log</div><div class="line">drwxr-xr-x 5 root root 4096 Apr  6 09:41 webapp</div><div class="line">[root@localhost ~]# chgrp -vR bin test</div><div class="line">changed group of <span class="smartquote">`test/test1.log'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/log/aa'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/log'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/test2.log'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp/a'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp/b'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp/d'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/webapp'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test/conf'</span> to bin</div><div class="line">changed group of <span class="smartquote">`test'</span> to bin</div><div class="line">[root@localhost ~]# ll test</div><div class="line">total 12</div><div class="line">drwxr-xr-x 2 root bin 4096 Apr  6 09:41 conf</div><div class="line">drwxr-xr-x 3 root bin 4096 Apr  6 09:41 log</div><div class="line">-rw-r--r-- 1 root bin    0 Apr 15 05:17 test1.log</div><div class="line">-rw-r--r-- 1 root bin    0 Apr 15 05:17 test2.log</div><div class="line">drwxr-xr-x 5 root bin 4096 Apr  6 09:41 webapp</div></pre></td></tr></table></figure>
+
+<p>参考:<br><a href="http://linux.die.net/man/1/chgrp" target="_blank" rel="external">chgrp</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/17/Bitwise-AND-of-Numbers-Range/">
+                Bitwise AND of Numbers Range
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-17
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/leetcode/">leetcode</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Bitwise-AND-of-Numbers-Range/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Given a range [m, n] where 0 &lt;= m &lt;= n &lt;= 2147483647, return the bitwise AND of all numbers in this range, inclusive.</p>
+<p>For example, given the range [5, 7], you should return 4.</p>
+</blockquote>
+<h2 id="歌词大意：">歌词大意：</h2>
+<p>将[n,m]中的每一个数都按位与。</p>
+<h2 id="基本思路：">基本思路：</h2>
+<ul>
+<li>思路1：直接将区间内的每一个数都按位与，肯定会超时。</li>
+<li>思路2：<br>根据按位与的规则：</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">1&0  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">0&1  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">0&0  -&gt;</span> <span class="number">0</span></span></div><div class="line"><span class="input"><span class="prompt">1&1  -&gt;</span> <span class="number">1</span></span></div></pre></td></tr></table></figure>
+
+<p>每一位上只有一种可能是出现<code>1</code>，那就<code>1&amp;1</code>,那么我们在将区间[m,n]所有数按位与的时候，只要该位置上有过进位或者为<code>0</code>，那么该位置结果都有是<code>0</code></p>
+<h3 id="例如：[5,7]">例如：[5,7]</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">5-&gt;   0x101</div><div class="line">6-&gt;   0x110</div><div class="line">7-&gt;   0x111</div><div class="line">&</div><div class="line"><span class="header">=     0x100</span></div></pre></td></tr></table></figure>
+
+<h3 id="再如:[7,9]">再如:[7,9]</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">7-&gt;   0x0111</div><div class="line">8-&gt;   0x1000</div><div class="line">9-&gt;   0x1010</div><div class="line">&</div><div class="line"><span class="header">=     0x0000</span></div></pre></td></tr></table></figure>
+
+<h3 id="思路二">思路二</h3>
+<p>时间复杂度为O(32)</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> Solution {</div><div class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rangeBitwiseAnd</span>(<span class="keyword">int</span> m, <span class="keyword">int</span> n) {</div><div class="line">			<span class="keyword">if</span> (m &gt; n)</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">			<span class="keyword">int</span> c = <span class="number">0</span>;<span class="comment">// 记录左移了几位</span></div><div class="line">			<span class="keyword">while</span> (n != m) {<span class="comment">// 当值相等时，就不需要与了</span></div><div class="line">				m = m &gt;&gt; <span class="number">1</span>;<span class="comment">// 每次右移1位</span></div><div class="line">				n = n &gt;&gt; <span class="number">1</span>;</div><div class="line">				c++;</div><div class="line">			}</div><div class="line">			<span class="keyword">return</span> n &lt;&lt; c;<span class="comment">// 将相等的部分右移c位即为结果</span></div><div class="line">		}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/"> #leetcode </a>
+          
+            <a href="/tags/bit/"> #bit </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/17/Number-of-Islands/">
                 Number of Islands
               </a>
@@ -869,21 +1199,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

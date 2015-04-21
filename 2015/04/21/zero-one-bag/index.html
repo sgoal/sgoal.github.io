@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,bfs,dfs," />
+  <meta name="keywords" content="01背包," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Number of Islands // 刘Something's blog </title>
+  <title> 01背包 // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              Number of Islands
+              01背包
             
           
         </h1>
@@ -136,14 +136,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-17
+          发表于 2015-04-21
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/leetcode/">leetcode</a>
+              <a href="/categories/hihocoder/">hihocoder</a>
 
               
               
@@ -156,8 +156,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/17/Number-of-Islands/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Number-of-Islands/"></span>
+            <a href="/2015/04/21/zero-one-bag/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/21/zero-one-bag/"></span>
             </a>
           </span>
           
@@ -172,36 +172,18 @@
 
       
         <blockquote>
-<p>Given a 2d grid map of ‘1’s (land) and ‘0’s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+<p>时间限制:20000ms<br>单点时限:1000ms<br>内存限制:256MB<br>描述<br>且说上一周的故事里，小Hi和小Ho费劲心思终于拿到了茫茫多的奖券！而现在，终于到了小Ho领取奖励的时刻了！</p>
+<p>小Ho现在手上有M张奖券，而奖品区有N件奖品，分别标号为1到N，其中第i件奖品需要need(i)张奖券进行兑换，同时也只能兑换一次，为了使得辛苦得到的奖券不白白浪费，小Ho给每件奖品都评了分，其中第i件奖品的评分值为value(i),表示他对这件奖品的喜好值。现在他想知道，凭借他手上的这些奖券，可以换到哪些奖品，使得这些奖品的喜好值之和能够最大。</p>
+<p>输入<br>每个测试点（输入文件）有且仅有一组测试数据。</p>
+<p>每组测试数据的第一行为两个正整数N和M,表示奖品的个数，以及小Ho手中的奖券数。</p>
+<p>接下来的n行描述每一行描述一个奖品，其中第i行为两个整数need(i)和value(i)，意义如前文所述。</p>
+<p>测试数据保证</p>
+<p>对于100%的数据，N的值不超过500，M的值不超过10^5</p>
+<p>对于100%的数据，need(i)不超过2*10^5, value(i)不超过10^3</p>
+<p>输出<br>对于每组测试数据，输出一个整数Ans，表示小Ho可以获得的总喜好值。</p>
+<p>样例输入<br>5 1000<br>144 990<br>487 436<br>210 673<br>567 58<br>1056 897<br>样例输出<br>2099</p>
 </blockquote>
-<pre><code> <span class="title">Example</span> <span class="number">1</span>:
- <span class="number">11110</span>
- <span class="number">11010</span>
- <span class="number">11000</span>
- <span class="number">00000</span>
- Answer: <span class="number">1</span>
-
- Example <span class="number">2</span>:
-
- <span class="number">11000</span>
- <span class="number">11000</span>
- <span class="number">00100</span>
- <span class="number">00011</span>
- Answer: <span class="number">3</span>
-</code></pre><h2 id="歌词大意：">歌词大意：</h2>
-<p>在一个二维矩阵中找到所有找到有多少个全是<code>1</code>的区域。</p>
-<h2 id="基本思路：">基本思路：</h2>
-<ol>
-<li>遍历矩阵，每发现一个元素<code>1</code>，就将它和它周围的<code>1</code>标记为已访问(置为<code>0</code>),这样的话每个元素<code>1</code>只被访问一遍，所以在遍历矩阵时每第一次遇到<code>1</code>就找到一个海岛。</li>
-<li>直到遍历完矩阵所有的元素<br>那么在访问<code>1</code>周围元素的时候，两种方法发现周围的元素,一种是<code>dfs</code>，另一种是<code>bfs</code>，所以这个题有两种解法。</li>
-</ol>
-<h3 id="dfs">dfs</h3>
-<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    dfs(grid,i,j);<span class="comment">//dfs</span></div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        grid[x][y]=<span class="string">'0'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围的元素</span></div><div class="line">            <span class="keyword">int</span> x1 = x + dx[i];</div><div class="line">            <span class="keyword">int</span> y1 = y + dy[i];</div><div class="line">            <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                dfs(grid,x1,y1);</div><div class="line">            }</div><div class="line">                </div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h3 id="bfs">bfs</h3>
-<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> pair{</div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> x,y;</div><div class="line">        <span class="keyword">public</span> <span class="title">pair</span>(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1){x=x1;y=y1;}</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    bfs(grid,i,j);</div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">       LinkedList&lt;pair&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       queue.addLast(<span class="keyword">new</span> pair(x,y));</div><div class="line">       pair p = <span class="keyword">null</span>;</div><div class="line">       grid[x][y]=<span class="string">'0'</span>;</div><div class="line">       <span class="keyword">while</span>(!queue.isEmpty()){</div><div class="line">           p = queue.pollFirst();</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围元素，将其加入队列</span></div><div class="line">               <span class="keyword">int</span> x1 = dx[i]+p.x;</div><div class="line">               <span class="keyword">int</span> y1 = dy[i]+p.y;</div><div class="line">               <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                   grid[x1][y1]=<span class="string">'0'</span>;</div><div class="line">                    queue.addLast(<span class="keyword">new</span> pair(x1,y1));</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">    }</div><div class="line">     <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#include &lt;iostream&gt;</span></div><div class="line"><span class="comment">#include&lt;fstream&gt;</span></div><div class="line"><span class="comment">#include&lt;string.h&gt;</span></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">typedef unsigned <span class="keyword">int</span> ui;</div><div class="line">    typedef long long ll;</div><div class="line">    const <span class="keyword">int</span> maxN = <span class="number">500</span>+<span class="number">2</span>;</div><div class="line">    const <span class="keyword">int</span> maxM=<span class="number">100000</span>+<span class="number">2</span>;</div><div class="line">    <span class="keyword">int</span> value[maxN],need[maxN];</div><div class="line">    <span class="regexp">//int</span> note[maxN][maxM];<span class="regexp">//</span>最大需要<span class="number">200</span>MB</div><div class="line">    <span class="keyword">int</span> p[maxM],<span class="string">q[maxM]</span>;<span class="regexp">//p</span>表示偶数列，<span class="keyword">q</span>表示奇数列</div><div class="line">    //<span class="keyword">int</span> f[maxM];</div><div class="line"><span class="keyword">int</span> main()</div><div class="line">{</div><div class="line"></div><div class="line"><span class="comment">#ifndef ONLINE_JUDGE</span></div><div class="line">  // freopen(<span class="string">"input.txt"</span>, <span class="string">"rt"</span>, stdin);</div><div class="line">  <span class="regexp">//</span> freopen(<span class="string">"output.txt"</span>, <span class="string">"wt"</span>, stdout);</div><div class="line"><span class="comment">#endif</span></div><div class="line">   // memset(note,<span class="number">0</span>,sizeof(note));</div><div class="line">    <span class="keyword">int</span> N,M;</div><div class="line">    <span class="keyword">while</span>(cin&gt;&gt;N&gt;&gt;M){</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)</div><div class="line">            cin&gt;&gt;need[i]&gt;&gt;value[i];</div><div class="line"></div><div class="line">        memset(p,<span class="number">0</span>,sizeof(p));</div><div class="line">        memset(<span class="keyword">q</span>,<span class="number">0</span>,sizeof(<span class="keyword">q</span>));</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++){</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=M;j++){</div><div class="line">                <span class="keyword">if</span>(i&<span class="number">1</span>){<span class="regexp">//</span>奇数</div><div class="line">                    <span class="keyword">if</span>(j&lt;need[i])<span class="string">q[j]</span>=p[j];</div><div class="line">                    <span class="keyword">else</span> <span class="string">q[j]</span>=max(p[j-need[i]]+value[i],p[j]);</div><div class="line">                    <span class="regexp">//cout</span>&lt;&lt;<span class="string">q[j]</span>&lt;&lt;endl;</div><div class="line">                }<span class="keyword">else</span>{</div><div class="line">                     <span class="keyword">if</span>(j&lt;need[i])p[j]=<span class="string">q[j]</span>;</div><div class="line">                    <span class="keyword">else</span> p[j]=max(<span class="string">q[j-need[i]</span>]+value[i],<span class="string">q[j]</span>);</div><div class="line">                   <span class="regexp">//</span>  cout&lt;&lt;p[j]&lt;&lt;endl;</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">if</span>(N&<span class="number">1</span>)</div><div class="line">            cout&lt;&lt;<span class="string">q[M]</span>&lt;&lt;endl;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            cout&lt;&lt;p[M]&lt;&lt;endl;</div><div class="line">          <span class="regexp">/*</span></div><div class="line">          memset(f,0,sizeof(f));</div><div class="line">         for(int i=1;i&lt;=N;i++){</div><div class="line">            for(int j=M;j&gt;=need[i];j--){</div><div class="line">                f[j]=max(f[j-need[i]]+value[i],f[j]);</div><div class="line">            }</div><div class="line">        }</div><div class="line">        cout&lt;&lt;f[M]&lt;&lt;endl;*/</div><div class="line">        /*<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++){</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=M;j++){</div><div class="line">                <span class="keyword">if</span>(j&lt;need[i])note[i][j]=note[i-<span class="number">1</span>][j];</div><div class="line">                <span class="keyword">else</span></div><div class="line">                note[i][j]=max(note[i-<span class="number">1</span>][j-need[i]]+value[i],note[i-<span class="number">1</span>][j]);</div><div class="line">              <span class="regexp">//</span>  cout&lt;&lt;note[i][j]&lt;&lt;endl;</div><div class="line">            }</div><div class="line">        }</div><div class="line">        cout&lt;&lt;note[N][M]&lt;&lt;endl;*<span class="regexp">/</span></div><div class="line">    }</div><div class="line">    return 0;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 
       
@@ -211,11 +193,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode/"> #leetcode </a>
-          
-            <a href="/tags/bfs/"> #bfs </a>
-          
-            <a href="/tags/dfs/"> #dfs </a>
+            <a href="/tags/01背包/"> #01背包 </a>
           
         </div>
       
@@ -224,13 +202,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/17/Bitwise-AND-of-Numbers-Range/">Bitwise AND of Numbers Range</a>
+              <a href="/2015/04/21/total-bag/">完全背包</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/17/linux-group-passwd/">早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件</a>
+              <a href="/2015/04/21/linux-redirect/">晚上一条linux，白天睡的香之重定向</a>
             
           </div>
         </div>
@@ -246,8 +224,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/17/Number-of-Islands/"
-               data-title="Number of Islands" data-url="http://godoubao.com/2015/04/17/Number-of-Islands/">
+          <div class="ds-thread" data-thread-key="2015/04/21/zero-one-bag/"
+               data-title="01背包" data-url="http://godoubao.com/2015/04/21/zero-one-bag/">
           </div>
         
       </div>
@@ -345,7 +323,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#歌词大意："><span class="nav-number">1.</span> <span class="nav-text">歌词大意：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路："><span class="nav-number">2.</span> <span class="nav-text">基本思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dfs"><span class="nav-number">2.1.</span> <span class="nav-text">dfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bfs"><span class="nav-number">2.2.</span> <span class="nav-text">bfs</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
