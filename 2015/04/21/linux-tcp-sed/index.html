@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="Linux命令," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> int转型问题 // 刘Something's blog </title>
+  <title> 下午一条linux，晚上不瞌睡之sed // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              int转型问题
+              下午一条linux，晚上不瞌睡之sed
             
           
         </h1>
@@ -136,17 +136,28 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-19
+          发表于 2015-04-21
         </span>
 
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/19/c-int/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/19/c-int/"></span>
+            <a href="/2015/04/21/linux-tcp-sed/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/21/linux-tcp-sed/"></span>
             </a>
           </span>
           
@@ -160,129 +171,82 @@
       
 
       
-        <h1 id="int转型问题">int转型问题</h1>
+        <h1 id="下午一条linux，晚上不瞌睡之sed">下午一条linux，晚上不瞌睡之sed</h1>
 <hr>
-<h2 id="引子">引子</h2>
-<p>参加了百度鄙视，被鄙视了~在线编程题时，题目最大输入字符串长度为100000，所以我冷不丁的想，<code>int</code>应该就够了，结果一直WA，最后将结果类型改为<code>long long</code>以为就可以了，发现依然WA，最后纠结了好久，想想应该把中间结果改为<code>long long</code>才对。<br>所以我突然意识到以后还是尽量用<code>long long</code>吧~不过我觉得更重要的还是得注意<code>int</code>转型问题。</p>
-<h2 id="整型常量">整型常量</h2>
-<p>个整型常量如何从字面上区分为以上的类别：</p>
+<blockquote>
+<p>sed命令的功能同awk类似，差别在于，sed简单，对列处理的功能要差一些，awk的功能复杂，对列处理的功能比较强大，sed全称是：Stream EDitor,它一次处理一行内容。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。<strong>文件内容并没有改变</strong>，除非你使用重定向存储输出。Sed主要用来自动编辑一个或多个文件；简化对文件的反复操作；编写转换程序等。</p>
+</blockquote>
+<h2 id="命令使用方式">命令使用方式</h2>
+<p><code>sed [-nefr] [动作]</code></p>
+<h3 id="选项与参数：">选项与参数：</h3>
+<blockquote>
 <ul>
-<li>一个整数，如果其值在-32768~+32767范围内，认为它是short int型，它可以赋值给short int型､int型和long int型变量。</li>
-<li>一个整数，如果其值超过了上述范围，而在-2147483648~+2147483647范围内，则认为它是long int型，可以将它赋值给一个int或long int型变量。</li>
-<li>如果某一计算机系统的C++版本（例如Visual C++）确定int与long int型数据在内存中占据的长度相同，则它们能够表示的数值的范围相同。因此，一个int型的常量也同时是一个long int型常量，可以赋给int型或long int型变量。</li>
-<li>常量无unsigned型。但一个非负值的整数可以赋值给unsigned整型变量，只要它的范围不超过变量的取值范围即可。</li>
+<li>-n ：使用安静(silent)模式。在一般 sed 的用法中，所有来自 STDIN 的数据一般都会被列出到终端上。但如果加上 -n 参数后，则只有经过sed 特殊处理的那一行(或者动作)才会被列出来。</li>
+<li>-e ：直接在命令列模式上进行 sed 的动作编辑；</li>
+<li>-f ：直接将 sed 的动作写在一个文件内， -f filename 则可以运行 filename 内的 sed 动作；</li>
+<li>-r ：sed 的动作支持的是延伸型正规表示法的语法。(默认是基础正规表示法语法)</li>
+<li>-i ：直接修改读取的文件内容，而不是输出到终端。</li>
 </ul>
-<p>所以当你进行如下操作(32位平台，gcc):</p>
-<figure class="highlight C++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;<span class="number">100000</span>*<span class="number">100000</span>*<span class="number">3</span>&lt;&lt;endl;</div></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="动作说明：_[n1[,n2]]function">动作说明： <code>[n1[,n2]]function</code></h3>
+<p>n1, n2 ：不见得会存在，一般代表『选择进行动作的行数』，举例来说，如果我的动作是需要在 10 到 20 行之间进行的，则『 10,20[动作行为] 』</p>
+<h3 id="function：">function：</h3>
+<blockquote>
+<ul>
+<li><code>a</code> ：新增， a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)～</li>
+<li><code>c</code> ：取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！</li>
+<li><code>d</code> ：删除，因为是删除啊，所以 d 后面通常不接任何咚咚；</li>
+<li><code>i</code> ：插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)；</li>
+<li><code>p</code> ：列印，亦即将某个选择的数据印出。通常 p 会与参数 sed -n 一起运行～</li>
+<li><code>s</code>：取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正规表示法！例如 1,20s/old/new/g 就是啦！</li>
+</ul>
+</blockquote>
+<h3 id="一点简单的正则表达式">一点简单的正则表达式</h3>
+<blockquote>
+<ul>
+<li><code>^</code>锚定行的开始如：<code>^sed</code>匹配所有以<code>sed</code>开头的行。</li>
+<li><code>$</code>锚定行的结束 如：<code>sed$</code>/匹配所有以<code>sed</code>结尾的行。</li>
+<li><code>.</code>匹配一个非换行符的字符 如：<code>s.d</code>匹配<code>s</code>后接一个任意字符，然后是<code>d</code>。</li>
+<li><code>*</code>匹配零或多个字符 如：<code>x*sed</code>匹配所有模板是一个x或多个x后紧跟<code>sed</code>的行。</li>
+<li><code>[]</code>匹配一个指定范围内的字符，如<code>[Ss]ed</code>匹配<code>sed</code>和<code>Sed</code>。</li>
+<li><code>[^]</code>匹配一个不在指定范围内的字符，如：<code>[^A-RT-Z]ed</code>匹配不包含A-R和T-Z的一个字母开头，紧跟ed的行。</li>
+</ul>
+</blockquote>
+<h2 id="Let’_rock">Let’ rock</h2>
+<h3 id="数据查找并显示">数据查找并显示</h3>
+<p><code>sed -n &#39;/root/p&#39;</code>,配合着-n选项可以实现查找文本，并显示</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># nl  passwdcopy |sed -n '/root/p'</span></div><div class="line">     <span class="number">1</span>	<span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span></div><div class="line">    <span class="number">11</span>	<span class="symbol">operator:</span><span class="symbol">x:</span><span class="number">11</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:operator</span><span class="symbol">:/root</span><span class="symbol">:/sbin/nologin</span></div></pre></td></tr></table></figure>
 
-<p>是输出<code>30000000000</code>吗?其实不是，因为此处100000的类型时int,3也是<code>int</code>，最后结果也是<code>int</code>，但是30000000000超过了<code>int</code>的范围，所以错误了。<br>改正方法，将其中一个数改为<code>long long</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;(<span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">100000</span>*<span class="number">100000</span>*<span class="number">3</span>&lt;&lt;endl;</div></pre></td></tr></table></figure>
+<h3 id="搜寻并删除">搜寻并删除</h3>
+<p><code>sed &#39;s/要删除的文本/替代文本/g</code>用来查找<code>要删除的文本</code>代替为<code>要替换的文本</code>，支持正则表达式</p>
+<p><code>sed &#39;s/^.*addr://g</code>，将与<code>addr:</code>结尾的文本替换为空</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># /sbin/ifconfig eth1</span></div><div class="line">eth1      <span class="constant">Link</span> <span class="symbol">encap:</span><span class="constant">Ethernet</span>  <span class="constant">HWaddr</span> <span class="number">00</span><span class="symbol">:</span><span class="number">50</span><span class="symbol">:</span><span class="number">56</span><span class="symbol">:</span><span class="number">8</span><span class="constant">D:</span><span class="number">56</span><span class="symbol">:AD</span>  </div><div class="line">          inet <span class="symbol">addr:</span><span class="number">10.1</span>.<span class="number">63.63</span>  <span class="constant">Bcast</span><span class="symbol">:</span><span class="number">10.1</span>.<span class="number">63.255</span>  <span class="constant">Mask</span><span class="symbol">:</span><span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">          inet6 <span class="symbol">addr:</span> <span class="number">2001</span><span class="symbol">:</span><span class="number">470</span><span class="symbol">:</span><span class="number">8287</span><span class="symbol">:</span><span class="number">603</span><span class="symbol">:</span><span class="number">250</span><span class="symbol">:</span><span class="number">56</span><span class="symbol">ff:</span><span class="symbol">fe8d:</span><span class="number">56</span>ad/<span class="number">64</span> <span class="constant">Scope</span><span class="symbol">:Global</span></div><div class="line">          inet6 <span class="symbol">addr:</span> <span class="symbol">fe80:</span><span class="symbol">:</span><span class="number">250</span><span class="symbol">:</span><span class="number">56</span><span class="symbol">ff:</span><span class="symbol">fe8d:</span><span class="number">56</span>ad/<span class="number">64</span> <span class="constant">Scope</span><span class="symbol">:Link</span></div><div class="line">          <span class="constant">UP</span> <span class="constant">BROADCAST</span> <span class="constant">RUNNING</span> <span class="constant">MULTICAST</span>  <span class="constant">MTU</span><span class="symbol">:</span><span class="number">1500</span>  <span class="constant">Metric</span><span class="symbol">:</span><span class="number">1</span></div><div class="line">          <span class="constant">RX</span> <span class="symbol">packets:</span><span class="number">361955</span> <span class="symbol">errors:</span><span class="number">0</span> <span class="symbol">dropped:</span><span class="number">0</span> <span class="symbol">overruns:</span><span class="number">0</span> <span class="symbol">frame:</span><span class="number">0</span></div><div class="line">          <span class="constant">TX</span> <span class="symbol">packets:</span><span class="number">200527</span> <span class="symbol">errors:</span><span class="number">0</span> <span class="symbol">dropped:</span><span class="number">0</span> <span class="symbol">overruns:</span><span class="number">0</span> <span class="symbol">carrier:</span><span class="number">0</span></div><div class="line">          <span class="symbol">collisions:</span><span class="number">0</span> <span class="symbol">txqueuelen:</span><span class="number">1000</span> </div><div class="line">          <span class="constant">RX</span> <span class="symbol">bytes:</span><span class="number">374725918</span> (<span class="number">357.3</span> <span class="constant">MiB</span>)  <span class="constant">TX</span> <span class="symbol">bytes:</span><span class="number">29962309</span> (<span class="number">28.5</span> <span class="constant">MiB</span>)</div><div class="line"></div><div class="line"></div><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># /sbin/ifconfig eth1 |grep 'inet addr' |'</span></div><div class="line"><span class="number">10.1</span>.<span class="number">63.63</span>  <span class="constant">Bcast</span><span class="symbol">:</span><span class="number">10.1</span>.<span class="number">63.255</span>  <span class="constant">Mask</span><span class="symbol">:</span><span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line"></div><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># /sbin/ifconfig eth1 |grep 'inet addr' |sed 's/^.*addr://g'|sed 's/Bcast.*$//g'</span></div><div class="line"><span class="number">10.1</span>.<span class="number">63.63</span></div></pre></td></tr></table></figure>
 
-<p>output:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">30000000000</div></pre></td></tr></table></figure>
-
-<h2 id="unsiged_int转换为int">unsiged int转换为int</h2>
-<p>最好不要这么做，可能会得到错误结果。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">3294967295</span>;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;x&lt;&lt;endl;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;(<span class="keyword">int</span>)x&lt;&lt;endl;</div></pre></td></tr></table></figure>
-
-<p>结果会怎么样？</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">3294967295</div><div class="line"><span class="deletion">-1000000001</span></div></pre></td></tr></table></figure>
-
-<p>结果溢出了，因为<code>int</code>最大能表达的正数为<code>2147483647</code>，所以就溢出了。<br>在<code>C++ STL</code>中，有一些函数返回了<code>unsigned int</code>，如果将其转为<code>int</code>可能会出错，例如<br><code>string</code>的<code>size()</code>返回的就是<code>unsigned int</code>，如果字符串长度很长，你将结果转换为<code>int</code>那就可能出错了。<br>最后附上32位机上的，c++各类型一览表：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型标识符</th>
-<th style="text-align:center">类型说明</th>
-<th style="text-align:center">长度（字节）</th>
-<th>范围</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">char</td>
-<td style="text-align:center">字符型</td>
-<td style="text-align:center">1</td>
-<td>-128 ~ 127</td>
-<td>-27 ~ (27 -1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned char</td>
-<td style="text-align:center">无符字符型</td>
-<td style="text-align:center">1</td>
-<td>0 ~ 255</td>
-<td>0 ~ (28 -1)</td>
-</tr>
-<tr>
-<td style="text-align:center">short int</td>
-<td style="text-align:center">短整型</td>
-<td style="text-align:center">2</td>
-<td>-32768 ~ 32767</td>
-<td>2-15 ~ (215 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned short int</td>
-<td style="text-align:center">无符短整型</td>
-<td style="text-align:center">2</td>
-<td>0 ~ 65535    0 ~ (216 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">int</td>
-<td style="text-align:center">整型</td>
-<td style="text-align:center">4</td>
-<td>-2147483648 ~ 2147483647</td>
-<td>-231 ~ (231 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned int</td>
-<td style="text-align:center">无符整型</td>
-<td style="text-align:center">4</td>
-<td>0 ~ 4294967295</td>
-<td>0 ~ (232-1)</td>
-</tr>
-<tr>
-<td style="text-align:center">float    实型</td>
-<td style="text-align:center">（单精度）</td>
-<td style="text-align:center">4</td>
-<td>1.18<em>10-38 ~ 3.40</em>1038</td>
-<td>7位有效位</td>
-</tr>
-<tr>
-<td style="text-align:center">double    实型</td>
-<td style="text-align:center">（双精度）</td>
-<td style="text-align:center">8</td>
-<td>2.23<em>10-308 ~ 1.79</em>10308</td>
-<td>15位有效位</td>
-</tr>
-<tr>
-<td style="text-align:center">long double</td>
-<td style="text-align:center">实型（长双精度）</td>
-<td style="text-align:center">10</td>
-<td>3.37<em>10-4932 ~ 1.18</em>104932</td>
-<td>19位有效位</td>
-</tr>
-</tbody>
-</table>
-<p>欢迎指正~</p>
+<p><a href="http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856901.html" target="_blank" rel="external">参考’linux sed命令详解’</a></p>
 
       
     </div>
 
     <div class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/20/linux-chown/">早上一条Linux命令，腰也不疼之chown</a>
+              <a href="/2015/04/21/linux-redirect/">晚上一条linux，白天睡的香之重定向</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/18/black-technology-proxy/">黑科技-自定义嘴贱Proxy</a>
+              <a href="/2015/04/21/linux-tcp-buffer/">TCP/IP 栈性能使用的可调节内核参数</a>
             
           </div>
         </div>
@@ -298,8 +262,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/19/c-int/"
-               data-title="int转型问题" data-url="http://godoubao.com/2015/04/19/c-int/">
+          <div class="ds-thread" data-thread-key="2015/04/21/linux-tcp-sed/"
+               data-title="下午一条linux，晚上不瞌睡之sed" data-url="http://godoubao.com/2015/04/21/linux-tcp-sed/">
           </div>
         
       </div>
@@ -397,7 +361,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#int转型问题"><span class="nav-number">1.</span> <span class="nav-text">int转型问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整型常量"><span class="nav-number">1.2.</span> <span class="nav-text">整型常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsiged_int转换为int"><span class="nav-number">1.3.</span> <span class="nav-text">unsiged int转换为int</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#下午一条linux，晚上不瞌睡之sed"><span class="nav-number">1.</span> <span class="nav-text">下午一条linux，晚上不瞌睡之sed</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令使用方式"><span class="nav-number">1.1.</span> <span class="nav-text">命令使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项与参数："><span class="nav-number">1.1.1.</span> <span class="nav-text">选项与参数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动作说明：_[n1[,n2]]function"><span class="nav-number">1.1.2.</span> <span class="nav-text">动作说明： [n1[,n2]]function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#function："><span class="nav-number">1.1.3.</span> <span class="nav-text">function：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一点简单的正则表达式"><span class="nav-number">1.1.4.</span> <span class="nav-text">一点简单的正则表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Let’_rock"><span class="nav-number">1.2.</span> <span class="nav-text">Let’ rock</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据查找并显示"><span class="nav-number">1.2.1.</span> <span class="nav-text">数据查找并显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜寻并删除"><span class="nav-number">1.2.2.</span> <span class="nav-text">搜寻并删除</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

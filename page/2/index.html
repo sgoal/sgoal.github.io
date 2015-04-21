@@ -130,6 +130,618 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/17/Number-of-Islands/">
+                Number of Islands
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-17
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/leetcode/">leetcode</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/17/Number-of-Islands/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/Number-of-Islands/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Given a 2d grid map of ‘1’s (land) and ‘0’s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+</blockquote>
+<pre><code> <span class="title">Example</span> <span class="number">1</span>:
+ <span class="number">11110</span>
+ <span class="number">11010</span>
+ <span class="number">11000</span>
+ <span class="number">00000</span>
+ Answer: <span class="number">1</span>
+
+ Example <span class="number">2</span>:
+
+ <span class="number">11000</span>
+ <span class="number">11000</span>
+ <span class="number">00100</span>
+ <span class="number">00011</span>
+ Answer: <span class="number">3</span>
+</code></pre><h2 id="歌词大意：">歌词大意：</h2>
+<p>在一个二维矩阵中找到所有找到有多少个全是<code>1</code>的区域。</p>
+<h2 id="基本思路：">基本思路：</h2>
+<ol>
+<li>遍历矩阵，每发现一个元素<code>1</code>，就将它和它周围的<code>1</code>标记为已访问(置为<code>0</code>),这样的话每个元素<code>1</code>只被访问一遍，所以在遍历矩阵时每第一次遇到<code>1</code>就找到一个海岛。</li>
+<li>直到遍历完矩阵所有的元素<br>那么在访问<code>1</code>周围元素的时候，两种方法发现周围的元素,一种是<code>dfs</code>，另一种是<code>bfs</code>，所以这个题有两种解法。</li>
+</ol>
+<h3 id="dfs">dfs</h3>
+<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    dfs(grid,i,j);<span class="comment">//dfs</span></div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        grid[x][y]=<span class="string">'0'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围的元素</span></div><div class="line">            <span class="keyword">int</span> x1 = x + dx[i];</div><div class="line">            <span class="keyword">int</span> y1 = y + dy[i];</div><div class="line">            <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                dfs(grid,x1,y1);</div><div class="line">            }</div><div class="line">                </div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="bfs">bfs</h3>
+<p>时间复杂度为O(n<em>m),即n</em>m为元素个数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> pair{</div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> x,y;</div><div class="line">        <span class="keyword">public</span> <span class="title">pair</span>(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1){x=x1;y=y1;}</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span>(<span class="keyword">char</span>[][] grid) {</div><div class="line">        <span class="keyword">if</span>(grid==<span class="keyword">null</span>)<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.length;i++)</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[i].length;j++)</div><div class="line">                <span class="keyword">if</span>(grid[i][j]==<span class="string">'1'</span>){</div><div class="line">                    count++;</div><div class="line">                    bfs(grid,i,j);</div><div class="line">                }</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dx={<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,-<span class="number">1</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[]dy={<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>};</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">       LinkedList&lt;pair&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       queue.addLast(<span class="keyword">new</span> pair(x,y));</div><div class="line">       pair p = <span class="keyword">null</span>;</div><div class="line">       grid[x][y]=<span class="string">'0'</span>;</div><div class="line">       <span class="keyword">while</span>(!queue.isEmpty()){</div><div class="line">           p = queue.pollFirst();</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++){<span class="comment">//遍历周围元素，将其加入队列</span></div><div class="line">               <span class="keyword">int</span> x1 = dx[i]+p.x;</div><div class="line">               <span class="keyword">int</span> y1 = dy[i]+p.y;</div><div class="line">               <span class="keyword">if</span>(isvaild(grid,x1,y1)){</div><div class="line">                   grid[x1][y1]=<span class="string">'0'</span>;</div><div class="line">                    queue.addLast(<span class="keyword">new</span> pair(x1,y1));</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">    }</div><div class="line">     <span class="comment">//判断该区域是否有效是否为元素`1`</span></div><div class="line">    <span class="keyword">private</span> boolean <span class="title">isvaild</span>(<span class="keyword">char</span>[][]grid,<span class="keyword">int</span> x,<span class="keyword">int</span> y){</div><div class="line">        <span class="keyword">return</span> x&gt;=<span class="number">0</span>&&x&lt;grid.length&&y&gt;=<span class="number">0</span>&&y&lt;grid[<span class="number">0</span>].length&&grid[x][y]==<span class="string">'1'</span>;</div><div class="line">    }</div><div class="line">    </div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/"> #leetcode </a>
+          
+            <a href="/tags/bfs/"> #bfs </a>
+          
+            <a href="/tags/dfs/"> #dfs </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/17/linux-group-passwd/">
+                早上一条Linux命令，一口气上5楼之/etc/group文件与/etc/passwd文件
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-17
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/17/linux-group-passwd/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/17/linux-group-passwd/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Linux <code>/etc/group</code>文件与<code>/etc/passwd</code>和<code>/etc/shadow</code>文件都是有关于系统管理员对用户和用户组管理时相关的文件，今天先来学习<code>/etc/group</code>文件<code>与/etc/passwd</code>，<code>/etc/group</code>文件相对另外两个文件内容相对较少，我们先捏这个软柿子，然后再看<code>/etc/passwd</code>。</p>
+</blockquote>
+<h2 id="/etc/group"><strong>/etc/group</strong></h2>
+<p>用户组的所有信息都存放在/etc/group文件中</p>
+<p>将用户分组是Linux系统中对用户进行管理及控制访问权限的一种手段。每个用户都属于某个用户组；一个组中可以有多个用户，一个用户也可以属于不同的组。当一个用户同时是多个组中的成员时，在<code>/etc/passwd</code>文件中记录的是用户所属的主组，也就是登录时所属的默认组，而其他组称为附加组。</p>
+<p>用户要访问属于附加组的文件时，必须首先使用<code>newgrp</code>命令使自己成为所要访问的组中的成员。用户组的所有信息都存放在<code>/etc/group</code>文件中。</p>
+<h3 id="组名:口令:组标识号:组内用户列表"><strong>组名:口令:组标识号:组内用户列表</strong></h3>
+<ol>
+<li><strong>组名</strong>是用户组的名称，由字母或数字构成。与/etc/passwd中的登录名一样，组名不应重复。</li>
+<li><strong>口令</strong>字段存放的是用户组加密后的口令字。一般Linux系统的用户组都没有口令，即这个字段一般为空，或者<code>x</code>或者<code>*</code>。</li>
+<li><strong>组标识号</strong>与用户标识号类似，也是一个整数，被系统内部用来标识组。</li>
+<li><strong>组内用户列表</strong>是属于这个组的所有用户的列表，不同用户之间用逗号(,)分隔。这个用户组可能是用户的主组，也可能是附加组。</li>
+</ol>
+<p><strong>/etc/group文件的一个例子如下：</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="preprocessor"># cat /etc/group</span></div><div class="line"><span class="label">root:</span><span class="built_in">x</span>:<span class="number">0</span>:</div><div class="line"><span class="label">bin:</span><span class="built_in">x</span>:<span class="number">1</span>:bin,daemon</div><div class="line"><span class="label">daemon:</span><span class="built_in">x</span>:<span class="number">2</span>:bin,daemon</div><div class="line"><span class="label">sys:</span><span class="built_in">x</span>:<span class="number">3</span>:bin,adm</div><div class="line"><span class="label">adm:</span><span class="built_in">x</span>:<span class="number">4</span>:adm,daemon</div><div class="line"><span class="label">tty:</span><span class="built_in">x</span>:<span class="number">5</span>:</div><div class="line"><span class="label">disk:</span><span class="built_in">x</span>:<span class="number">6</span>:</div><div class="line"><span class="label">lp:</span><span class="built_in">x</span>:<span class="number">7</span>:daemon</div></pre></td></tr></table></figure>
+
+<p>说明：以<code>bin:x:1:bin,daemon</code>为例，组名为<code>bin</code>，口令为<code>x</code>,组标识号为<code>1</code>，成员有<code>bin,daemon</code>;</p>
+<h2 id="/etc/passwd"><strong>/etc/passwd</strong></h2>
+<p>捏完软柿子<code>/etc/group</code>，现在再看会容易得多<code>/etc/passwd</code>。</p>
+<blockquote>
+<p>在Linux /etc/passwd文件中每个用户都有一个对应的记录行，它记录了这个用户的一些基本属性。系统管理员经常会接触到这个文件的修改以完成对用户的管理工作。</p>
+</blockquote>
+<p>我们先来看一下这个文件有什么：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># cat /etc/passwd</span></div><div class="line"><span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span></div><div class="line"><span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:daemon</span><span class="symbol">:/sbin</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">adm:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">4</span><span class="symbol">:adm</span><span class="symbol">:/var/adm</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">lp:</span><span class="symbol">x:</span><span class="number">4</span><span class="symbol">:</span><span class="number">7</span><span class="symbol">:lp</span><span class="symbol">:/var/spool/lpd</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">sync:</span><span class="symbol">x:</span><span class="number">5</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:sync</span><span class="symbol">:/sbin</span><span class="symbol">:/bin/sync</span></div><div class="line"><span class="symbol">shutdown:</span><span class="symbol">x:</span><span class="number">6</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:shutdown</span><span class="symbol">:/sbin</span><span class="symbol">:/sbin/shutdown</span></div><div class="line"><span class="symbol">halt:</span><span class="symbol">x:</span><span class="number">7</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:halt</span><span class="symbol">:/sbin</span><span class="symbol">:/sbin/halt</span></div><div class="line"><span class="symbol">mail:</span><span class="symbol">x:</span><span class="number">8</span><span class="symbol">:</span><span class="number">12</span><span class="symbol">:mail</span><span class="symbol">:/var/spool/mail</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">uucp:</span><span class="symbol">x:</span><span class="number">10</span><span class="symbol">:</span><span class="number">14</span><span class="symbol">:uucp</span><span class="symbol">:/var/spool/uucp</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">operator:</span><span class="symbol">x:</span><span class="number">11</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:operator</span><span class="symbol">:/root</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">games:</span><span class="symbol">x:</span><span class="number">12</span><span class="symbol">:</span><span class="number">100</span><span class="symbol">:games</span><span class="symbol">:/usr/games</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">gopher:</span><span class="symbol">x:</span><span class="number">13</span><span class="symbol">:</span><span class="number">30</span><span class="symbol">:gopher</span><span class="symbol">:/var/gopher</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">ftp:</span><span class="symbol">x:</span><span class="number">14</span><span class="symbol">:</span><span class="number">50</span><span class="symbol">:FTP</span> <span class="constant">User</span><span class="symbol">:/var/ftp</span><span class="symbol">:/sbin/nologin</span></div><div class="line"><span class="symbol">nobody:</span><span class="symbol">x:</span><span class="number">99</span><span class="symbol">:</span><span class="number">99</span><span class="symbol">:Nobody</span><span class="symbol">:/</span><span class="symbol">:/sbin/nologin</span></div></pre></td></tr></table></figure>
+
+<p>已<code>root:x:0:0:root:/root:/bin/bash</code>为例：<code>root</code>为用户名，<code>x</code>为明文口令，真正的口令位于<code>/etc/shadow</code>(影子武士的感觉)，第一个<code>0</code>为用户标识号，第二个<code>0</code>为组标识号，第二个<code>root</code>为描述性信息，<code>/root</code>为主目录，<code>/bin/bash</code>为登陆shell<br>具体格式为：</p>
+<h3 id="用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell"><strong>用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell</strong></h3>
+<ol>
+<li><p><strong>用户名</strong>是代表用户账号的字符串。通常长度不超过8个字符，并且由大小写字母和/或数字组成。</p>
+</li>
+<li><p><strong>口令</strong>一些系统中，存放着加密后的用户口令字。其实真正的加密后的用户口令字存放到<code>/etc/shadow</code>文件中，而在<code>/etc/passwd</code>文件的口令字段中只存放一个特殊的字符，例如“x”或者“*”。</p>
+</li>
+<li><p>“用户标识号”是一个整数，系统内部用它来标识用户。一般情况下它与用户名是一一对应的。如果几个用户名对应的用户标识号是一样的，系统内部将把它们视为同一个用户，但是它们可以有不同的口令、不同的主目录以及不同的登录Shell等。<br><strong>通常用户标识号的取值范围是0～65535。0是超级用户<code>root</code>的标识号，1～99由系统保留，作为管理账号，普通用户的标识号从100开始。在Linux系统中，这个界限是500。</strong></p>
+</li>
+<li><p><strong>组标识号</strong>字段记录的是用户所属的用户组。它对应着<code>/etc/group</code>文件中的一条记录。</p>
+</li>
+<li><p><strong>注释性描述</strong>字段记录着用户的一些个人情况，在许多Linux系统中，这个字段存放的是一段任意的注释性描述文字，用做finger命令的输出。</p>
+</li>
+<li><p><strong>主目录</strong>，也就是用户的起始工作目录，它是用户在登录到系统之后所处的目录。在大多数系统中，各用户的主目录都被组织在同一个特定的目录下，而用户主目录的名称就是该用户的登录名。各用户对自己的主目录有读、写、执行（搜索）权限，其他用户对此目录的访问权限则根据具体情况设置。</p>
+</li>
+<li><p><strong>登录Shell</strong>，即用户与Linux系统之间的接口，当用户登录后，要启动一个进程，负责将用户的操作传给内核，这个进程是用户登录到系统后运行的命令解释器或某个特定的程序，即Shell。Linux的<code>Shell</code>有许多种，每种都有不同的特点。常用的有<code>sh(BourneShell)</code>,<code>csh(CShell)</code>,<code>ksh(KornShell)</code>,<code>tcsh(TENEX/TOPS-20typeCShell)</code>,<code>bash(BourneAgainShell)</code>等。</p>
+</li>
+</ol>
+<h4 id="另外注意："><strong>另外注意：</strong></h4>
+<p>系统中有一类用户称为伪用户（<code>psuedousers</code>），这些用户在Linux <code>/etc/passwd</code>文件中也占有一条记录，但是不能登录，因为它们的登录Shell为空。它们的存在主要是方便系统管理，满足相应的系统进程对文件属主的要求。常见的伪用户如下所示。<br>伪用户含义</p>
+<blockquote>
+<p><code>bin</code> 拥有可执行的用户命令文件<br><code>sys</code> 拥有系统文件<br><code>adm</code> 拥有帐户文件<br><code>uucp</code> 为UUCP使用<br><code>lplp</code>或<code>lpd</code>子系统使用<br><code>nobody</code> NFS使用</p>
+</blockquote>
+<p>除了上面列出的伪用户外，还有许多标准的伪用户，例如：<code>audit</code>,<code>cron</code>,<code>mail</code>,<code>usenet</code>等，它们也都各自为相关的进程和文件所需要。<br>由于Linux <code>/etc/passwd</code>文件是所有用户都可读的，如果用户的密码太简单或规律比较明显的话，一台普通的计算机就能够很容易地将它破解，因此对安全性要求较高的Linux系统都把加密后的口令字分离出来，单独存放在一个文件中，这个文件是<code>/etc/shadow</code>文件。只有超级用户才拥有该文件读权限，这就保证了用户密码的安全性。</p>
+<p>参考:<br><a href="http://os.51cto.com/art/201003/187533.htm" target="_blank" rel="external">详细解析Linux /etc/passwd文件</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/16/linux-chmod/">
+                早上一条Linux命令，我欲乘风归去之chmod
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-16
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/16/linux-chmod/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/16/linux-chmod/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>chmod是一条在Unix系统中用于控制用户对文件的权限的命令（<strong>ch</strong>ange <strong>mod</strong>e单词前缀的组合）和函数。只有文件所有者和超级用户可以修改文件或目录的权限。该命令有两种用法。一种是包含字母和操作符表达式的文字设定法；另一种是包含数字的数字设定法。</p>
+<p><strong>Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。</strong>
+　　</p>
+<p>文件或目录的访问权限分为只读，只写和可执行三种。以文件为例，只读权限表示只允许读其内容，而禁止对其做任何的更改操作。可执行权限表示允许将该文件作为一个程序执行。文件被创建时，文件所有者自动拥有对该文件的读、写和可执行权限，以便于对文件的阅读和修改。用户也可根据需要把访问权限设置为需要的任何组合。</p>
+<p>有三种不同类型的用户可对文件或目录进行访问：文件所有者，同组用户、其他用户。所有者一般是文件的创建者。所有者可以允许同组用户有权访问文件，还可以将文件的访问权限赋予系统中的其他用户。在这种情况下，系统中每一位用户都能访问该用户拥有的文件或目录。</p>
+</blockquote>
+<p>先看一下如何查看文件属性：</p>
+<p>命令：<br><code>ls -la</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># ls -la</span></div><div class="line">total <span class="number">168</span></div><div class="line">dr-xr-x---.  <span class="number">6</span> root root  <span class="number">4096</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">53</span> .</div><div class="line">dr-xr-xr-x. <span class="number">25</span> root root  <span class="number">4096</span> Mar <span class="number">27</span> <span class="number">09</span>:<span class="number">21</span> ..</div><div class="line">-rw-r--r--   <span class="number">1</span> root root     <span class="number">0</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">40</span> test.log`</div></pre></td></tr></table></figure>
+
+<p>第一列10个位置，第一个位置代表文件类型：文件类型是<code>-</code>，表示这是一个普通文件； <code>d</code>代表目录，<code>c</code>代表字符设备或块设备文件，<code>s</code>代表数据接口文件(sockets)，<code>p</code>代表管道（FIFO，pipe），<code>l</code>代表符号链接。从第二个字符开始到第十个共9个字符，3个字符一组，分别表示了3组用户（所有者，同组用户，其他用户）对文件或者目录的权限。权限字符用<code>-</code>代表未许可，<code>r</code>代表只读，<code>w</code>代表写，<code>x</code>代表可执行。</p>
+<p>以<code>-rw-r--r--   1 root root     0 Apr  6 09:40 test.log</code>为例，表示test.log为普通文件，所有者可读可写，同组用户可读不可写不可执行，其他用户只能读。</p>
+<h2 id="1．命令格式：">1．命令格式：</h2>
+<p><code>chmod [参数] mode[,mode] 文件1[文件2 ...]</code></p>
+<h2 id="2．命令功能：">2．命令功能：</h2>
+<p>用于改变文件或者目录的访问权。</p>
+<h2 id="3．常用参数：">3．常用参数：</h2>
+<ul>
+<li>-c 当发生改变时，报告处理信息</li>
+<li>-f 错误信息不输出</li>
+<li>-R 处理指定目录以及其子目录下的所有文件</li>
+<li>-v 运行时显示详细处理信息</li>
+</ul>
+<h3 id="1-_八进制语法：">1. 八进制语法：</h3>
+<p>一个八进制数可以用3位二进制表示，如<code>7=0x111</code>，那么我们可以为二进制的每一位赋予一个意义，分别对应<code>rwx</code>(即读\写\可执行)，在这里我们把<code>1</code>表示允许改权限，<code>0</code>表示不允许.</p>
+<p>数字与字符对应关系如下：<br>r=4，w=2，x=1</p>
+<p>可读可写可执行，rwx ，也就是4+2+1=7。</p>
+<p>可读可写，rw- ，也就是4+2+0=6。</p>
+<p>可读可执行，r-x ，也就是4+0+1=5。</p>
+<h4 id="使用方式">使用方式</h4>
+<p>一般形式为：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod ［<span class="built_in">mode</span>］ 文件名</div></pre></td></tr></table></figure>
+
+<p>实例如下：将所有者改为rwx,用户组为rw-,其他用户为r-x</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-rw-r--r--   <span class="number">1</span> root root   <span class="number">292</span> <span class="constant">Apr</span> <span class="number">15</span> <span class="number">05</span><span class="symbol">:</span><span class="number">39</span> testx.tar.gz</div><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># chmod 765 testx.tar.gz </span></div><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># ls -al</span></div><div class="line">total <span class="number">168</span></div><div class="line">-rwxrw-r-x   <span class="number">1</span> root root   <span class="number">292</span> <span class="constant">Apr</span> <span class="number">15</span> <span class="number">05</span><span class="symbol">:</span><span class="number">39</span> testx.tar.gz</div></pre></td></tr></table></figure>
+
+<h3 id="2-_文字设定法:">2. 文字设定法:</h3>
+<p>　　<code>chmod ［who］ ［+ | - | =］ ［mode］ 文件名</code></p>
+<table>
+<thead>
+<tr>
+<th>who</th>
+<th>用户类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u</td>
+<td>user</td>
+<td>文件所有者</td>
+</tr>
+<tr>
+<td>g</td>
+<td>group</td>
+<td>文件所有者所在组</td>
+</tr>
+<tr>
+<td>o</td>
+<td>others</td>
+<td>所有其他用户</td>
+</tr>
+<tr>
+<td>a</td>
+<td>all</td>
+<td>所用用户, 相当于 ugo</td>
+</tr>
+</tbody>
+</table>
+<p>operator的符号模式表:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>为指定的用户类型增加权限</td>
+</tr>
+<tr>
+<td>-</td>
+<td>去除指定用户类型的权限</td>
+</tr>
+<tr>
+<td>=</td>
+<td>设置指定用户权限的设置，即将用户类型的所有权限重新设置</td>
+</tr>
+</tbody>
+</table>
+<p>permission的符号模式表:</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>名字</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r</td>
+<td>读</td>
+<td>设置为可读权限</td>
+</tr>
+<tr>
+<td>w</td>
+<td>写</td>
+<td>设置为可写权限</td>
+</tr>
+<tr>
+<td>x</td>
+<td>执行权限</td>
+<td>设置为可执行权限</td>
+</tr>
+<tr>
+<td>X</td>
+<td>特殊执行权限</td>
+<td>只有当文件为目录文件，或者其他类型的用户有可执行权限时，才将文件权限设置可执行</td>
+</tr>
+<tr>
+<td>s</td>
+<td>setuid/gid</td>
+<td>当文件被执行时，根据who参数指定的用户类型设置文件的setuid或者setgid权限</td>
+</tr>
+<tr>
+<td>t</td>
+<td>粘贴位</td>
+<td>设置粘贴位，只有超级用户可以设置该位，只有文件所有者u可以使用该位</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-使用实例">4.使用实例</h2>
+<h3 id="1-给文件的用户组加上写权限">1.给文件的用户组加上写权限</h3>
+<p><strong>命令:</strong> <code>chmod g+w file1</code></p>
+<p><strong>输出:</strong>: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-rw-r--r--   <span class="number">1</span> root root    <span class="number">34</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">26</span> in.log</div><div class="line">[root@localhost ~]<span class="comment"># .chmod g+w in.log</span></div><div class="line">[root@localhost ~]<span class="comment"># ls -al</span></div><div class="line">total <span class="number">168</span></div><div class="line">dr-xr-x---.  <span class="number">6</span> root root  <span class="number">4096</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">53</span> .</div><div class="line">dr-xr-xr-x. <span class="number">25</span> root root  <span class="number">4096</span> Mar <span class="number">27</span> <span class="number">09</span>:<span class="number">21</span> ..</div><div class="line">-rw-r--r--   <span class="number">1</span> root root     <span class="number">0</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">40</span> <span class="number">5</span>.log</div><div class="line">-rw-rw-r--   <span class="number">1</span> root root    <span class="number">34</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">26</span> in.log</div></pre></td></tr></table></figure>
+
+<p><strong>说明:</strong>给<code>in.log</code>加上了用户组可写权限。</p>
+<h3 id="2-给目录和子目录所有用户都赋予可读可写不可执行的权限">2.给目录和子目录所有用户都赋予可读可写不可执行的权限</h3>
+<p><strong>命令:</strong> <code>chmod -R a=rw- test1</code>将test1的目录和子目录所用用改为可读可写<br> 或者 <code>chmod -R 666 test1</code>，6表示4+2，即可读+可写。</p>
+<p><strong>输出:</strong>: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># ls -al test1</span></div><div class="line">total <span class="number">20</span></div><div class="line">drwxr--rw-  <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> .</div><div class="line">dr-xr-x---. <span class="number">6</span> root root <span class="number">4096</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">53</span> ..</div><div class="line">drwxr--rw-  <span class="number">2</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> conf</div><div class="line">drwxr--rw-  <span class="number">3</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> log</div><div class="line">drwxr--rw-  <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> webapp</div><div class="line">[root@localhost ~]<span class="comment"># chmod -R 666 test1</span></div><div class="line">[root@localhost ~]<span class="comment"># ls -al test1</span></div><div class="line">total <span class="number">20</span></div><div class="line">drw-rw-rw-  <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> .</div><div class="line">dr-xr-x---. <span class="number">6</span> root root <span class="number">4096</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">53</span> ..</div><div class="line">drw-rw-rw-  <span class="number">2</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> conf</div><div class="line">drw-rw-rw-  <span class="number">3</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> log</div><div class="line">drw-rw-rw-  <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> webapp</div></pre></td></tr></table></figure>
+
+<p><strong>说明:</strong> </p>
+<p>更多参考：<br><a href="http://zh.wikipedia.org/zh-cn/Chmod#.E7.89.B9.E6.AE.8A.E6.A8.A1.E5.BC.8F" target="_blank" rel="external">维基百科</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/15/linux-gzip/">
+                早上一条Linux命令，精神一上午之gzip
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-15
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/15/linux-gzip/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/15/linux-gzip/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩的命令，既方便又好用。gzip不仅可以用来压缩大的、较少使用的文件以节省磁盘空间，还可以和tar命令一起构成Linux操作系统中比较流行的压缩文件格式。</p>
+</blockquote>
+<h2 id="1．命令格式：">1．命令格式：</h2>
+<p><code>gzip [参数] [文件或者目录]</code></p>
+<h2 id="2．命令功能：">2．命令功能：</h2>
+<p>gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多出”.gz”的扩展名。</p>
+<h2 id="3．常用参数：">3．常用参数：</h2>
+<ul>
+<li>-a或—ascii 　使用ASCII文字模式。 </li>
+<li>-c或—stdout或—to-stdout 　把压缩后的文件输出到标准输出设备，不去更动原始文件。 </li>
+<li>-d或—decompress或——uncompress 　解开压缩文件。 </li>
+<li>-f或—force 　强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接。 </li>
+<li>-h或—help 　在线帮助。 </li>
+<li>-l或—list 　列出压缩文件的相关信息。 </li>
+<li>-L或—license 　显示版本与版权信息。 </li>
+<li>-n或—no-name 　压缩文件时，不保存原来的文件名称及时间戳记。 </li>
+<li>-N或—name 　压缩文件时，保存原来的文件名称及时间戳记。 </li>
+<li>-q或—quiet 　不显示警告信息。 </li>
+<li>-r或—recursive 　递归处理，将指定目录下的所有文件及子目录一并处理。 </li>
+<li>-S&lt;压缩字尾字符串&gt;或——suffix&lt;压缩字尾字符串&gt; 　更改压缩字尾字符串。 </li>
+<li>-t或—test 　测试压缩文件是否正确无误。 </li>
+<li>-v或—verbose 　显示指令执行过程。 </li>
+<li>-V或—version 　显示版本信息。 </li>
+<li>-num 用指定的数字num调整压缩的速度，-1或—fast表示最快压缩方法（低压缩比），-9或—best表示最慢压缩方法（高压缩比）。系统缺省值为6。 </li>
+</ul>
+<h2 id="4-使用实例">4.使用实例</h2>
+<h3 id="1-把test目录下的文档都压缩成为-gz文件，不包括目录">1.把test目录下的文档都压缩成为<code>.gz</code>文件，不包括目录</h3>
+<p><strong>命令:</strong> <code>gzip *</code></p>
+<p><strong>输出:</strong>: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[root@localhost test]<span class="comment"># tree .</span></div><div class="line">.</div><div class="line">?..? conf</div><div class="line">?..? log</div><div class="line">?...?..? aa</div><div class="line">?..? test1.log</div><div class="line">?..? test2.log</div><div class="line">?..? webapp</div><div class="line">    ?..? a</div><div class="line">    ?..? b</div><div class="line">    ?..? d</div><div class="line"></div><div class="line"><span class="number">7</span> directories, <span class="number">2</span> files</div><div class="line">[root@localhost test]<span class="comment">#  gzip *</span></div><div class="line">gzip: conf is a directory -- ignored</div><div class="line">gzip: log is a directory -- ignored</div><div class="line">gzip: webapp is a directory -- ignored</div><div class="line">[root@localhost test]<span class="comment"># ll</span></div><div class="line">total <span class="number">20</span></div><div class="line">drwxr-xr-x <span class="number">2</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> conf</div><div class="line">drwxr-xr-x <span class="number">3</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> log</div><div class="line">-rw-r--r-- <span class="number">1</span> root root   <span class="number">30</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test1.log.gz</div><div class="line">-rw-r--r-- <span class="number">1</span> root root   <span class="number">30</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test2.log.gz</div><div class="line">drwxr-xr-x <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> webapp</div></pre></td></tr></table></figure>
+
+<p><strong>说明:</strong><code>tree</code>命令用来显示目录的结构，test目录中有两个log文件；使用<code>gzip *</code>命令后，两个log文件被压缩了。</p>
+<h3 id="2-列出压缩文件中的文件，然后分别解压缩">2.列出压缩文件中的文件，然后分别解压缩</h3>
+<p><strong>命令:</strong> <code>gzip -lv *.gz</code>用来列出所有与<code>.gz</code>结尾压缩文件的详细信息</p>
+<p> <code>gzip -dv *.gz</code>用来解压缩所有<code>.gz</code>结尾的压缩文件</p>
+<p><strong>输出:</strong>: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[root@localhost test]<span class="comment"># ll</span></div><div class="line">total <span class="number">20</span></div><div class="line">drwxr-xr-x <span class="number">2</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> conf</div><div class="line">drwxr-xr-x <span class="number">3</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> log</div><div class="line">-rw-r--r-- <span class="number">1</span> root root   <span class="number">30</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test1.log.gz</div><div class="line">-rw-r--r-- <span class="number">1</span> root root   <span class="number">30</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test2.log.gz</div><div class="line">drwxr-xr-x <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> webapp</div><div class="line">[root@localhost test]<span class="comment"># gzip -lv *.gz</span></div><div class="line">method  crc     date  time           compressed        uncompressed  ratio uncompressed_name</div><div class="line">defla <span class="number">00000000</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span>                  <span class="number">30</span>                   <span class="number">0</span>   <span class="number">0.0</span>% test1.log</div><div class="line">defla <span class="number">00000000</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span>                  <span class="number">30</span>                   <span class="number">0</span>   <span class="number">0.0</span>% test2.log</div><div class="line">[root@localhost test]<span class="comment"># gzip -dv *.gz</span></div><div class="line">test1.log.gz:	  <span class="number">0.0</span>% -- replaced with test1.log</div><div class="line">test2.log.gz:	  <span class="number">0.0</span>% -- replaced with test2.log</div><div class="line">[root@localhost test]<span class="comment"># ll</span></div><div class="line">total <span class="number">12</span></div><div class="line">drwxr-xr-x <span class="number">2</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> conf</div><div class="line">drwxr-xr-x <span class="number">3</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> log</div><div class="line">-rw-r--r-- <span class="number">1</span> root root    <span class="number">0</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test1.log</div><div class="line">-rw-r--r-- <span class="number">1</span> root root    <span class="number">0</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test2.log</div><div class="line">drwxr-xr-x <span class="number">5</span> root root <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">41</span> webapp</div></pre></td></tr></table></figure>
+
+<p><strong>说明:</strong> 执行<code>gzip -dv *.gz</code>后，log文件替代了源文件gz文件</p>
+<h3 id="3-压缩test目录">3.压缩test目录</h3>
+<p><strong>命令:</strong> <code>tar -cf test.tar test</code>打包test目录，-c表示新建打包文件，-f表示打包到指定文件</p>
+<p><code>gzip -v test.tar</code>压缩文件并显示</p>
+<p><strong>输出:</strong>: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># tar -cf test.tar test</span></div><div class="line">[root@localhost ~]<span class="comment"># ll</span></div><div class="line">total <span class="number">132</span></div><div class="line">-rw-r--r--  <span class="number">1</span> root root     <span class="number">0</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">40</span> <span class="number">5</span>.log</div><div class="line">-rw-r--r--  <span class="number">1</span> root root    <span class="number">19</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">26</span> <span class="keyword">in</span>1.log</div><div class="line">-rw-r--r--  <span class="number">1</span> root root <span class="number">10240</span> Apr <span class="number">13</span> <span class="number">08</span>:<span class="number">54</span> <span class="keyword">in</span>2.log</div><div class="line">-rw-r--r--  <span class="number">1</span> root root    <span class="number">16</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">43</span> <span class="keyword">in</span>3.log</div><div class="line">-rw-r--r--  <span class="number">1</span> root root   <span class="number">134</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">41</span> inalll.log</div><div class="line">-rw-r--r--  <span class="number">1</span> root root    <span class="number">34</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">26</span> in.log</div><div class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">49655</span> Apr  <span class="number">7</span> <span class="number">05</span>:<span class="number">20</span> install.log</div><div class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">16704</span> Oct <span class="number">16</span> <span class="number">05</span>:<span class="number">48</span> install.log.syslog</div><div class="line">drwxr-xr-x  <span class="number">3</span> root root  <span class="number">4096</span> Mar <span class="number">27</span> <span class="number">10</span>:<span class="number">49</span> local</div><div class="line">drwxr-xr-x  <span class="number">5</span> root root  <span class="number">4096</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">17</span> test</div><div class="line">drwxr-xr-x  <span class="number">5</span> root root  <span class="number">4096</span> Apr  <span class="number">6</span> <span class="number">09</span>:<span class="number">42</span> test1</div><div class="line">-rw-r--r--  <span class="number">1</span> root root <span class="number">10240</span> Apr <span class="number">15</span> <span class="number">05</span>:<span class="number">36</span> test.tar</div><div class="line">lrwxrwxrwx  <span class="number">1</span> root root    <span class="number">39</span> Mar <span class="number">27</span> <span class="number">10</span>:<span class="number">57</span> webjoin -&gt; local/webjoin-server_1.<span class="number">0.1</span>_rhel_5.<span class="number">7</span>_x64</div><div class="line">[root@localhost ~]<span class="comment"># </span></div><div class="line">test.tar:	 <span class="number">97.4</span>% -- replaced with test.tar.gz</div></pre></td></tr></table></figure>
+
+<p><strong>说明:</strong><br>上面两条命令相当于指一条命令<code>tar -zcvf test.tar.gz test</code>,-z表示用gzip压缩, -c表示新建打包文件，-v表示显示打包信息，-f表示打包到指定文件。</p>
+<p>更多参考：<br><a href="http://zh.wikipedia.org/zh-cn/Gzip" target="_blank" rel="external">维基百科</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/01/29/SimplifyPath/">
                 simplify Path
               </a>
@@ -257,21 +869,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

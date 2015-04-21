@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="Linux命令,重定向," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> int转型问题 // 刘Something's blog </title>
+  <title> 晚上一条linux，白天睡的香之重定向 // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              int转型问题
+              晚上一条linux，白天睡的香之重定向
             
           
         </h1>
@@ -136,17 +136,28 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-19
+          发表于 2015-04-21
         </span>
 
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/19/c-int/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/19/c-int/"></span>
+            <a href="/2015/04/21/linux-redirect/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/21/linux-redirect/"></span>
             </a>
           </span>
           
@@ -160,129 +171,75 @@
       
 
       
-        <h1 id="int转型问题">int转型问题</h1>
+        <h1 id="晚上一条linux，白天睡的香之重定向">晚上一条linux，白天睡的香之重定向</h1>
 <hr>
-<h2 id="引子">引子</h2>
-<p>参加了百度鄙视，被鄙视了~在线编程题时，题目最大输入字符串长度为100000，所以我冷不丁的想，<code>int</code>应该就够了，结果一直WA，最后将结果类型改为<code>long long</code>以为就可以了，发现依然WA，最后纠结了好久，想想应该把中间结果改为<code>long long</code>才对。<br>所以我突然意识到以后还是尽量用<code>long long</code>吧~不过我觉得更重要的还是得注意<code>int</code>转型问题。</p>
-<h2 id="整型常量">整型常量</h2>
-<p>个整型常量如何从字面上区分为以上的类别：</p>
+<blockquote>
+<p>在了解重定向之前，我们先来看看linux 的文件描述符。</p>
+<p><strong>linux文件描述符</strong>：可以理解为linux跟踪打开文件，而分配的一个数字，这个数字有点类似c语言操作文件时候的句柄，通过句柄就可以实现文件的读写操作。 用户可以自定义文件描述符范围是：<code>9-num</code>,这个最大数字，跟用户的：<code>ulimit –n</code>命令定义数字有关系，不能超过最大值。</p>
+<p>默认情况下，系统占用了3个，分别是0标准输入（stdin）,1标准输出(stdout), 2标准错误(stderr), 另外3-9是保留的标识符，可以把这些标识符指定成标准输入，输出或者错误作为临时连接。通常这样可以解决很多复杂的重定向请求。</p>
 <ul>
-<li>一个整数，如果其值在-32768~+32767范围内，认为它是short int型，它可以赋值给short int型､int型和long int型变量。</li>
-<li>一个整数，如果其值超过了上述范围，而在-2147483648~+2147483647范围内，则认为它是long int型，可以将它赋值给一个int或long int型变量。</li>
-<li>如果某一计算机系统的C++版本（例如Visual C++）确定int与long int型数据在内存中占据的长度相同，则它们能够表示的数值的范围相同。因此，一个int型的常量也同时是一个long int型常量，可以赋给int型或long int型变量。</li>
-<li>常量无unsigned型。但一个非负值的整数可以赋值给unsigned整型变量，只要它的范围不超过变量的取值范围即可。</li>
+<li>标准输入通常指键盘的输入 </li>
+<li>标准输出通常指显示器的输出 </li>
+<li>标准错误通常也是定向到显示器</li>
 </ul>
-<p>所以当你进行如下操作(32位平台，gcc):</p>
-<figure class="highlight C++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;<span class="number">100000</span>*<span class="number">100000</span>*<span class="number">3</span>&lt;&lt;endl;</div></pre></td></tr></table></figure>
+</blockquote>
+<p>使用<code>ll</code>命令，查看<code>/dev/</code>目录可以看到,0标准输入（stdin）,1标准输出(stdout), 2标准错误(stderr);</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># ll /dev/</span></div><div class="line">lrwxrwxrwx <span class="number">1</span> root root          <span class="number">15</span> <span class="type">Mar</span> <span class="number">27</span> <span class="number">17</span>:<span class="number">21</span> <span class="literal">stderr</span> -&gt; /<span class="keyword">proc</span>/self/fd/<span class="number">2</span></div><div class="line">lrwxrwxrwx <span class="number">1</span> root root          <span class="number">15</span> <span class="type">Mar</span> <span class="number">27</span> <span class="number">17</span>:<span class="number">21</span> <span class="literal">stdin</span> -&gt; /<span class="keyword">proc</span>/self/fd/<span class="number">0</span></div><div class="line">lrwxrwxrwx <span class="number">1</span> root root          <span class="number">15</span> <span class="type">Mar</span> <span class="number">27</span> <span class="number">17</span>:<span class="number">21</span> <span class="literal">stdout</span> -&gt; /<span class="keyword">proc</span>/self/fd/<span class="number">1</span></div></pre></td></tr></table></figure>
 
-<p>是输出<code>30000000000</code>吗?其实不是，因为此处100000的类型时int,3也是<code>int</code>，最后结果也是<code>int</code>，但是30000000000超过了<code>int</code>的范围，所以错误了。<br>改正方法，将其中一个数改为<code>long long</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;(<span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">100000</span>*<span class="number">100000</span>*<span class="number">3</span>&lt;&lt;endl;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>I/O重定向</strong>简单来说就是一个过程，这个过程捕捉一个文件，或者命令，程序，脚本，甚至脚本中的代码块（code block）的输出，然后把捕捉到的输出，作为输入发送给另外一个文件，命令，程序，或者脚本。</p>
+</blockquote>
+<p>linux shell下常用输入输出操作符是：</p>
+<ol>
+<li>标准输入   (stdin) ：代码为 0 ，使用 &lt; 或 &lt;&lt; ；</li>
+<li>标准输出   (stdout)：代码为 1 ，使用 &gt; 或 &gt;&gt; ； </li>
+<li>标准错误输出(stderr)：代码为 2 ，使用 2&gt; 或 2&gt;&gt; ；</li>
+</ol>
+<h3 id="输出重定向">输出重定向</h3>
+<p><code>command-line1 [1-n] &gt; file或文件操作符或设备</code></p>
+<p>上面命令意思是：将一条命令执行结果（标准输出，或者错误输出，本来都要打印到屏幕上面的） 重定向其它输出设备（文件，打开文件操作符，或打印机等等）1,2分别是标准输出，错误输出。<br>例如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ls /dev</span></div></pre></td></tr></table></figure>
 
-<p>output:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">30000000000</div></pre></td></tr></table></figure>
+<p>这个命令列出/dev目录下的所有文件，在屏幕上输出结果。<br>这里 /dev 就是作为命令ls的标准输入（从键盘输入），而打印在屏幕的结果就是标准输出（/dev目录中的内容）<br>还是回到标题，重定向就是把标准的输入或者输出更改成其他的方式，请参看如下例子<br>或者等同于</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="array">#ls </span>/dev <span class="number">1</span>&gt;filename                                  #注意：<span class="string">"1"</span>和<span class="string">"&gt;"</span>中间没有空格</div></pre></td></tr></table></figure>
 
-<h2 id="unsiged_int转换为int">unsiged int转换为int</h2>
-<p>最好不要这么做，可能会得到错误结果。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">3294967295</span>;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;x&lt;&lt;endl;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;(<span class="keyword">int</span>)x&lt;&lt;endl;</div></pre></td></tr></table></figure>
+<p>这里讲<code>ls /dev</code>的显示内容易标准输出的形式，输出到了文件<code>filename</code>里。</p>
+<h3 id="输入重定向">输入重定向</h3>
+<p><code>command-line [n] &lt;file或文件描述符&amp;设备</code></p>
+<p>命令默认从键盘获得的输入，改成从文件，或者其它打开文件以及设备输入。执行这个命令，将标准输入0，与文件或设备绑定。将由它进行输入。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# <span class="keyword">cat</span>  in2.<span class="built_in">log</span> </div><div class="line">in3.log0000644000000000000000000000002012510577027010746 <span class="number">0</span>ustar  rootrootadd</div><div class="line">dd</div><div class="line"><span class="keyword">cc</span></div><div class="line">gg</div><div class="line">hh</div><div class="line">[root@localhost ~]# <span class="keyword">cat</span> &gt; testfile.txt &lt; in2.<span class="built_in">log</span></div><div class="line">[root@localhost ~]# <span class="keyword">cat</span> testfile.txt </div><div class="line">in3.log0000644000000000000000000000002012510577027010746 <span class="number">0</span>ustar  rootrootadd</div><div class="line">dd</div><div class="line"><span class="keyword">cc</span></div><div class="line">gg</div><div class="line">hh</div></pre></td></tr></table></figure>
 
-<p>结果会怎么样？</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">3294967295</div><div class="line"><span class="deletion">-1000000001</span></div></pre></td></tr></table></figure>
+<p>说明：将<code>in2.log</code>作为标准输入，输入到<code>testfile.txt</code></p>
+<h3 id="注意">注意</h3>
+<p>默认的文件标识符是0，也就是标准输入，或者可以说从键盘输入。当然这个文件标识符也可以自己指定，请参考下面例子</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#echo 123456789 &gt;filename   把字符串写到文件filename中</span></div><div class="line"><span class="preprocessor">#exec 3&lt;&gt;filename           把文件filename打开，并指定文件标识符为3</span></div><div class="line"><span class="preprocessor">#read -n 4 &lt;&3              从文件中读4个字符，句柄已经指到第四个字符末尾</span></div><div class="line"><span class="preprocessor">#echo -n . &gt;&3              在第5个字符处写一个点，覆盖第5个字符，-n表示不换行</span></div><div class="line"><span class="preprocessor">#exec 3&gt;&-	          关闭文件标识符3</span></div></pre></td></tr></table></figure>
 
-<p>结果溢出了，因为<code>int</code>最大能表达的正数为<code>2147483647</code>，所以就溢出了。<br>在<code>C++ STL</code>中，有一些函数返回了<code>unsigned int</code>，如果将其转为<code>int</code>可能会出错，例如<br><code>string</code>的<code>size()</code>返回的就是<code>unsigned int</code>，如果字符串长度很长，你将结果转换为<code>int</code>那就可能出错了。<br>最后附上32位机上的，c++各类型一览表：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型标识符</th>
-<th style="text-align:center">类型说明</th>
-<th style="text-align:center">长度（字节）</th>
-<th>范围</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">char</td>
-<td style="text-align:center">字符型</td>
-<td style="text-align:center">1</td>
-<td>-128 ~ 127</td>
-<td>-27 ~ (27 -1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned char</td>
-<td style="text-align:center">无符字符型</td>
-<td style="text-align:center">1</td>
-<td>0 ~ 255</td>
-<td>0 ~ (28 -1)</td>
-</tr>
-<tr>
-<td style="text-align:center">short int</td>
-<td style="text-align:center">短整型</td>
-<td style="text-align:center">2</td>
-<td>-32768 ~ 32767</td>
-<td>2-15 ~ (215 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned short int</td>
-<td style="text-align:center">无符短整型</td>
-<td style="text-align:center">2</td>
-<td>0 ~ 65535    0 ~ (216 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">int</td>
-<td style="text-align:center">整型</td>
-<td style="text-align:center">4</td>
-<td>-2147483648 ~ 2147483647</td>
-<td>-231 ~ (231 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned int</td>
-<td style="text-align:center">无符整型</td>
-<td style="text-align:center">4</td>
-<td>0 ~ 4294967295</td>
-<td>0 ~ (232-1)</td>
-</tr>
-<tr>
-<td style="text-align:center">float    实型</td>
-<td style="text-align:center">（单精度）</td>
-<td style="text-align:center">4</td>
-<td>1.18<em>10-38 ~ 3.40</em>1038</td>
-<td>7位有效位</td>
-</tr>
-<tr>
-<td style="text-align:center">double    实型</td>
-<td style="text-align:center">（双精度）</td>
-<td style="text-align:center">8</td>
-<td>2.23<em>10-308 ~ 1.79</em>10308</td>
-<td>15位有效位</td>
-</tr>
-<tr>
-<td style="text-align:center">long double</td>
-<td style="text-align:center">实型（长双精度）</td>
-<td style="text-align:center">10</td>
-<td>3.37<em>10-4932 ~ 1.18</em>104932</td>
-<td>19位有效位</td>
-</tr>
-</tbody>
-</table>
-<p>欢迎指正~</p>
+<p>现在<code>cat filename</code>文件的结果就成了<code>1234.6789</code><br>命令<code>j&lt;&gt;filename</code>表示把文件打开，并指明文件标识符为j<br><code>&quot;&amp;-&quot;</code>表示关闭文件标识符</p>
+<p>有关关闭文件标识符的操作请参考下面<br><code>n&lt;&amp;-</code> 关闭输入文件标识符n<br><code>0&lt;&amp;-</code>或<code>&lt;&amp;-</code> 关闭标准输入stdin<br><code>n&gt;&amp;-</code> 关闭输出文件标识符n<br><code>1&gt;&amp;-</code>或<code>&gt;&amp;-</code>关闭标准输出stdout</p>
 
       
     </div>
 
     <div class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+            <a href="/tags/重定向/"> #重定向 </a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/20/linux-chown/">早上一条Linux命令，腰也不疼之chown</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/18/black-technology-proxy/">黑科技-自定义嘴贱Proxy</a>
+              <a href="/2015/04/21/linux-tcp-sed/">下午一条linux，晚上不瞌睡之sed</a>
             
           </div>
         </div>
@@ -298,8 +255,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/19/c-int/"
-               data-title="int转型问题" data-url="http://godoubao.com/2015/04/19/c-int/">
+          <div class="ds-thread" data-thread-key="2015/04/21/linux-redirect/"
+               data-title="晚上一条linux，白天睡的香之重定向" data-url="http://godoubao.com/2015/04/21/linux-redirect/">
           </div>
         
       </div>
@@ -397,7 +354,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#int转型问题"><span class="nav-number">1.</span> <span class="nav-text">int转型问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整型常量"><span class="nav-number">1.2.</span> <span class="nav-text">整型常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsiged_int转换为int"><span class="nav-number">1.3.</span> <span class="nav-text">unsiged int转换为int</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#晚上一条linux，白天睡的香之重定向"><span class="nav-number">1.</span> <span class="nav-text">晚上一条linux，白天睡的香之重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输出重定向"><span class="nav-number">1.0.1.</span> <span class="nav-text">输出重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入重定向"><span class="nav-number">1.0.2.</span> <span class="nav-text">输入重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">1.0.3.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
