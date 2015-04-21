@@ -394,7 +394,7 @@
           
             
               <a class="post-title-link" href="/2015/04/21/linux-tcp-buffer/">
-                TCP/IP 栈性能使用的可调节内核参数
+                TCP/IP 栈性能使用的可调节内核参数与一些重要目录
               </a>
             
           
@@ -519,6 +519,29 @@
 <td>/proc/sys/net/ipv4/tcp_bic</td>
 <td style="text-align:center">“1”</td>
 <td>为快速长距离网络启用 Binary Increase Congestion；这样可以更好地利用以 GB 速度进行操作的链接；对于 WAN 通信应该启用这个选项。</td>
+</tr>
+</tbody>
+</table>
+<p>FHS定义的重要目录</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>应放置文件内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/lost+found</td>
+<td>这个目录是使用标准的ext2/ext3档案系统格式才会产生的一个目录，目的在于当档案系统发生错误时，将一些遗失的片段放置到这个目录下。 这个目录通常会在分割槽的最顶层存在，例如你加装一个硬盘于/disk中，那在这个系统下就会自动产生一个这样的目录/disk/lost+found</td>
+</tr>
+<tr>
+<td>/proc</td>
+<td>这个目录本身是一个虚拟文件系统(virtual filesystem)喔。 他放置的资料都是在内存当中，例如系统核心、行程资讯(process)（是进程吗?）、周边装置的状态及网络状态等等。因为这个目录下的资料都是在记忆体（内存）当中，所以本身不占任何硬盘空间。比较重要的档案（目录）例如： /proc/cpuinfo, /proc/dma, /proc/interrupts, /proc/ioports, /proc/net/*等等。</td>
+</tr>
+<tr>
+<td>/sys</td>
+<td>这个目录其实跟/proc非常类似，也是一个虚拟的档案系统，主要也是记录与核心相关的资讯。 包括目前已载入的核心模组与核心侦测到的硬体装置资讯等等。 这个目录同样不占硬盘容量。</td>
 </tr>
 </tbody>
 </table>
