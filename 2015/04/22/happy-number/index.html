@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Linux命令,重定向," />
+  <meta name="keywords" content="math,set," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 晚上一条linux，白天睡的香之重定向 // 刘Something's blog </title>
+  <title> happy number // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              晚上一条linux，白天睡的香之重定向
+              happy number
             
           
         </h1>
@@ -136,14 +136,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-21
+          发表于 2015-04-22
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/linux命令/">linux命令</a>
+              <a href="/categories/leetcode/">leetcode</a>
 
               
               
@@ -156,8 +156,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/21/linux-redirect/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/21/linux-redirect/"></span>
+            <a href="/2015/04/22/happy-number/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/22/happy-number/"></span>
             </a>
           </span>
           
@@ -171,51 +171,22 @@
       
 
       
-        <h1 id="晚上一条linux，白天睡的香之重定向">晚上一条linux，白天睡的香之重定向</h1>
-<hr>
-<blockquote>
-<p>在了解重定向之前，我们先来看看linux 的文件描述符。</p>
-<p><strong>linux文件描述符</strong>：可以理解为linux跟踪打开文件，而分配的一个数字，这个数字有点类似c语言操作文件时候的句柄，通过句柄就可以实现文件的读写操作。 用户可以自定义文件描述符范围是：<code>9-num</code>,这个最大数字，跟用户的：<code>ulimit –n</code>命令定义数字有关系，不能超过最大值。</p>
-<p>默认情况下，系统占用了3个，分别是0标准输入（stdin）,1标准输出(stdout), 2标准错误(stderr), 另外3-9是保留的标识符，可以把这些标识符指定成标准输入，输出或者错误作为临时连接。通常这样可以解决很多复杂的重定向请求。</p>
-<ul>
-<li>标准输入通常指键盘的输入 </li>
-<li>标准输出通常指显示器的输出 </li>
-<li>标准错误通常也是定向到显示器</li>
-</ul>
+        <blockquote>
+<p>Write an algorithm to determine if a number is “happy”.</p>
+<p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+<p>Example: 19 is a happy number<br>12 + 92 = 82<br>82 + 22 = 68<br>62 + 82 = 100<br>12 + 02 + 02 = 1</p>
 </blockquote>
-<p>使用<code>ll</code>命令，查看<code>/dev/</code>目录可以看到,0标准输入（stdin）,1标准输出(stdout), 2标准错误(stderr);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># ll /dev/</span></div><div class="line">lrwxrwxrwx <span class="number">1</span> root root          <span class="number">15</span> <span class="type">Mar</span> <span class="number">27</span> <span class="number">17</span>:<span class="number">21</span> <span class="literal">stderr</span> -&gt; /<span class="keyword">proc</span>/self/fd/<span class="number">2</span></div><div class="line">lrwxrwxrwx <span class="number">1</span> root root          <span class="number">15</span> <span class="type">Mar</span> <span class="number">27</span> <span class="number">17</span>:<span class="number">21</span> <span class="literal">stdin</span> -&gt; /<span class="keyword">proc</span>/self/fd/<span class="number">0</span></div><div class="line">lrwxrwxrwx <span class="number">1</span> root root          <span class="number">15</span> <span class="type">Mar</span> <span class="number">27</span> <span class="number">17</span>:<span class="number">21</span> <span class="literal">stdout</span> -&gt; /<span class="keyword">proc</span>/self/fd/<span class="number">1</span></div></pre></td></tr></table></figure>
+<h2 id="歌词大意：">歌词大意：</h2>
+<p>重复求每一个数字的每一位的平方和，直到为1.另外1中可能是，重复，例如<code>4</code>：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="number">4</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">=</span><span class="number">16</span><span class="xml"></span></div><div class="line"><span class="number">1</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">6</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">37</span><span class="xml"></span></div><div class="line"><span class="number">3</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">7</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">58</span><span class="xml"></span></div><div class="line"><span class="number">5</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">8</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">89</span><span class="xml"></span></div><div class="line"><span class="number">8</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">9</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">145</span><span class="xml"></span></div><div class="line"><span class="number">1</span><span class="xml">+</span><span class="number">4</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">5</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">42</span><span class="xml"></span></div><div class="line"><span class="number">4</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">2</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> = </span><span class="number">20</span><span class="xml"></span></div><div class="line"><span class="number">2</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> = </span><span class="number">4</span><span class="xml"> //重复了</span></div></pre></td></tr></table></figure>
 
-<blockquote>
-<p><strong>I/O重定向</strong>简单来说就是一个过程，这个过程捕捉一个文件，或者命令，程序，脚本，甚至脚本中的代码块（code block）的输出，然后把捕捉到的输出，作为输入发送给另外一个文件，命令，程序，或者脚本。</p>
-</blockquote>
-<p>linux shell下常用输入输出操作符是：</p>
-<ol>
-<li>标准输入   (stdin) ：代码为 0 ，使用 &lt; 或 &lt;&lt; ；</li>
-<li>标准输出   (stdout)：代码为 1 ，使用 &gt; 或 &gt;&gt; ； </li>
-<li>标准错误输出(stderr)：代码为 2 ，使用 2&gt; 或 2&gt;&gt; ；</li>
-</ol>
-<h3 id="输出重定向">输出重定向</h3>
-<p><code>command-line1 [1-n] &gt; file或文件操作符或设备</code></p>
-<p>上面命令意思是：将一条命令执行结果（标准输出，或者错误输出，本来都要打印到屏幕上面的） 重定向其它输出设备（文件，打开文件操作符，或打印机等等）1,2分别是标准输出，错误输出。<br>例如：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ls /dev</span></div></pre></td></tr></table></figure>
+<p>所以，需要用了个set来检查重复元素。</p>
+<h3 id="java版">java版</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> boolean <span class="title">isHappy</span>(<span class="keyword">int</span> n) {</div><div class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">0</span>)<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">long</span> res = n,tn=n,t=<span class="number">0</span>;</div><div class="line">        HashSet&lt;Long&gt; <span class="keyword">set</span> = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">        <span class="keyword">do</span>{</div><div class="line">            tn=res;</div><div class="line">            res = <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span>(<span class="keyword">set</span>.contains(tn))<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">set</span>.add(tn);</div><div class="line">            <span class="keyword">while</span>(tn!=<span class="number">0</span>){</div><div class="line">                t= tn%<span class="number">10</span>;</div><div class="line">                res +=t*t;</div><div class="line">                tn/=<span class="number">10</span>;</div><div class="line">            }</div><div class="line">            System.<span class="keyword">out</span>.println(res);</div><div class="line">        }<span class="keyword">while</span>(res&gt;<span class="number">1</span>);</div><div class="line">        <span class="keyword">if</span>(res==<span class="number">1</span>)<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        	    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>这个命令列出/dev目录下的所有文件，在屏幕上输出结果。<br>这里 /dev 就是作为命令ls的标准输入（从键盘输入），而打印在屏幕的结果就是标准输出（/dev目录中的内容）<br>还是回到标题，重定向就是把标准的输入或者输出更改成其他的方式，请参看如下例子<br>或者等同于</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="array">#ls </span>/dev <span class="number">1</span>&gt;filename                                  #注意：<span class="string">"1"</span>和<span class="string">"&gt;"</span>中间没有空格</div></pre></td></tr></table></figure>
+<h3 id="C++版">C++版</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">class Solution {</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">bool</span> <span class="title">isHappy</span>(<span class="keyword">int</span> n) {</div><div class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">0</span>)<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">set</span>&lt;<span class="keyword">int</span>&gt; visited;</div><div class="line">        <span class="keyword">int</span> res=n,tn=n,t=<span class="number">0</span>;</div><div class="line">        <span class="keyword">do</span>{</div><div class="line">            <span class="keyword">if</span>(visited.find(res)==visited.end())</div><div class="line">                visited.insert(res);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            tn=res;</div><div class="line">            res=<span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span>(tn){</div><div class="line">                t=tn%<span class="number">10</span>;</div><div class="line">                res+=t*t;</div><div class="line">                tn/=<span class="number">10</span>;</div><div class="line">            }</div><div class="line">        }<span class="keyword">while</span>(res&gt;<span class="number">1</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    }</div><div class="line">};</div></pre></td></tr></table></figure>
 
-<p>这里讲<code>ls /dev</code>的显示内容易标准输出的形式，输出到了文件<code>filename</code>里。</p>
-<h3 id="输入重定向">输入重定向</h3>
-<p><code>command-line [n] &lt;file或文件描述符&amp;设备</code></p>
-<p>命令默认从键盘获得的输入，改成从文件，或者其它打开文件以及设备输入。执行这个命令，将标准输入0，与文件或设备绑定。将由它进行输入。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# <span class="keyword">cat</span>  in2.<span class="built_in">log</span> </div><div class="line">in3.log0000644000000000000000000000002012510577027010746 <span class="number">0</span>ustar  rootrootadd</div><div class="line">dd</div><div class="line"><span class="keyword">cc</span></div><div class="line">gg</div><div class="line">hh</div><div class="line">[root@localhost ~]# <span class="keyword">cat</span> &gt; testfile.txt &lt; in2.<span class="built_in">log</span></div><div class="line">[root@localhost ~]# <span class="keyword">cat</span> testfile.txt </div><div class="line">in3.log0000644000000000000000000000002012510577027010746 <span class="number">0</span>ustar  rootrootadd</div><div class="line">dd</div><div class="line"><span class="keyword">cc</span></div><div class="line">gg</div><div class="line">hh</div></pre></td></tr></table></figure>
-
-<p>说明：将<code>in2.log</code>作为标准输入，输入到<code>testfile.txt</code></p>
-<h3 id="注意">注意</h3>
-<p>默认的文件标识符是0，也就是标准输入，或者可以说从键盘输入。当然这个文件标识符也可以自己指定，请参考下面例子</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#echo 123456789 &gt;filename   把字符串写到文件filename中</span></div><div class="line"><span class="preprocessor">#exec 3&lt;&gt;filename           把文件filename打开，并指定文件标识符为3</span></div><div class="line"><span class="preprocessor">#read -n 4 &lt;&3              从文件中读4个字符，句柄已经指到第四个字符末尾</span></div><div class="line"><span class="preprocessor">#echo -n . &gt;&3              在第5个字符处写一个点，覆盖第5个字符，-n表示不换行</span></div><div class="line"><span class="preprocessor">#exec 3&gt;&-	          关闭文件标识符3</span></div></pre></td></tr></table></figure>
-
-<p>现在<code>cat filename</code>文件的结果就成了<code>1234.6789</code><br>命令<code>j&lt;&gt;filename</code>表示把文件打开，并指明文件标识符为j<br><code>&quot;&amp;-&quot;</code>表示关闭文件标识符</p>
-<p>有关关闭文件标识符的操作请参考下面<br><code>n&lt;&amp;-</code> 关闭输入文件标识符n<br><code>0&lt;&amp;-</code>或<code>&lt;&amp;-</code> 关闭标准输入stdin<br><code>n&gt;&amp;-</code> 关闭输出文件标识符n<br><code>1&gt;&amp;-</code>或<code>&gt;&amp;-</code>关闭标准输出stdout</p>
 
       
     </div>
@@ -224,9 +195,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux命令/"> #Linux命令 </a>
+            <a href="/tags/math/"> #math </a>
           
-            <a href="/tags/重定向/"> #重定向 </a>
+            <a href="/tags/set/"> #set </a>
           
         </div>
       
@@ -235,13 +206,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/21/zero-one-bag/">01背包</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/21/linux-tcp-sed/">下午一条linux，晚上不瞌睡之sed</a>
+              <a href="/2015/04/21/domino-caverage/">骨牌覆盖</a>
             
           </div>
         </div>
@@ -257,8 +226,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/21/linux-redirect/"
-               data-title="晚上一条linux，白天睡的香之重定向" data-url="http://godoubao.com/2015/04/21/linux-redirect/">
+          <div class="ds-thread" data-thread-key="2015/04/22/happy-number/"
+               data-title="happy number" data-url="http://godoubao.com/2015/04/22/happy-number/">
           </div>
         
       </div>
@@ -356,7 +325,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#晚上一条linux，白天睡的香之重定向"><span class="nav-number">1.</span> <span class="nav-text">晚上一条linux，白天睡的香之重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输出重定向"><span class="nav-number">1.0.1.</span> <span class="nav-text">输出重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入重定向"><span class="nav-number">1.0.2.</span> <span class="nav-text">输入重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">1.0.3.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#歌词大意："><span class="nav-number">1.</span> <span class="nav-text">歌词大意：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#java版"><span class="nav-number">1.1.</span> <span class="nav-text">java版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C++版"><span class="nav-number">1.2.</span> <span class="nav-text">C++版</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

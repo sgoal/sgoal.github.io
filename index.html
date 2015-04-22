@@ -130,6 +130,106 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/22/happy-number/">
+                happy number
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/leetcode/">leetcode</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/22/happy-number/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/22/happy-number/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Write an algorithm to determine if a number is “happy”.</p>
+<p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+<p>Example: 19 is a happy number<br>12 + 92 = 82<br>82 + 22 = 68<br>62 + 82 = 100<br>12 + 02 + 02 = 1</p>
+</blockquote>
+<h2 id="歌词大意：">歌词大意：</h2>
+<p>重复求每一个数字的每一位的平方和，直到为1.另外1中可能是，重复，例如<code>4</code>：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="number">4</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">=</span><span class="number">16</span><span class="xml"></span></div><div class="line"><span class="number">1</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">6</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">37</span><span class="xml"></span></div><div class="line"><span class="number">3</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">7</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">58</span><span class="xml"></span></div><div class="line"><span class="number">5</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">8</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">89</span><span class="xml"></span></div><div class="line"><span class="number">8</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">9</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">145</span><span class="xml"></span></div><div class="line"><span class="number">1</span><span class="xml">+</span><span class="number">4</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">5</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> =</span><span class="number">42</span><span class="xml"></span></div><div class="line"><span class="number">4</span><span class="xml"></span><span class="keyword">^2</span><span class="xml">+</span><span class="number">2</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> = </span><span class="number">20</span><span class="xml"></span></div><div class="line"><span class="number">2</span><span class="xml"></span><span class="keyword">^2</span><span class="xml"> = </span><span class="number">4</span><span class="xml"> //重复了</span></div></pre></td></tr></table></figure>
+
+<p>所以，需要用了个set来检查重复元素。</p>
+<h3 id="java版">java版</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">class</span> Solution {</div><div class="line">    <span class="keyword">public</span> boolean <span class="title">isHappy</span>(<span class="keyword">int</span> n) {</div><div class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">0</span>)<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">long</span> res = n,tn=n,t=<span class="number">0</span>;</div><div class="line">        HashSet&lt;Long&gt; <span class="keyword">set</span> = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">        <span class="keyword">do</span>{</div><div class="line">            tn=res;</div><div class="line">            res = <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span>(<span class="keyword">set</span>.contains(tn))<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">set</span>.add(tn);</div><div class="line">            <span class="keyword">while</span>(tn!=<span class="number">0</span>){</div><div class="line">                t= tn%<span class="number">10</span>;</div><div class="line">                res +=t*t;</div><div class="line">                tn/=<span class="number">10</span>;</div><div class="line">            }</div><div class="line">            System.<span class="keyword">out</span>.println(res);</div><div class="line">        }<span class="keyword">while</span>(res&gt;<span class="number">1</span>);</div><div class="line">        <span class="keyword">if</span>(res==<span class="number">1</span>)<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        	    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="C++版">C++版</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">class Solution {</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">bool</span> <span class="title">isHappy</span>(<span class="keyword">int</span> n) {</div><div class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">0</span>)<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">set</span>&lt;<span class="keyword">int</span>&gt; visited;</div><div class="line">        <span class="keyword">int</span> res=n,tn=n,t=<span class="number">0</span>;</div><div class="line">        <span class="keyword">do</span>{</div><div class="line">            <span class="keyword">if</span>(visited.find(res)==visited.end())</div><div class="line">                visited.insert(res);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            tn=res;</div><div class="line">            res=<span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span>(tn){</div><div class="line">                t=tn%<span class="number">10</span>;</div><div class="line">                res+=t*t;</div><div class="line">                tn/=<span class="number">10</span>;</div><div class="line">            }</div><div class="line">        }<span class="keyword">while</span>(res&gt;<span class="number">1</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    }</div><div class="line">};</div></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/math/"> #math </a>
+          
+            <a href="/tags/set/"> #set </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/21/domino-caverage/">
                 骨牌覆盖
               </a>
@@ -1231,176 +1331,6 @@
 
       
       
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/19/c-int/">
-                int转型问题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-19
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/19/c-int/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/19/c-int/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h1 id="int转型问题">int转型问题</h1>
-<hr>
-<h2 id="引子">引子</h2>
-<p>参加了百度鄙视，被鄙视了~在线编程题时，题目最大输入字符串长度为100000，所以我冷不丁的想，<code>int</code>应该就够了，结果一直WA，最后将结果类型改为<code>long long</code>以为就可以了，发现依然WA，最后纠结了好久，想想应该把中间结果改为<code>long long</code>才对。<br>所以我突然意识到以后还是尽量用<code>long long</code>吧~不过我觉得更重要的还是得注意<code>int</code>转型问题。</p>
-<h2 id="整型常量">整型常量</h2>
-<p>个整型常量如何从字面上区分为以上的类别：</p>
-<ul>
-<li>一个整数，如果其值在-32768~+32767范围内，认为它是short int型，它可以赋值给short int型､int型和long int型变量。</li>
-<li>一个整数，如果其值超过了上述范围，而在-2147483648~+2147483647范围内，则认为它是long int型，可以将它赋值给一个int或long int型变量。</li>
-<li>如果某一计算机系统的C++版本（例如Visual C++）确定int与long int型数据在内存中占据的长度相同，则它们能够表示的数值的范围相同。因此，一个int型的常量也同时是一个long int型常量，可以赋给int型或long int型变量。</li>
-<li>常量无unsigned型。但一个非负值的整数可以赋值给unsigned整型变量，只要它的范围不超过变量的取值范围即可。</li>
-</ul>
-<p>所以当你进行如下操作(32位平台，gcc):</p>
-<figure class="highlight C++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;<span class="number">100000</span>*<span class="number">100000</span>*<span class="number">3</span>&lt;&lt;endl;</div></pre></td></tr></table></figure>
-
-<p>是输出<code>30000000000</code>吗?其实不是，因为此处100000的类型时int,3也是<code>int</code>，最后结果也是<code>int</code>，但是30000000000超过了<code>int</code>的范围，所以错误了。<br>改正方法，将其中一个数改为<code>long long</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;(<span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">100000</span>*<span class="number">100000</span>*<span class="number">3</span>&lt;&lt;endl;</div></pre></td></tr></table></figure>
-
-<p>output:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">30000000000</div></pre></td></tr></table></figure>
-
-<h2 id="unsiged_int转换为int">unsiged int转换为int</h2>
-<p>最好不要这么做，可能会得到错误结果。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> x = <span class="number">3294967295</span>;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;x&lt;&lt;endl;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;(<span class="keyword">int</span>)x&lt;&lt;endl;</div></pre></td></tr></table></figure>
-
-<p>结果会怎么样？</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">3294967295</div><div class="line"><span class="deletion">-1000000001</span></div></pre></td></tr></table></figure>
-
-<p>结果溢出了，因为<code>int</code>最大能表达的正数为<code>2147483647</code>，所以就溢出了。<br>在<code>C++ STL</code>中，有一些函数返回了<code>unsigned int</code>，如果将其转为<code>int</code>可能会出错，例如<br><code>string</code>的<code>size()</code>返回的就是<code>unsigned int</code>，如果字符串长度很长，你将结果转换为<code>int</code>那就可能出错了。<br>最后附上32位机上的，c++各类型一览表：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型标识符</th>
-<th style="text-align:center">类型说明</th>
-<th style="text-align:center">长度（字节）</th>
-<th>范围</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">char</td>
-<td style="text-align:center">字符型</td>
-<td style="text-align:center">1</td>
-<td>-128 ~ 127</td>
-<td>-27 ~ (27 -1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned char</td>
-<td style="text-align:center">无符字符型</td>
-<td style="text-align:center">1</td>
-<td>0 ~ 255</td>
-<td>0 ~ (28 -1)</td>
-</tr>
-<tr>
-<td style="text-align:center">short int</td>
-<td style="text-align:center">短整型</td>
-<td style="text-align:center">2</td>
-<td>-32768 ~ 32767</td>
-<td>2-15 ~ (215 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned short int</td>
-<td style="text-align:center">无符短整型</td>
-<td style="text-align:center">2</td>
-<td>0 ~ 65535    0 ~ (216 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">int</td>
-<td style="text-align:center">整型</td>
-<td style="text-align:center">4</td>
-<td>-2147483648 ~ 2147483647</td>
-<td>-231 ~ (231 - 1)</td>
-</tr>
-<tr>
-<td style="text-align:center">unsigned int</td>
-<td style="text-align:center">无符整型</td>
-<td style="text-align:center">4</td>
-<td>0 ~ 4294967295</td>
-<td>0 ~ (232-1)</td>
-</tr>
-<tr>
-<td style="text-align:center">float    实型</td>
-<td style="text-align:center">（单精度）</td>
-<td style="text-align:center">4</td>
-<td>1.18<em>10-38 ~ 3.40</em>1038</td>
-<td>7位有效位</td>
-</tr>
-<tr>
-<td style="text-align:center">double    实型</td>
-<td style="text-align:center">（双精度）</td>
-<td style="text-align:center">8</td>
-<td>2.23<em>10-308 ~ 1.79</em>10308</td>
-<td>15位有效位</td>
-</tr>
-<tr>
-<td style="text-align:center">long double</td>
-<td style="text-align:center">实型（长双精度）</td>
-<td style="text-align:center">10</td>
-<td>3.37<em>10-4932 ~ 1.18</em>104932</td>
-<td>19位有效位</td>
-</tr>
-</tbody>
-</table>
-<p>欢迎指正~</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
     </div>
   </div>
 
@@ -1441,7 +1371,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1455,7 +1385,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
