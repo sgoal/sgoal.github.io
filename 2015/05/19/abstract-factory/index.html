@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Linux命令," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 中午一条linux，精神一下午之du // 刘Something's blog </title>
+  <title> 设计模式之抽象工厂 // 刘Something's blog </title>
 </head>
 
 <body>
@@ -128,7 +128,7 @@
           
           
             
-              中午一条linux，精神一下午之du
+              设计模式之抽象工厂
             
           
         </h1>
@@ -136,28 +136,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-21
+          发表于 2015-05-19
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/linux命令/">linux命令</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/21/linux-du/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/21/linux-du/"></span>
+            <a href="/2015/05/19/abstract-factory/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/19/abstract-factory/"></span>
             </a>
           </span>
           
@@ -171,47 +160,48 @@
       
 
       
-        <h1 id="中午一条linux，精神一下午之du">中午一条linux，精神一下午之du</h1>
+        <h1 id="设计模式之抽象工厂">设计模式之抽象工厂</h1>
 <hr>
+<h2 id="准备知识：">准备知识：</h2>
+<ol>
+<li>抽象类</li>
+<li>匿名类</li>
+<li>接口</li>
+<li>多态<h2 id="什么是抽象工厂">什么是抽象工厂</h2>
 <blockquote>
-<p>Linux du命令也是查看使用空间的，但是与df命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的.</p>
+<p>根据GoF的解释：抽象工厂的意图是<code>提供一个创建一系列相关或者相互依赖对象的接口，而无需指定他们的具体的类</code>。</p>
 </blockquote>
-<h2 id="命令格式：">命令格式：</h2>
-<p><code>du [选项][文件或者目录]</code></p>
-<h2 id="命令功能：">命令功能：</h2>
-<p>显示每个文件和目录的磁盘使用空间。可是使用pattern</p>
-<h2 id="命令参数：">命令参数：</h2>
-<blockquote>
-<ul>
-<li>-a或-all  显示目录中个别文件的大小。   </li>
-<li>-b或-bytes  显示目录或文件大小时，以byte为单位。   </li>
-<li>-c或—total  除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。 </li>
-<li>-k或—kilobytes  以KB(1024bytes)为单位输出。</li>
-<li>-m或—megabytes  以MB为单位输出。   </li>
-<li>-s或—summarize  仅显示总计，只列出最后加总的值。</li>
-<li>-h或—human-readable  以K，M，G为单位，提高信息的可读性。</li>
-<li>-x或—one-file-xystem  以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。 </li>
-<li>-L&lt;符号链接&gt;或—dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。   </li>
-<li>-S或—separate-dirs   显示个别目录的大小时，并不含其子目录的大小。 </li>
-<li>-X&lt;文件&gt;或—exclude-from=&lt;文件&gt;  在&lt;文件&gt;指定目录或文件。   </li>
-<li>—exclude=&lt;目录或文件&gt;         略过指定的目录或文件。    </li>
-<li>-D或—dereference-args   显示指定符号链接的源文件大小。   </li>
-<li>-H或—si  与-h参数相同，但是K，M，G是以1000为换算单位。   </li>
-<li>-l或—count-links   重复计算硬件链接的文件。</li>
-</ul>
-</blockquote>
-<p><strong>其实完觉得du -h [文件或目录]</strong>这条命令就够用了</p>
-<h2 id="let’s_rock">let’s rock</h2>
-<h3 id="显示当前所有文件的信息，单位M">显示当前所有文件的信息，单位M</h3>
-<p><code>du -am .</code>，其中-a表示所有文件，-m表示单位为M</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># du -am .</span></div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/introduction.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/status.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/faq.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/setup.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/membership.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/developers.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/interceptors.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes/transport.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/tribes</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/jdbc-pool.html</div><div class="line"><span class="number">1</span>	webjoin/webapps/docs/manager-howto.html</div><div class="line"><span class="number">4</span>	webjoin/webapps/docs</div><div class="line"><span class="number">25</span>	webjoin/webapps/rps-service-api.war</div><div class="line"><span class="number">58</span>	webjoin/webapps</div><div class="line"><span class="number">116</span>	webjoin/webjoin-server_1.<span class="number">0</span>.<span class="number">1_</span>rhel_5.<span class="number">7_</span>x64.tar.gz</div><div class="line"><span class="number">520</span>	webjoin/</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>是不是有点懵？那就对了。翻译为大白话的意思就是，创建一个接口（假设叫做）<code>Factory</code>,这个接口可以创建某一个类(假设叫做<code>Animal</code>)相关的所有对象(假设叫做<code>Food</code>)，但是你不知道也不用关心这个Factory是如何创建的。</p>
+<h2 id="用它来干啥">用它来干啥</h2>
+<p>假设我们要创建一个喂食器(假设叫做<code>Feeder</code>)，我们要让这个<code>Feeder</code>非常通用，那么它就要和动物实现松耦合，也就是说它不用知道再喂养的是什么动物，单纯的喂就好了。</p>
+<p>下面我给出它的实现：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Feeder{</div><div class="line">	Factory fac;</div><div class="line">	</div><div class="line">	public Feeder(Factory f) {</div><div class="line">		this.fac =f;</div><div class="line">	}</div><div class="line">	</div><div class="line">	void feedAnimal(){</div><div class="line">		Animal a = fac.createAnimal();</div><div class="line">		Food food = fac.createFood();</div><div class="line">		a.eat(food);</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<h3 id="显示制定目录磁盘使用信息，提高可读性">显示制定目录磁盘使用信息，提高可读性</h3>
-<p><code>du -ah test</code>,显示test目录中的所有文件使用信息</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# du -<span class="number">ah</span> <span class="keyword">test</span></div><div class="line"><span class="number">0</span>	<span class="keyword">test</span>/test1.log</div><div class="line"><span class="number">4.</span>0K	<span class="keyword">test</span>/log/aa</div><div class="line"><span class="number">8.</span>0K	<span class="keyword">test</span>/log</div><div class="line"><span class="number">0</span>	<span class="keyword">test</span>/test2.log</div><div class="line"><span class="number">4.</span>0K	<span class="keyword">test</span>/webapp/a</div><div class="line"><span class="number">4.</span>0K	<span class="keyword">test</span>/webapp/b</div><div class="line"><span class="number">4.</span>0K	<span class="keyword">test</span>/webapp/d</div><div class="line">16K	<span class="keyword">test</span>/webapp</div><div class="line"><span class="number">4.</span>0K	<span class="keyword">test</span>/conf</div><div class="line">32K	<span class="keyword">test</span></div></pre></td></tr></table></figure>
+<p>这个<code>Feeder</code>类有持有一个<code>工厂Factory</code>，这个工厂可以创建出动物<code>Animal</code>和食物<code>Food</code>，然后将食物喂给动物吃。是不是很简单的就实现了一个比较通用的<code>Feeder</code>.</p>
+<p>看看我们如何使用它。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">		Feeder catfeeder = <span class="keyword">new</span> Feeder(<span class="keyword">new</span> CatFac());</div><div class="line">		catfeeder.feedAnimal();</div><div class="line">		System.<span class="keyword">out</span>.println(<span class="string">"------"</span>);</div><div class="line">		Feeder dogFeeder = <span class="keyword">new</span> Feeder(<span class="keyword">new</span> DogFac());</div><div class="line">		dogFeeder.feedAnimal();</div><div class="line">	}</div></pre></td></tr></table></figure>
 
+<p>我们给<code>Feeder</code>传入不同的工厂<code>CatFac</code>和<code>DogFac</code>,它就会去实现喂不同动物的行为。下面我们来看看输出。</p>
+<p>输出</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cat eating</div><div class="line"><span class="header">this is cat food</span></div><div class="line">------</div><div class="line">dog eating</div><div class="line">this is dog food</div></pre></td></tr></table></figure>
 
+<h3 id="分析输出：">分析输出：</h3>
+<p>当我们传入不同的工厂是，这个喂食器<code>Feeder</code>表现出了不同的行为，为什么？因为多态，不同的工厂创建出类不同的动物<code>Animal</code>和食物<code>Food</code>子类，从而实现出了不同的行为。这样做，我们的<code>Feeder</code>与<code>Animal</code>和<code>Food</code>实现松耦合。这样做的话，如果以后又有其他的动物，<code>Bird</code>啥的，那么我们只需要再创建一个’BirdFac’，然后这个喂食器就能够给<code>Bird</code>喂食了，这就是松耦合的好处。</p>
+<h3 id="抽象的定义">抽象的定义</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> Animal {</div><div class="line">	<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">eat</span>(Food f);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">interface</span> Food{</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eaten</span>();</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">interface</span> Factory{</div><div class="line">	Animal createAnimal();</div><div class="line">	Food createFood();</div><div class="line">}</div></pre></td></tr></table></figure>
 
+<p>抽象工厂<code>Factory</code>要创建与动物<code>Animal</code>相关的食物<code>Food</code>,而动物<code>Animal</code>只要实现吃<code>eat</code>就好了。</p>
+<h3 id="Animal的实现">Animal的实现</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="inheritance"><span class="keyword">extends</span></span> <span class="title">Animal</span></span>{</div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> eat(Food f) {</div><div class="line">		System.out.println(<span class="string">"dog eating"</span>);</div><div class="line">		f.eaten();</div><div class="line">	}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="inheritance"><span class="keyword">extends</span></span> <span class="title">Animal</span></span>{</div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> eat(Food f) {</div><div class="line">		System.out.println(<span class="string">"cat eating"</span>);</div><div class="line">		f.eaten();</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="工厂的实现">工厂的实现</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CatFac</span> <span class="inheritance"><span class="keyword">implements</span></span> <span class="title">Factory</span></span>{</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> Animal createAnimal() {</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Cat();</div><div class="line">	}</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> Food createFood() {</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Food(){</div><div class="line">			@Override</div><div class="line">			<span class="keyword">public</span> <span class="keyword">void</span> eaten() {</div><div class="line">				System.out.println(<span class="string">"this is cat food"</span>);</div><div class="line">			}</div><div class="line">		};</div><div class="line">	}</div><div class="line">	</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DogFac</span> <span class="inheritance"><span class="keyword">implements</span></span> <span class="title">Factory</span></span>{</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> Animal createAnimal() {</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Dog();</div><div class="line">	}</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> Food createFood() {</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Food() {</div><div class="line">			@Override</div><div class="line">			<span class="keyword">public</span> <span class="keyword">void</span> eaten() {</div><div class="line">				System.out.println(<span class="string">"this is dog food"</span>);</div><div class="line">			}</div><div class="line">		};</div><div class="line">	}</div><div class="line">	</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在工厂中，用匿名类实现了不同动物吃的食物，这样比较方便。</p>
+<h2 id="总结">总结</h2>
+<p>使用抽象工厂，你可以为一系列的抽象创建对象，但是你不用关心它的具体实现类，这样你写出来的代码也会实用与这一系列抽象，而不是只能用于某一个具体的抽象类，如<code>Feeder</code>可以给所有的动物喂食，只要这个动物有相应的<code>Factory</code>即可，这样松耦合的代码能够轻松的实现代码的复用。    </p>
 
       
     </div>
@@ -220,7 +210,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux命令/"> #Linux命令 </a>
+            <a href="/tags/设计模式/"> #设计模式 </a>
           
         </div>
       
@@ -229,13 +219,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/21/linux-tcp-buffer/">TCP/IP 栈性能使用的可调节内核参数与一些重要目录</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/20/linux-df/">早上一条Linux命令，腿也不酸之df</a>
+              <a href="/2015/04/22/happy-number/">happy number</a>
             
           </div>
         </div>
@@ -251,8 +239,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/21/linux-du/"
-               data-title="中午一条linux，精神一下午之du" data-url="http://godoubao.com/2015/04/21/linux-du/">
+          <div class="ds-thread" data-thread-key="2015/05/19/abstract-factory/"
+               data-title="设计模式之抽象工厂" data-url="http://godoubao.com/2015/05/19/abstract-factory/">
           </div>
         
       </div>
@@ -350,7 +338,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#中午一条linux，精神一下午之du"><span class="nav-number">1.</span> <span class="nav-text">中午一条linux，精神一下午之du</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令格式："><span class="nav-number">1.1.</span> <span class="nav-text">命令格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令功能："><span class="nav-number">1.2.</span> <span class="nav-text">命令功能：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令参数："><span class="nav-number">1.3.</span> <span class="nav-text">命令参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#let’s_rock"><span class="nav-number">1.4.</span> <span class="nav-text">let’s rock</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#显示当前所有文件的信息，单位M"><span class="nav-number">1.4.1.</span> <span class="nav-text">显示当前所有文件的信息，单位M</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示制定目录磁盘使用信息，提高可读性"><span class="nav-number">1.4.2.</span> <span class="nav-text">显示制定目录磁盘使用信息，提高可读性</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式之抽象工厂"><span class="nav-number">1.</span> <span class="nav-text">设计模式之抽象工厂</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备知识："><span class="nav-number">1.1.</span> <span class="nav-text">准备知识：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是抽象工厂"><span class="nav-number">1.2.</span> <span class="nav-text">什么是抽象工厂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用它来干啥"><span class="nav-number">1.3.</span> <span class="nav-text">用它来干啥</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析输出："><span class="nav-number">1.3.1.</span> <span class="nav-text">分析输出：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象的定义"><span class="nav-number">1.3.2.</span> <span class="nav-text">抽象的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Animal的实现"><span class="nav-number">1.3.3.</span> <span class="nav-text">Animal的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂的实现"><span class="nav-number">1.3.4.</span> <span class="nav-text">工厂的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

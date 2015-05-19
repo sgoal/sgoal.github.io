@@ -130,6 +130,132 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/20/linux-chown/">
+                早上一条Linux命令，腰也不疼之chown
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-20
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux命令/">linux命令</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/20/linux-chown/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/linux-chown/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="早上一条Linux命令，姚也不疼之chown">早上一条Linux命令，姚也不疼之chown</h1>
+<hr>
+<blockquote>
+<p>chown 是一条在Unix系统中用于设置文件所有者和文件关联组的命令。 需要超级用户的权限才能执行此命令。只有超级用户和属于组的文件所有者才能变更文件关联组。非特权用户（非超级用户）如需要设置关联组可能需要使用chgrp命令.</p>
+<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。</p>
+</blockquote>
+<h2 id="命令格式：">命令格式：</h2>
+<p>　 <code>chown [选项]... [所有者][:[组]] 文件...</code></p>
+<h2 id="命令功能：">命令功能：</h2>
+<p>　　　　通过<code>chown</code>改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
+<h2 id="命令参数：">命令参数：</h2>
+<p>　</p>
+<blockquote>
+<ul>
+<li><p>-c 显示更改的部分的信息</p>
+</li>
+<li><p>-f 忽略错误信息</p>
+</li>
+<li><p>-h 修复符号链接</p>
+</li>
+<li><p>-R 处理指定目录以及其子目录下的所有文件</p>
+</li>
+<li><p>-v 显示详细的处理信息</p>
+</li>
+<li><p>-deference 作用于符号链接的指向，而不是链接文件本身</p>
+</li>
+<li><p>—reference=&lt;目录或文件&gt; 把指定的目录/文件作为参考，把操作的文件/目录设置成参考文件/目录相同拥有者和群组</p>
+</li>
+<li>—from=&lt;当前用户：当前群组&gt; 只有当前用户和群组跟指定的用户和群组相同时才进行改变</li>
+<li>—help 显示帮助信息</li>
+<li>—version 显示版本信息</li>
+</ul>
+</blockquote>
+<h2 id="使用实例：">使用实例：</h2>
+<h3 id="改变目录与子目录用户和用户组">改变目录与子目录用户和用户组</h3>
+<p><code>chown -Rv bin:bin test1</code></p>
+<p>改变<code>test1</code>的目录与子目录的所有者和用户组为<code>bin</code>和<code>bin</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ll test1</div><div class="line">total 12</div><div class="line">drw-rw-rw- 2 root root 4096 Apr  6 09:42 conf</div><div class="line">drw-rw-rw- 3 root root 4096 Apr  6 09:42 log</div><div class="line">drw-rw-rw- 5 root root 4096 Apr  6 09:42 webapp</div><div class="line">[root@localhost ~]# chown -Rv bin:bin test1</div><div class="line">changed ownership of <span class="smartquote">`test1/log/aa'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/log'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp/a'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp/b'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp/d'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/webapp'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1/conf'</span> to bin:bin</div><div class="line">changed ownership of <span class="smartquote">`test1'</span> to bin:bin</div><div class="line">[root@localhost ~]# ll test1</div><div class="line">total 12</div><div class="line">drw-rw-rw- 2 bin bin 4096 Apr  6 09:42 conf</div><div class="line">drw-rw-rw- 3 bin bin 4096 Apr  6 09:42 log</div><div class="line">drw-rw-rw- 5 bin bin 4096 Apr  6 09:42 webapp</div></pre></td></tr></table></figure>
+
+<h3 id="用参考改变文件属性">用参考改变文件属性</h3>
+<p><code>chown -v --reference=5.log in3.log</code></p>
+<p>将<code>in3.log</code>的用户和用户组改为与<code>5.log</code>相同</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>  <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">root</span>    <span class="comment">16</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:43</span> <span class="comment">in3</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">chown</span> <span class="literal">-</span><span class="comment">v</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">reference=5</span><span class="string">.</span><span class="comment">log</span> <span class="comment">in3</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="comment">changed</span> <span class="comment">ownership</span> <span class="comment">of</span> <span class="comment">`in3</span><span class="string">.</span><span class="comment">log'</span> <span class="comment">to</span> <span class="comment">root:bin</span></div><div class="line"><span class="title">[</span><span class="comment">root@localhost</span> <span class="comment">~</span><span class="title">]</span><span class="comment">#</span> <span class="comment">ll</span></div><div class="line"><span class="comment">total</span> <span class="comment">124</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>      <span class="comment">0</span> <span class="comment">Apr</span>  <span class="comment">6</span> <span class="comment">09:40</span> <span class="comment">5</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">19</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:26</span> <span class="comment">in1</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>  <span class="comment">10240</span> <span class="comment">Apr</span> <span class="comment">13</span> <span class="comment">08:54</span> <span class="comment">in2</span><span class="string">.</span><span class="comment">log</span></div><div class="line"><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">root</span> <span class="comment">bin</span>     <span class="comment">16</span> <span class="comment">Apr</span>  <span class="comment">7</span> <span class="comment">05:43</span> <span class="comment">in3</span><span class="string">.</span><span class="comment">log</span></div></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux命令/"> #Linux命令 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/19/c-int/">
                 int转型问题
               </a>
@@ -1327,8 +1453,6 @@
 
       
       
-        <div class="post-eof"></div>
-      
     </div>
   </div>
 
@@ -1369,7 +1493,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1383,7 +1507,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1650,6 +1774,27 @@
   
 
   
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 
   
   
