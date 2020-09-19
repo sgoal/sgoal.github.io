@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Refactings on rogers blog</title>
-    <link>wwww.lday1.com/refacting/</link>
+    <link>/refacting/</link>
     <description>Recent content in Refactings on rogers blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>Everything is mine</copyright><atom:link href="wwww.lday1.com/refacting/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Everything is mine</copyright><atom:link href="/refacting/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>wwww.lday1.com/refacting/smells/dispensable/</link>
+      <link>/refacting/smells/dispensable/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>wwww.lday1.com/refacting/smells/dispensable/</guid>
+      <guid>/refacting/smells/dispensable/</guid>
       <description></description>
     </item>
     

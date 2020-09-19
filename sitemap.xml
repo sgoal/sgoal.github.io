@@ -2,69 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>wwww.lday1.com/post/simpfy-path/</loc>
+    <loc>/post/simpfy-path/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2017-08-28T21:41:52+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/categories/</loc>
+    <loc>/categories/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/tags/leetcode/</loc>
+    <loc>/tags/leetcode/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/categories/leetcode/</loc>
+    <loc>/categories/leetcode/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/</loc>
+    <loc>/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/refacting/smells/dispensable/</loc>
+    <loc>/refacting/smells/dispensable/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>wwww.lday1.com/refacting/</loc>
+    <loc>/refacting/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
