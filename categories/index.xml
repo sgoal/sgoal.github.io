@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on rogers blog</title>
-    <link>localhost:1313/categories/</link>
+    <link>wwww.lday1.com/categories/</link>
     <description>Recent content in Categories on rogers blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>Everything is mine</copyright>
-    <lastBuildDate>Fri, 01 May 2015 00:00:00 +0000</lastBuildDate><atom:link href="localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 May 2015 00:00:00 +0000</lastBuildDate><atom:link href="wwww.lday1.com/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>leetcode</title>
-      <link>localhost:1313/categories/leetcode/</link>
+      <link>wwww.lday1.com/categories/leetcode/</link>
       <pubDate>Fri, 01 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>localhost:1313/categories/leetcode/</guid>
+      <guid>wwww.lday1.com/categories/leetcode/</guid>
       <description></description>
     </item>
     

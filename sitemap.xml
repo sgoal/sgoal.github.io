@@ -1,70 +1,70 @@
-<?xml-stylesheet type="text/xsl" href="localhost:1313"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>localhost:1313/post/simpfy-path/</loc>
+    <loc>wwww.lday1.com/post/simpfy-path/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/about/</loc>
+    <loc>wwww.lday1.com/about/</loc>
     <lastmod>2017-08-28T21:41:52+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/categories/</loc>
+    <loc>wwww.lday1.com/categories/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/tags/leetcode/</loc>
+    <loc>wwww.lday1.com/tags/leetcode/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/categories/leetcode/</loc>
+    <loc>wwww.lday1.com/categories/leetcode/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/post/</loc>
+    <loc>wwww.lday1.com/post/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/</loc>
+    <loc>wwww.lday1.com/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/tags/</loc>
+    <loc>wwww.lday1.com/tags/</loc>
     <lastmod>2015-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/refacting/smells/dispensable/</loc>
+    <loc>wwww.lday1.com/refacting/smells/dispensable/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>localhost:1313/refacting/</loc>
+    <loc>wwww.lday1.com/refacting/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
