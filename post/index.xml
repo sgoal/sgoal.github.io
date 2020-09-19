@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on rogers blog</title>
+    <link>localhost:1313/post/</link>
+    <description>Recent content in Posts on rogers blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>Everything is mine</copyright>
+    <lastBuildDate>Fri, 01 May 2015 00:00:00 +0000</lastBuildDate><atom:link href="localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>simplify Path</title>
+      <link>localhost:1313/post/simpfy-path/</link>
+      <pubDate>Fri, 01 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>localhost:1313/post/simpfy-path/</guid>
+      <description>题目 Given an absolute path for a file (Unix-style), simplify it. For example, path = “/home/“, =&amp;gt; “/home” path = “/a/./b/../../c/“, =&amp;gt; “/c” 思路1： 这个问题其实是一</description>
+    </item>
+    
+  </channel>
+</rss>
